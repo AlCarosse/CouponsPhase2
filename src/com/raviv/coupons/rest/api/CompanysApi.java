@@ -1,0 +1,182 @@
+package com.raviv.coupons.rest.api;
+
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+import java.util.List;
+
+//import javax.ws.rs.PathParam;
+//import javax.ws.rs.Produces;
+//import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+//import javax.ws.rs.core.Response;
+
+import com.raviv.coupons.beans.Company;
+import com.raviv.coupons.beans.User;
+import com.raviv.coupons.blo.CompanysBlo;
+import com.raviv.coupons.blo.UsersBlo;
+import com.raviv.coupons.exceptions.ApplicationException;
+import com.raviv.coupons.rest.api.inputs.CreateCompanyInput;
+import com.raviv.coupons.utils.Cookies;
+
+@Path("api/companys")
+public class CompanysApi {
+
+	@POST
+	@Path("/createCompany")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void createCompany(@Context HttpServletRequest request, CreateCompanyInput createCompanyInput) throws ApplicationException
+	{
+		System.out.println(createCompanyInput);
+	
+		Integer loginUserId = Cookies.getLoginUserId(request);
+			
+		UsersBlo usersBlo = new UsersBlo();
+		CompanysBlo companysBlo = new CompanysBlo();
+		
+		/**
+		 *  Get the logged user
+		 */		
+		User loggedUser = usersBlo.getUserById( loginUserId);
+
+
+		/**
+		 *  Create new company
+		 */		
+
+		User 	newUser	= new User		( 	createCompanyInput.getUserName()  
+											,createCompanyInput.getLoginName() 
+											,createCompanyInput.getLoginPassword() );
+		
+		Company	company	= new Company	( createCompanyInput.getCompanyName(), createCompanyInput.getCompanyEmail()	);
+				
+		companysBlo.createCompany( loggedUser, newUser , company);
+	}
+		
+	@DELETE
+	@Path("/deleteCompany/companyId/{companyId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteCompany(@Context HttpServletRequest request, @PathParam("companyId") long companyId ) throws ApplicationException
+	{
+		System.out.println("companyId : " + companyId);
+	
+		Integer loginUserId = Cookies.getLoginUserId(request);
+		
+		
+		UsersBlo usersBlo = new UsersBlo();
+		CompanysBlo companysBlo = new CompanysBlo();
+		
+		/**
+		 *  Get the logged user
+		 */		
+		User loggedUser = usersBlo.getUserById( loginUserId);
+		
+
+		/**
+		 *  Delete company
+		 */		
+				
+		companysBlo.deleteCompany( loggedUser,  companyId );
+
+				
+	}
+	
+	@PUT
+	@Path("/updateCompany")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateCompany( @Context HttpServletRequest request, Company company ) throws ApplicationException
+	{
+		System.out.println(company);
+		Integer loginUserId = Cookies.getLoginUserId(request);
+		
+		UsersBlo usersBlo = new UsersBlo();
+		CompanysBlo companysBlo = new CompanysBlo();
+		
+		/**
+		 *  Get the logged user
+		 */		
+		User loggedUser = usersBlo.getUserById( loginUserId);
+		
+		/**
+		 *  Update company
+		 */		
+		companysBlo.updateCompany( loggedUser , company );
+	}
+	
+	@GET
+	@Path("/getAllCompanys")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Company> getAllCompanys( @Context HttpServletRequest request ) throws ApplicationException
+	{
+		Integer loginUserId = Cookies.getLoginUserId(request);
+		
+		UsersBlo usersBlo = new UsersBlo();
+		CompanysBlo companyBl = new CompanysBlo();
+		
+		/**
+		 *  Get the logged user
+		 */		
+		User loggedUser = usersBlo.getUserById( loginUserId);
+
+		/**
+		 *  Get all companies
+		 */		
+		return companyBl.getAllCompanys(loggedUser);
+	}
+
+	@GET
+	@Path("/getCompanyByCompanyId/companyId/{companyId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Company getCompanyByCompanyId( @Context HttpServletRequest request, @PathParam("companyId") Integer companyId ) throws ApplicationException
+	{
+		/**
+		 *  Get the logged user
+		 */		
+		Integer loginUserId = Cookies.getLoginUserId(request);
+		UsersBlo usersBlo = new UsersBlo();
+		User loggedUser = usersBlo.getUserById( loginUserId);
+		
+		Company company = null;	
+		CompanysBlo companysBlo = new CompanysBlo();
+		
+		/**
+		 *  Get company, ADMIN profile
+		 */		
+		company =  companysBlo.getCompany( loggedUser , companyId );
+		
+		return company;
+		
+	}
+
+	@GET
+	@Path("/getCompanyByLoggedUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Company getCompanyByLoggedUser( @Context HttpServletRequest request ) throws ApplicationException
+	{
+		/**
+		 *  Get the logged user
+		 */		
+		Integer loginUserId = Cookies.getLoginUserId(request);
+		UsersBlo usersBlo = new UsersBlo();
+		User loggedUser = usersBlo.getUserById( loginUserId);
+
+		/**
+		 *  Get company, COMPANY profile 
+		 */		
+		Company company = null;
+		CompanysBlo companysBlo = new CompanysBlo();		
+		company =  companysBlo.getCompany( loggedUser );
+		
+		return company;		
+	}
+
+}
