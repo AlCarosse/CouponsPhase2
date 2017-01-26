@@ -19,7 +19,6 @@ import com.raviv.coupons.utils.Cookies;
 public class LoginApi {
 
 	
-	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -75,11 +74,24 @@ public class LoginApi {
 			// Failes - user not found - null
 			System.out.println("401");
 			response.setStatus(401);
+			/*
+			Cookie cookie;
+			cookie = new Cookie( Cookies.LOGIN_USER_ID ,  String.valueOf( 0 )  );
+			response.addCookie(cookie);
+
+			HttpSession session = request.getSession(false);
+			if (session != null)
+			{
+				session.invalidate();
+			}
+			*/
+			user = new User();
 		}
 
 		System.out.println(user);
 
 		return user;
+	
 	}
 
 	@DELETE

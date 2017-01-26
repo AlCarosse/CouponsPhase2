@@ -205,7 +205,7 @@ public class CouponsApi {
 
 	@GET
 	@Path("/buyCoupon/couponId/{couponId}")
-	public void buyCoupon(@Context HttpServletRequest request, @PathParam("couponId") long couponId ) throws ApplicationException
+	public boolean buyCoupon(@Context HttpServletRequest request, @PathParam("couponId") long couponId ) throws ApplicationException
 	{
 		System.out.println("couponId : " + couponId);
 			
@@ -221,7 +221,8 @@ public class CouponsApi {
 		 */
 		CouponsBlo couponsBlo = new CouponsBlo();
 		couponsBlo.buyCoupon( loggedUser , couponId );
-
+		
+		return true;
 		
 	}
 

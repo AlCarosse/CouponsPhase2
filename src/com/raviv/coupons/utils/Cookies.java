@@ -8,6 +8,7 @@ public class Cookies
 	
 	public static final String LOGIN_USER_ID = "LOGIN_USER_ID";
 	
+	public static final String JSESSIONID = "JSESSIONID";
 	
 	public static Integer getLoginUserId(HttpServletRequest request)
 	{
