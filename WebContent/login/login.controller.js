@@ -20,10 +20,24 @@
             vm.dataLoading = true;
             AuthenticationService.Login(vm.username, vm.password, function (response) {
             	
-                if (response.data.userId !== "0" ) {
-                    AuthenticationService.SetCredentials(vm.username, vm.password);
-                    $location.path('/');
-                } else {
+                if (response.data.userId !== "0" ) 
+                {
+                    //AuthenticationService.SetCredentials( vm.username, vm.password );
+                    AuthenticationService.setCurrentUser( response.data );
+                    
+                    if (response.data.userProfileId === "1" )
+                    {
+                        $location.path('/admin');
+                    }
+                    else
+                	{
+                        $location.path('/');                	
+                	}
+                    
+                    
+                } 
+                else 
+                {
                     FlashService.Error("Login failed");
                     vm.dataLoading = false;
                 }

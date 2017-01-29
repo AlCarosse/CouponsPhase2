@@ -8,13 +8,42 @@
     AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService'];
     function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService) {
         var service = {};
-
+        
+        var currentUser;
+        
         service.Login = Login;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
+        service.getCurrentUser = getCurrentUser;
+        service.setCurrentUser = setCurrentUser;
+        //service.CreateCustomer = CreateCustomer;
 
+        
         return service;
 
+        function getCurrentUser() 
+        { 
+        	return $rootScope.globals.currentUser; 
+        }
+
+        function setCurrentUser(inputUser) 
+        { 
+        	currentUser = inputUser;
+        	$rootScope.globals = 
+			{
+				currentUser: inputUser
+			};
+        }
+
+        
+//        function CreateCustomer(i_userName, i_loginName, i_loginPassword, i_customerName, callback) 
+//        {            
+//            $http.post('/CouponsPhase2/rest/register/createCustomer/', { userName: i_userName, loginName: i_loginName, loginPassword: i_loginPassword, customerName: i_customerName } )
+//        	.then(function (response) {
+//                    callback(response);
+//                });
+//        }
+        
         function Login(username, password, callback) {
 
             /* Dummy authentication for testing, uses $timeout to simulate api call
@@ -44,13 +73,15 @@
         function SetCredentials(username, password) {
             var authdata = Base64.encode(username + ':' + password);
 
+            /*
             $rootScope.globals = {
                 currentUser: {
                     username: username,
                     authdata: authdata
                 }
             };
-
+             */
+            
             // set default auth header for http requests
             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
 

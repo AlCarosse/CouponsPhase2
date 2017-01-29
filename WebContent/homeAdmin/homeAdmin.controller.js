@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .controller('HomeController', HomeController);
+        .controller('HomeAdminController', HomeController);
 
-    HomeController.$inject = ['UserService', '$rootScope', 'AuthenticationService'];
+    HomeAdminController.$inject = ['UserService', '$rootScope', 'AuthenticationService'];
     
-    function HomeController(UserService, $rootScope, AuthenticationService) {
+    function HomeAdminController(UserService, $rootScope, AuthenticationService) {
         var vm = this;
         
         vm.user = null;

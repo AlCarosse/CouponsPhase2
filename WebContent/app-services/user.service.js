@@ -5,9 +5,10 @@
         .module('app')
         .factory('UserService', UserService);
 
-    UserService.$inject = ['$http'];
-    function UserService($http) {
-        var service = {};
+    UserService.$inject = ['$http', '$cookies', '$rootScope', '$timeout'];
+    function UserService($http, $cookies, $rootScope, $timeout) {
+
+    	var service = {};
 
         service.GetAll = GetAll;
         service.GetById = GetById;
@@ -16,9 +17,30 @@
         service.Update = Update;
         service.Delete = Delete;
         service.Login = Login;
+        service.CreateCustomer = CreateCustomer;
         
         return service;
 
+        function CreateCustomer(i_userName, i_loginName, i_loginPassword, i_customerName, callback) 
+        {            
+            $http.post('/CouponsPhase2/rest/register/createCustomer/', { userName: i_userName, loginName: i_loginName, loginPassword: i_loginPassword, customerName: i_customerName } )
+        	.then(function (response) {
+                    callback(response);
+                });
+        }
+        
+        function CreateCompany(i_userName, i_loginName, i_loginPassword, i_customerName, callback) 
+        {
+            $http.post( '/CouponsPhase2/rest/createCompany/', 
+            		    { userName: userName, loginName: loginName, loginPassword: loginPassword, customerName: customerName } 
+            )
+                .then(function (response) {
+                    callback(response);
+                });
+
+        }
+
+        
         function GetAll() {
             return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
         }

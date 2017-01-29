@@ -17,7 +17,6 @@ import com.raviv.coupons.utils.Cookies;
 
 @Path("/login")
 public class LoginApi {
-
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -87,11 +86,9 @@ public class LoginApi {
 			*/
 			user = new User();
 		}
-
 		System.out.println(user);
 
 		return user;
-	
 	}
 
 	@DELETE

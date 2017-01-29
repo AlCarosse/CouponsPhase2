@@ -56,4 +56,23 @@ public class UsersBlo {
 		return user;
 	}
 
+	public  User getAdminUser() throws ApplicationException 
+	{
+		//==================================================
+		// Get admin user from data layer
+		//==================================================
+		User 		user;				
+		user = this.usersDao.getUser(1);
+		if ( user == null )
+		{
+			throw new ApplicationException(ErrorType.GENERAL_ERROR
+					, "UsersBlo : getUserById error. userId : " + 1  );
+		}
+		//PrintUtils.printHeader("UsersBlo : User logged in");		
+		//System.out.println(user);
+		
+		return user;
+	}
+	
+	
 }
