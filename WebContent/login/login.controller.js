@@ -22,6 +22,7 @@
             	
                 if (response.data.userId !== "0" ) 
                 {
+                	
                     //AuthenticationService.SetCredentials( vm.username, vm.password );
                     AuthenticationService.setCurrentUser( response.data );
                     
