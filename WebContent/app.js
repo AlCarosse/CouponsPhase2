@@ -15,6 +15,18 @@
             templateUrl: 'admin/admin.view.html',
             controllerAs: 'vm'
         })
+
+        .when('/customer', {
+            controller: 'CustomerController',
+            templateUrl: 'customer/customer.view.html',
+            controllerAs: 'vm'
+        })
+
+        .when('/company', {
+            controller: 'CompanyController',
+            templateUrl: 'company/company.view.html',
+            controllerAs: 'vm'
+        })
         
         .when('/', {
                 controller: 'HomeController',

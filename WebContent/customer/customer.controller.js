@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .controller('AdminController', AdminController);
+        .controller('CustomerController', CustomerController);
 
-    AdminController.$inject = ['UserService', '$rootScope', 'AuthenticationService'];
+    CustomerController.$inject = ['UserService', '$rootScope', 'AuthenticationService'];
     
-    function AdminController(UserService, $rootScope, AuthenticationService) {
+    function CustomerController(UserService, $rootScope, AuthenticationService) {
         var vm = this;
         
         vm.user = null;
@@ -18,7 +18,7 @@
 
         function initController() {
         	loadCurrentUser();
-            //loadAllUsers();
+            loadAllUsers();
         }
 
         function loadCurrentUserOld() {

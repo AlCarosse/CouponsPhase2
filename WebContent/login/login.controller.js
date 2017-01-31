@@ -30,11 +30,11 @@
                     {
                         $location.path('/admin');
                     }
-                    if (response.data.userProfileId === "2" )
+                    else if (response.data.userProfileId === "2" )
                     {
                         $location.path('/company');
                     }
-                    if (response.data.userProfileId === "3" )
+                    else if (response.data.userProfileId === "3" )
                     {
                         $location.path('/customer');
                     }
