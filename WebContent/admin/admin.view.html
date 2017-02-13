@@ -1,5 +1,5 @@
-<p>Hello , {{vm.user.userName}}, admin profile</p>
-<p>You're logged in!!</p>
+<div ng-include="'admin/admin.navbar.html'"></div>
+
 <h3>All registered users:</h3>
 <ul>
     <li ng-repeat="user in vm.allUsers">
@@ -8,4 +8,3 @@
     </li>
 </ul>
 <p>&nbsp;</p>
-<p><a href="#!/login" class="btn btn-primary">Logout</a></p>
