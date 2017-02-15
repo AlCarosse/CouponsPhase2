@@ -3,37 +3,37 @@ package com.raviv.coupons.rest.api.outputs;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Java bean for standart output
+ * Java bean for service status
  * @author raviv
  *
  */
 @XmlRootElement
-public class StandartOutput  {
+public class ServiceStatus  {
 
 	private	boolean                   	success;
+	private	long                   		errorCode;
 	private	String                   	errorMessage;
 	
-	private ServiceStatus				serviceStatus;
 	
 	@Override
 	public String toString() {
-		return "StandartOutput [success=" + success + ", errorMessage=" + errorMessage + "]";
+		return "ServiceStatus [success=" + success + ", errorCode=" + errorCode + ", errorMessage=" + errorMessage
+				+ "]";
 	}
 
-	public StandartOutput() 
+	public ServiceStatus() 
 	{
 		super();
 		this.success = true;
+		this.errorCode = 0;
 		errorMessage = null;
-		this.serviceStatus = new ServiceStatus();
 	}
 
-	public ServiceStatus getServiceStatus() {
-		return serviceStatus;
-	}
-
-	public void setServiceStatus(ServiceStatus serviceStatus) {
-		this.serviceStatus = serviceStatus;
+	public ServiceStatus(long errorCode, String errorMessage) {
+		super();
+		this.success = false;
+		this.errorCode = errorCode;
+		this.errorMessage = errorMessage;
 	}
 
 	public boolean isSuccess() {
@@ -50,6 +50,14 @@ public class StandartOutput  {
 
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
+	}
+
+	public long getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(long errorCode) {
+		this.errorCode = errorCode;
 	}
 	
 }

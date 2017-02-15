@@ -20,13 +20,13 @@
             							vm.user.customerName, 
             							function (response) 
             {
-                if (response.data.success === "true") 
+                if (response.data.serviceStatus.success === "true") 
                 {
                         $location.path('/login');                	                    
                 } 
                 else 
                 {
-                    FlashService.Error(response.data.errorMessage);
+                    FlashService.Error(response.data.serviceStatus.errorMessage);
                     vm.dataLoading = false;
                 }
             });

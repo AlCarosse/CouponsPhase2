@@ -311,7 +311,58 @@ public class UsersDao extends InfraDao implements IUsersDao {
 		
 		return returnObj;
 }
+
+	public User getUserByLoginName(String  loginName) throws ApplicationException 
+	{
+		Connection 			connection 			= null;
+		PreparedStatement 	preparedStatement 	= null;		
+		ResultSet 			resultSet 			= null;
+		User 				returnObj 			= new User();
+
+		// get the specific entry by the input id
+		// put it into result set
+		try 
+		{
+			// Getting a connection from the connections manager or Transaction manager
+			connection = super.getConnection();			
+			
+			String sql = "SELECT * FROM USERS WHERE LOGIN_NAME = ?";
+			
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, loginName);
+			
+			// execute query
+			resultSet = preparedStatement.executeQuery();
 	
+			// Not found ...
+			if ( !resultSet.next() ) { return null; } 
+			
+			//extract bean from result Set
+			copyDataFromResultSetToBean ( returnObj, resultSet );
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			throw new ApplicationException(ErrorType.GENERAL_ERROR, e
+					, "Failed to get user with loginName : " + loginName + "." + e.getMessage() );
+		} 
+		finally 
+		{
+			if ( super.isJdbcTransactionManagerInUse() )
+			{
+				// Transaction manager will close the connection later.
+				super.connectionPoolManager.closeResources(preparedStatement, resultSet);
+			}
+			else
+			{
+				// We do not have transaction manager.
+				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
+			}	
+		}
+		
+		return returnObj;
+}
+
 	private void copyDataFromResultSetToBean (User user, ResultSet resultSet) throws SQLException
 	{
 		user.setUserId         	( resultSet.getInt       ( "USER_ID" ) );

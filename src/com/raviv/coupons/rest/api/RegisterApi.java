@@ -16,8 +16,10 @@ import com.raviv.coupons.blo.CompanysBlo;
 import com.raviv.coupons.blo.CustomersBlo;
 import com.raviv.coupons.blo.UsersBlo;
 import com.raviv.coupons.exceptions.ApplicationException;
+import com.raviv.coupons.exceptions.ExceptionHandler;
 import com.raviv.coupons.rest.api.inputs.CreateCompanyInput;
 import com.raviv.coupons.rest.api.inputs.CreateCustomerInput;
+import com.raviv.coupons.rest.api.outputs.ServiceOutput;
 import com.raviv.coupons.rest.api.outputs.StandartOutput;
 
 @Path("/register")
@@ -27,9 +29,9 @@ public class RegisterApi
 	@Path("/createCustomer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public StandartOutput createCustomer(@Context HttpServletRequest request, @Context HttpServletResponse response, CreateCustomerInput createCustomerInput)
+	public ServiceOutput createCustomer(@Context HttpServletRequest request, @Context HttpServletResponse response, CreateCustomerInput createCustomerInput)
 	{
-		StandartOutput standartOutput = new StandartOutput();
+		ServiceOutput serviceOutput = new ServiceOutput();
 		
 		try 
 		{
@@ -55,14 +57,13 @@ public class RegisterApi
 			customersBlo.createCustomer ( loggedUser, newUser, customer );
 			
 		} 
-		catch (ApplicationException e) 
+		catch (Throwable t) 
 		{
-			e.printStackTrace();
-			standartOutput.setSuccess(false);
-			standartOutput.setErrorMessage(e.getMessage());
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
 		}
 		
-		return standartOutput;
+		return serviceOutput;
 		
 	}
 

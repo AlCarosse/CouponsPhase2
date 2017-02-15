@@ -38,11 +38,20 @@ public class CustomersBlo {
 		ProfileIdVerifier.verifyAdminProfileId(loggedUser);
 
 		// =====================================================
+		// Verify user login name is not taken
+		// =====================================================
+		UsersDao 		userDao 		= new UsersDao();		
+		if ( userDao.getUserByLoginName(user.getLoginName()) != null )
+		{
+			throw new ApplicationException(ErrorType.USER_LOGIN_NAME_ALREADY_EXISTS,  "USER LOGIN NAME ALREADY EXISTS : " + user.getLoginName() );
+		}
+		
+		// =====================================================
 		// Start transaction by creating JdbcTransactionManager
 		// =====================================================		
 		JdbcTransactionManager jdbcTransactionManager = new JdbcTransactionManager();
 		// Inject transaction manager to DAO via constructors
-		IUsersDao 		usersDao 		= new UsersDao   	( jdbcTransactionManager );
+		IUsersDao  		usersDao 		= new UsersDao   	( jdbcTransactionManager );
 		ICustomersDao	customersDao	= new CustomersDao	( jdbcTransactionManager );
 
 		try
