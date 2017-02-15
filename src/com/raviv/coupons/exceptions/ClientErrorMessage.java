@@ -25,10 +25,10 @@ public class ClientErrorMessage {
 		mapErrorMessages.put(200, "COUPON NAME ALREADY EXISTS");
 
 		//INVALID_EMAIL					( 300)
-		mapErrorMessages.put(300, "INVALID EMAIL");
+		mapErrorMessages.put(300, "Invalid email");
 
 		//GENERAL_ERROR					( 400)
-		mapErrorMessages.put(400, "ACTION FAILED");
+		mapErrorMessages.put(400, "Action failed");
 
 		//DAO_CREATE_ERROR				( 500)
 		mapErrorMessages.put(500, "ACTION FAILED");

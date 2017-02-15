@@ -20,7 +20,6 @@ import com.raviv.coupons.exceptions.ExceptionHandler;
 import com.raviv.coupons.rest.api.inputs.CreateCompanyInput;
 import com.raviv.coupons.rest.api.inputs.CreateCustomerInput;
 import com.raviv.coupons.rest.api.outputs.ServiceOutput;
-import com.raviv.coupons.rest.api.outputs.StandartOutput;
 
 @Path("/register")
 public class RegisterApi 

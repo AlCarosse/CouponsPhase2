@@ -11,6 +11,7 @@ import com.raviv.coupons.dao.utils.JdbcTransactionManager;
 import com.raviv.coupons.enums.ErrorType;
 import com.raviv.coupons.enums.UserProfileType;
 import com.raviv.coupons.exceptions.ApplicationException;
+import com.raviv.coupons.utils.EmailValidator;
 import com.raviv.coupons.utils.PrintUtils;
 
 /**
@@ -36,7 +37,16 @@ public class CompanysBlo  {
 		// Verify admin profile id
 		// =====================================================				
 		ProfileIdVerifier.verifyAdminProfileId(loggedUser);
-		
+
+		// =====================================================
+		// Verify valid email
+		// =====================================================
+		EmailValidator emailValidator =  new EmailValidator();
+		if (  !emailValidator.isValid(company.getCompanyEmail())  )
+		{
+			throw new ApplicationException(ErrorType.INVALID_EMAIL,  "Company emmail is not valid : " + company.getCompanyEmail() );
+		}
+
 		// =====================================================
 		// Verify user login name is not taken
 		// =====================================================
