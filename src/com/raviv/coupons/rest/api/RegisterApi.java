@@ -70,30 +70,45 @@ public class RegisterApi
 	@POST
 	@Path("/createCompany")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void createCompany(@Context HttpServletRequest request, CreateCompanyInput createCompanyInput) throws ApplicationException
+	@Produces(MediaType.APPLICATION_JSON)
+	public ServiceOutput createCompany(@Context HttpServletRequest request, CreateCompanyInput createCompanyInput) throws ApplicationException
 	{
-		System.out.println(createCompanyInput);
-				
-		UsersBlo usersBlo = new UsersBlo();
-		CompanysBlo companysBlo = new CompanysBlo();
+		ServiceOutput serviceOutput = new ServiceOutput();
 		
-		/**
-		 *  Get admin user
-		 */		
-		User loggedUser = usersBlo.getAdminUser();
-
-
-		/**
-		 *  Create new company
-		 */		
-
-		User 	newUser	= new User		( 	createCompanyInput.getUserName()  
-											,createCompanyInput.getLoginName() 
-											,createCompanyInput.getLoginPassword() );
-		
-		Company	company	= new Company	( createCompanyInput.getCompanyName(), createCompanyInput.getCompanyEmail()	);
-				
-		companysBlo.createCompany( loggedUser, newUser , company);
+		try 
+		{
+			System.out.println(createCompanyInput);
+					
+			UsersBlo usersBlo = new UsersBlo();
+			CompanysBlo companysBlo = new CompanysBlo();
+			
+			/**
+			 *  Get admin user
+			 */		
+			User loggedUser = usersBlo.getAdminUser();
+	
+	
+			/**
+			 *  Create new company
+			 */		
+	
+			User 	newUser	= new User		( 	createCompanyInput.getUserName()  
+												,createCompanyInput.getLoginName() 
+												,createCompanyInput.getLoginPassword() );
+			
+			Company	company	= new Company	( createCompanyInput.getCompanyName(), createCompanyInput.getCompanyEmail()	);
+					
+			companysBlo.createCompany( loggedUser, newUser , company);
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}
+			
+		return serviceOutput;
+			
+			
 	}
 	
 }

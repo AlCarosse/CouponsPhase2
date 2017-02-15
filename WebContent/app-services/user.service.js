@@ -18,26 +18,25 @@
         service.Delete = Delete;
         service.Login = Login;
         service.CreateCustomer = CreateCustomer;
+        service.CreateCompany = CreateCompany;
         
         return service;
 
         function CreateCustomer(i_userName, i_loginName, i_loginPassword, i_customerName, callback) 
         {            
-            $http.post('/CouponsPhase2/rest/register/createCustomer/', { userName: i_userName, loginName: i_loginName, loginPassword: i_loginPassword, customerName: i_customerName } )
+        	$http.post('/CouponsPhase2/rest/register/createCustomer/', { userName: i_userName, loginName: i_loginName, loginPassword: i_loginPassword, customerName: i_customerName } )
         	.then(function (response) {
                     callback(response);
                 });
         }
         
-        function CreateCompany(i_userName, i_loginName, i_loginPassword, i_customerName, callback) 
+        function CreateCompany(i_userName, i_loginName, i_loginPassword, i_companyName, i_companyEmail , callback) 
         {
-            $http.post( '/CouponsPhase2/rest/createCompany/', 
-            		    { userName: userName, loginName: loginName, loginPassword: loginPassword, customerName: customerName } 
+            $http.post('/CouponsPhase2/rest/register/createCompany/',  { userName: i_userName, loginName: i_loginName, loginPassword: i_loginPassword, companyName: i_companyName , companyEmail: i_companyEmail} 
             )
                 .then(function (response) {
                     callback(response);
                 });
-
         }
 
         

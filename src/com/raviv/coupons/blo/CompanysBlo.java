@@ -38,6 +38,15 @@ public class CompanysBlo  {
 		ProfileIdVerifier.verifyAdminProfileId(loggedUser);
 		
 		// =====================================================
+		// Verify user login name is not taken
+		// =====================================================
+		UsersDao 		userDao 		= new UsersDao();		
+		if ( userDao.getUserByLoginName(newUser.getLoginName()) != null )
+		{
+			throw new ApplicationException(ErrorType.USER_LOGIN_NAME_ALREADY_EXISTS,  "USER LOGIN NAME ALREADY EXISTS : " + newUser.getLoginName() );
+		}
+
+		// =====================================================
 		// Start transaction by creating JdbcTransactionManager
 		// =====================================================		
 		JdbcTransactionManager jdbcTransactionManager = new JdbcTransactionManager();

@@ -14,19 +14,20 @@
         
         function register() {
             vm.dataLoading = true;
-            UserService.CreateCustomer(	vm.user.userName, 
+            UserService.CreateCompany(	vm.user.companyName, 
             							vm.user.loginName, 
             							vm.user.loginPassword, 
-            							vm.user.customerName, 
+            							vm.user.companyName, 
+            							vm.user.companyEmail, 
             							function (response) 
             {
-                if (response.data.success === "true") 
+                if (response.data.serviceStatus.success === "true") 
                 {
                         $location.path('/login');                	                    
                 } 
                 else 
                 {
-                    FlashService.Error(response.data.errorMessage);
+                    FlashService.Error(response.data.serviceStatus.errorMessage);
                     vm.dataLoading = false;
                 }
             });
