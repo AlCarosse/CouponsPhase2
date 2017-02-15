@@ -66,11 +66,9 @@ public class ClientErrorMessage {
 		return singletonInstance;
 	}
 
-
 	public  String 	getErrorMessage(int errorCode)  
 	{
 		return mapErrorMessages.get(errorCode);
 	}
-
 
 }

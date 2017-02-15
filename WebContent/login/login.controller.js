@@ -28,7 +28,7 @@
                     
                     if (response.data.userProfileId === "1" )
                     {
-                        $location.path('/admin');
+                        $location.path('/admin.home');
                     }
                     else if (response.data.userProfileId === "2" )
                     {

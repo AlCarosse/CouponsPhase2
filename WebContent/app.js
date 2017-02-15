@@ -12,9 +12,21 @@
     	
     	$routeProvider
 
-        .when('/admin', {
+        .when('/admin.home', {
             controller: 'AdminController',
-            templateUrl: 'admin/admin.view.html',
+            templateUrl: 'admin/admin.home.view.html',
+            controllerAs: 'vm'
+        })
+
+        .when('/admin.companys', {
+            controller: 'AdminController',
+            templateUrl: 'admin/admin.companys.view.html',
+            controllerAs: 'vm'
+        })
+
+       .when('/admin.customers', {
+            controller: 'AdminController',
+            templateUrl: 'admin/admin.customers.view.html',
             controllerAs: 'vm'
         })
 
@@ -43,9 +55,7 @@
             })
 
             .when('/register', {
-                controller: 'RegisterController',
                 templateUrl: 'register/register.view.html',
-                controllerAs: 'vm'
             })
 
 
