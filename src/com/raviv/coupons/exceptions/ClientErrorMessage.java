@@ -19,7 +19,7 @@ public class ClientErrorMessage {
 		mapErrorMessages.put(100, "CUSTOMER NAME ALREADY EXISTS");
 
 		//USER_LOGIN_NAME_ALREADY_EXISTS( 110)
-		mapErrorMessages.put(110, "User login name already taken.");
+		mapErrorMessages.put(110, "User already taken");
 		
 		//COUPON_NAME_ALREADY_EXISTS		( 200)
 		mapErrorMessages.put(200, "COUPON NAME ALREADY EXISTS");

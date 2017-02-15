@@ -14,7 +14,7 @@
         
         function register() {
             vm.dataLoading = true;
-            UserService.CreateCustomer(	vm.user.userName, 
+            UserService.CreateCustomer(	vm.user.customerName, // User name in users table.
             							vm.user.loginName, 
             							vm.user.loginPassword, 
             							vm.user.customerName, 
