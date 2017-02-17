@@ -14,17 +14,19 @@ public class Cookies
 	{
 		
 		// =============================================
-		// Find login user id coockie
+		// Find login user id 
 		// =============================================
 
-		
+		return (Integer)request.getSession(false).getAttribute("LOGIN_USER_ID" );
+
+		/*		
+
 		Cookie[] cookies = request.getCookies();
 
 		Integer loginUserId  = null;
 		
 		return (Integer)request.getSession(false).getAttribute("LOGIN_USER_ID" );
 
-/*		
 		String strValue = null;
 		if (cookies!=null)
 		{
