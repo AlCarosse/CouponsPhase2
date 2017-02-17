@@ -26,7 +26,7 @@ public class ServiceStatus  {
 		super();
 		this.success = true;
 		this.errorCode = 0;
-		errorMessage = null;
+		this.errorMessage = "";
 	}
 
 	public ServiceStatus(long errorCode, String errorMessage) {

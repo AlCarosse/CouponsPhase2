@@ -17,9 +17,14 @@ public class Cookies
 		// Find login user id coockie
 		// =============================================
 
+		
 		Cookie[] cookies = request.getCookies();
 
 		Integer loginUserId  = null;
+		
+		return (Integer)request.getSession(false).getAttribute("LOGIN_USER_ID" );
+
+/*		
 		String strValue = null;
 		if (cookies!=null)
 		{
@@ -35,7 +40,7 @@ public class Cookies
 		}
 		
 		return null;
-
+*/
 	}
 	
 	

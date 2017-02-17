@@ -3,10 +3,10 @@
 
     angular
         .module('app')
-        .factory('AuthenticationService', AuthenticationService);
+        .factory('LoginService', LoginService);
 
-    AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UsersService'];
-    function AuthenticationService($http, $cookies, $rootScope, $timeout, UsersService) {
+    LoginService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UsersService'];
+    function LoginService($http, $cookies, $rootScope, $timeout, UsersService) {
         var service = {};
         
         var currentUser;
@@ -18,6 +18,14 @@
         service.setCurrentUser = setCurrentUser;
         
         return service;
+
+        function Login(username, password, callback) {
+
+            $http.post('/CouponsPhase2/rest/login/', { loginName: username, loginPassword: password } )
+                .then(function (response) {
+                    callback(response);
+                });
+        }
 
         function getCurrentUser() 
         { 
@@ -34,14 +42,6 @@
         }
 
                 
-        function Login(username, password, callback) {
-
-            $http.post('/CouponsPhase2/rest/login/', { loginName: username, loginPassword: password } )
-                .then(function (response) {
-                    callback(response);
-                });
-
-        }
 
         function SetCredentials(username, password) {
             var authdata = Base64.encode(username + ':' + password);
@@ -71,7 +71,7 @@
         }
     }
 
-    // Base64 encoding service used by AuthenticationService
+    // Base64 encoding service used by LoginService
     var Base64 = {
 
         keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',

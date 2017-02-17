@@ -6,9 +6,11 @@
         .config(config)
         .run(run);
 
-    config.$inject = ['$routeProvider', '$locationProvider'];
-    function config($routeProvider, $locationProvider) {    	
+    config.$inject = ['$routeProvider', '$locationProvider', '$httpProvider'];
+    function config($routeProvider, $locationProvider, $httpProvider) {    	
     	$locationProvider.hashPrefix('');
+    	
+    	$httpProvider.defaults.withCredentials = true;
     	
     	$routeProvider
 
@@ -19,7 +21,7 @@
         })
 
         .when('/admin.companys', {
-            controller: 'AdminController',
+            controller: 'AdminCompanysController',
             templateUrl: 'admin/admin.companys.view.html',
             controllerAs: 'vm'
         })

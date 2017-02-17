@@ -61,6 +61,9 @@ public class LoginApi {
 			// SUCCESS - user found
 			// Create session
 			request.getSession();
+			
+			request.getSession(false).setAttribute("LOGIN_USER_ID", user.getUserId() );
+			
 			System.out.println("200");
 			response.setStatus(200);
 			

@@ -25,7 +25,10 @@ import com.raviv.coupons.beans.User;
 import com.raviv.coupons.blo.CompanysBlo;
 import com.raviv.coupons.blo.UsersBlo;
 import com.raviv.coupons.exceptions.ApplicationException;
+import com.raviv.coupons.exceptions.ExceptionHandler;
 import com.raviv.coupons.rest.api.inputs.CreateCompanyInput;
+import com.raviv.coupons.rest.api.outputs.GetAllCompanysOutput;
+import com.raviv.coupons.rest.api.outputs.ServiceOutput;
 import com.raviv.coupons.utils.Cookies;
 
 @Path("api/companys")
@@ -115,22 +118,36 @@ public class CompanysApi {
 	@GET
 	@Path("/getAllCompanys")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Company> getAllCompanys( @Context HttpServletRequest request ) throws ApplicationException
+	public GetAllCompanysOutput getAllCompanys( @Context HttpServletRequest request ) throws ApplicationException
 	{
-		Integer loginUserId = Cookies.getLoginUserId(request);
-		
-		UsersBlo usersBlo = new UsersBlo();
-		CompanysBlo companyBl = new CompanysBlo();
-		
-		/**
-		 *  Get the logged user
-		 */		
-		User loggedUser = usersBlo.getUserById( loginUserId);
+		GetAllCompanysOutput serviceOutput = new GetAllCompanysOutput();
 
-		/**
-		 *  Get all companies
-		 */		
-		return companyBl.getAllCompanys(loggedUser);
+		try 
+		{
+			Integer loginUserId = Cookies.getLoginUserId(request);
+			
+			UsersBlo usersBlo = new UsersBlo();
+			CompanysBlo companyBl = new CompanysBlo();
+			
+			/**
+			 *  Get the logged user
+			 */		
+			User loggedUser = usersBlo.getUserById( loginUserId);
+	
+			/**
+			 *  Get all companies
+			 */		
+			List<Company> companys = companyBl.getAllCompanys(loggedUser);
+			serviceOutput.setCompanys(companys);
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}
+		
+		return serviceOutput;
+
 	}
 
 	@GET

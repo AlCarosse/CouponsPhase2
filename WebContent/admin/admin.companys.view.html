@@ -2,9 +2,9 @@
 
 <h3>Registered companies:</h3>
 <ul>
-    <li ng-repeat="user in vm.allUsers">
-        {{user.username}} ({{user.firstName}} {{user.lastName}})
-        - <a ng-click="vm.deleteUser(user.id)">Delete</a>
+    <li ng-repeat="company in vm.allCompanys">
+        {{company.companyName}} ({{company.companyEmail}} {{company.sysCreationDate}})
+        - <a ng-click="vm.deleteUser(company.id)">Delete</a>
     </li>
 </ul>
 <p>&nbsp;</p>

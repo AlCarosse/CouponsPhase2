@@ -5,9 +5,9 @@
         .module('app')
         .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['UserService', '$rootScope', 'AuthenticationService'];
+    AdminController.$inject = ['UsersService', '$rootScope', 'LoginService'];
     
-    function AdminController(UserService, $rootScope, AuthenticationService) {
+    function AdminController(UsersService, $rootScope, LoginService) {
         var vm = this;
         
         vm.user = null;
@@ -22,7 +22,7 @@
         }
 
         function loadCurrentUserOld() {
-            UserService.GetByUsername($rootScope.globals.currentUser.username)
+            UsersService.GetByUsername($rootScope.globals.currentUser.username)
                 .then(function (user) {
                     vm.user = user;
                 });
@@ -35,14 +35,14 @@
 
         
         function loadAllUsers() {
-            UserService.GetAll()
+            UsersService.GetAll()
                 .then(function (users) {
                     vm.allUsers = users;
                 });
         }
 
         function deleteUser(id) {
-            UserService.Delete(id)
+            UsersService.Delete(id)
             .then(function () {
                 loadAllUsers();
             });

@@ -5,26 +5,33 @@
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-    function LoginController($location, AuthenticationService, FlashService) {
+    LoginController.$inject = ['$location', '$cookies', 'LoginService', 'FlashService'];
+    function LoginController($location, $cookies, LoginService, FlashService) {
         var vm = this;
 
         vm.login = login;
+        
+        
 
         (function initController() {
             // reset login status
-            AuthenticationService.ClearCredentials();
+            LoginService.ClearCredentials();
         })();
 
         function login() {
             vm.dataLoading = true;
-            AuthenticationService.Login(vm.username, vm.password, function (response) {
+            
+            LoginService.Login(vm.username, vm.password, function (response) {
+            	
+            	console.log(response.headers('set-cookie'));
+            	
+            	console.log($cookies);
+        
+            	vm.x = $cookies.getAll();
             	
                 if (response.data.userId !== "0" ) 
-                {
-                	
-                    //AuthenticationService.SetCredentials( vm.username, vm.password );
-                    AuthenticationService.setCurrentUser( response.data );
+                {                	
+                    LoginService.setCurrentUser( response.data );
                     
                     if (response.data.userProfileId === "1" )
                     {

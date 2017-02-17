@@ -5,8 +5,8 @@
         .module('app')
         .controller('RegisterCompanyController', RegisterCompanyController);
 
-    RegisterCompanyController.$inject = ['AuthenticationService', 'UserService', '$location', '$rootScope', 'FlashService'];
-    function RegisterCompanyController(AuthenticationService, UserService, $location, $rootScope, FlashService) {
+    RegisterCompanyController.$inject = ['CompanysService', '$location', '$rootScope', 'FlashService'];
+    function RegisterCompanyController( CompanysService, $location, $rootScope, FlashService) {
         var vm = this;
 
         vm.register = register;
@@ -14,7 +14,7 @@
         
         function register() {
             vm.dataLoading = true;
-            UserService.CreateCompany(	vm.user.companyName, 
+            CompanysService.CreateCompany(	vm.user.companyName, 
             							vm.user.loginName, 
             							vm.user.loginPassword, 
             							vm.user.companyName, 
