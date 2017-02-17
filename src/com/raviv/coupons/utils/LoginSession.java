@@ -3,7 +3,7 @@ package com.raviv.coupons.utils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-public class Cookies 
+public class LoginSession 
 {
 	
 	public static final String LOGIN_USER_ID = "LOGIN_USER_ID";

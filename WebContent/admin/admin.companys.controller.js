@@ -7,7 +7,7 @@
 
     AdminCompanysController.$inject = ['CompanysService', '$cookies', '$rootScope', 'LoginService', 'FlashService'];
     
-    function AdminCompanysController(CompanysService, $cookies, $rootScope, LoginService) {
+    function AdminCompanysController(CompanysService, $cookies, $rootScope, LoginService , FlashService ) {
         var vm = this;
         
         vm.user = null;

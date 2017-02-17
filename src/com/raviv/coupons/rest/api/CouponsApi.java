@@ -27,7 +27,7 @@ import com.raviv.coupons.rest.api.inputs.CreateCouponInput;
 import com.raviv.coupons.rest.api.inputs.GetCompanyCouponsQueryInput;
 import com.raviv.coupons.rest.api.inputs.GetCustomerCouponsQueryInput;
 import com.raviv.coupons.rest.api.inputs.UpdateCouponInput;
-import com.raviv.coupons.utils.Cookies;
+import com.raviv.coupons.utils.LoginSession;
 import com.raviv.coupons.utils.PrintUtils;
 import com.raviv.coupons.utils.YyyyMmDd;
 
@@ -44,7 +44,7 @@ public class CouponsApi {
 		//==============================================
 		// Get the logged user details with the user id
 		//==============================================		
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId );
 
@@ -92,7 +92,7 @@ public class CouponsApi {
 		/**
 		 *  Get the logged user
 		 */
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 		
@@ -112,7 +112,7 @@ public class CouponsApi {
 		/**
 		 *  Get the logged user
 		 */		
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 		
@@ -137,7 +137,7 @@ public class CouponsApi {
 		/**
 		 *  Get the logged user
 		 */		
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 
@@ -159,7 +159,7 @@ public class CouponsApi {
 		/**
 		 *  Get the logged user
 		 */		
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 
@@ -212,7 +212,7 @@ public class CouponsApi {
 		/**
 		 *  Get the logged user
 		 */
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 				
@@ -234,7 +234,7 @@ public class CouponsApi {
 		/**
 		 *  Get the logged user
 		 */		
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 
@@ -256,7 +256,7 @@ public class CouponsApi {
 		/**
 		 *  Get the logged user
 		 */		
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 

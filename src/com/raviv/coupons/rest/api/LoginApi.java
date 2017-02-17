@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import com.raviv.coupons.beans.User;
 import com.raviv.coupons.blo.UsersBlo;
 import com.raviv.coupons.exceptions.ApplicationException;
-import com.raviv.coupons.utils.Cookies;
+import com.raviv.coupons.utils.LoginSession;
 
 @Path("/login")
 public class LoginApi {
@@ -26,8 +26,7 @@ public class LoginApi {
 		UsersBlo usersBlo = new UsersBlo();
 		
 		System.out.println("Jersey Login...");
-		
-		
+			
 		// =============================================
 		// Check login coockie
 		// =============================================
@@ -37,10 +36,6 @@ public class LoginApi {
 		{
 			for (Cookie cookie : cookies)
 			{
-				/*
-				if (cookie.getName().equals("loginToken") )
-					value = cookie.getValue();
-					*/
 				System.out.println( cookie.getName() + " : " + cookie.getValue() );
 			}
 		}
@@ -58,22 +53,24 @@ public class LoginApi {
 		
 		if ( user != null )
 		{
-			// SUCCESS - user found
+			// Login SUCCESS - user found
 			// Create session
 			request.getSession();
 			
+			// On the created session add attribute to save user id
 			request.getSession(false).setAttribute("LOGIN_USER_ID", user.getUserId() );
 			
 			System.out.println("200");
 			response.setStatus(200);
-			
+			/*	
 			long userId = user.getUserId();
-			Cookie cookie = new Cookie( Cookies.LOGIN_USER_ID ,  String.valueOf( userId )  );
+			Cookie cookie = new Cookie( LoginSession.LOGIN_USER_ID ,  String.valueOf( userId )  );
 			response.addCookie(cookie);
+			 */
 		}
 		else
 		{
-			// Failes - user not found - null
+			// Login FAILED - user not found - null
 			System.out.println("401");
 			response.setStatus(401);
 			/*
@@ -94,10 +91,6 @@ public class LoginApi {
 		return user;
 	}
 
-	@DELETE
-	public void deleteUser(long userId){
-		
-	}
 	
 	
 }

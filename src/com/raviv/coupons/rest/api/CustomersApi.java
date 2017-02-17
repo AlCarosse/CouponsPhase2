@@ -20,7 +20,7 @@ import com.raviv.coupons.blo.CustomersBlo;
 import com.raviv.coupons.blo.UsersBlo;
 import com.raviv.coupons.exceptions.ApplicationException;
 import com.raviv.coupons.rest.api.inputs.CreateCustomerInput;
-import com.raviv.coupons.utils.Cookies;
+import com.raviv.coupons.utils.LoginSession;
 
 @Path("api/customers")
 public class CustomersApi {
@@ -32,7 +32,7 @@ public class CustomersApi {
 	{
 		System.out.println(createCustomerInput);
 	
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 			
 		UsersBlo usersBlo = new UsersBlo();
 		CustomersBlo customersBlo = new CustomersBlo();
@@ -70,7 +70,7 @@ public class CustomersApi {
 		/**
 		 *  Get the logged user
 		 */
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		User loggedUser = usersBlo.getUserById( loginUserId);
 		
 		/**
@@ -89,7 +89,7 @@ public class CustomersApi {
 		/**
 		 *  Get the logged user
 		 */
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 		
@@ -108,7 +108,7 @@ public class CustomersApi {
 		/**
 		 *  Get the logged user
 		 */
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 
@@ -127,7 +127,7 @@ public class CustomersApi {
 		/**
 		 *  Get the logged user
 		 */
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 

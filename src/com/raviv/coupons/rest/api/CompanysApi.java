@@ -28,8 +28,7 @@ import com.raviv.coupons.exceptions.ApplicationException;
 import com.raviv.coupons.exceptions.ExceptionHandler;
 import com.raviv.coupons.rest.api.inputs.CreateCompanyInput;
 import com.raviv.coupons.rest.api.outputs.GetAllCompanysOutput;
-import com.raviv.coupons.rest.api.outputs.ServiceOutput;
-import com.raviv.coupons.utils.Cookies;
+import com.raviv.coupons.utils.LoginSession;
 
 @Path("api/companys")
 public class CompanysApi {
@@ -41,7 +40,7 @@ public class CompanysApi {
 	{
 		System.out.println(createCompanyInput);
 	
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 			
 		UsersBlo usersBlo = new UsersBlo();
 		CompanysBlo companysBlo = new CompanysBlo();
@@ -72,7 +71,7 @@ public class CompanysApi {
 	{
 		System.out.println("companyId : " + companyId);
 	
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		
 		
 		UsersBlo usersBlo = new UsersBlo();
@@ -99,7 +98,7 @@ public class CompanysApi {
 	public void updateCompany( @Context HttpServletRequest request, Company company ) throws ApplicationException
 	{
 		System.out.println(company);
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		
 		UsersBlo usersBlo = new UsersBlo();
 		CompanysBlo companysBlo = new CompanysBlo();
@@ -124,7 +123,7 @@ public class CompanysApi {
 
 		try 
 		{
-			Integer loginUserId = Cookies.getLoginUserId(request);
+			Integer loginUserId = LoginSession.getLoginUserId(request);
 			
 			UsersBlo usersBlo = new UsersBlo();
 			CompanysBlo companyBl = new CompanysBlo();
@@ -158,7 +157,7 @@ public class CompanysApi {
 		/**
 		 *  Get the logged user
 		 */		
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 		
@@ -182,7 +181,7 @@ public class CompanysApi {
 		/**
 		 *  Get the logged user
 		 */		
-		Integer loginUserId = Cookies.getLoginUserId(request);
+		Integer loginUserId = LoginSession.getLoginUserId(request);
 		UsersBlo usersBlo = new UsersBlo();
 		User loggedUser = usersBlo.getUserById( loginUserId);
 
