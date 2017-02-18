@@ -48,6 +48,13 @@
 
         
         function deleteCompany(companyId) {
+        	
+        	var r = confirm("Are you sure?");
+        	
+        	if (r !=  true ) {
+        		return;
+        	}
+        	
             vm.dataLoading = true;
             CompanysService.DeleteCompany(companyId,	 
             							function (response) 
