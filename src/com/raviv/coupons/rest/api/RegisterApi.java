@@ -31,39 +31,37 @@ public class RegisterApi
 	public ServiceOutput createCustomer(@Context HttpServletRequest request, @Context HttpServletResponse response, CreateCustomerInput createCustomerInput)
 	{
 		ServiceOutput serviceOutput = new ServiceOutput();
-		
+
 		try 
 		{
 			System.out.println(createCustomerInput);
-		
+
 			UsersBlo usersBlo = new UsersBlo();
 			CustomersBlo customersBlo = new CustomersBlo();
-			
+
 			/**
 			 *  Get the admin user
 			 */		
 			User loggedUser = usersBlo.getAdminUser();
-	
+
 			/**
 			 *  Create new customer
 			 */		
 			User 	newUser	= new User		( 	createCustomerInput.getUserName()  
-												,createCustomerInput.getLoginName() 
-												,createCustomerInput.getLoginPassword() );
-			
+					,createCustomerInput.getLoginName() 
+					,createCustomerInput.getLoginPassword() );
+
 			Customer	customer	= new Customer	( createCustomerInput.getCustomerName()	);
-						
+
 			customersBlo.createCustomer ( loggedUser, newUser, customer );
-			
+
 		} 
 		catch (Throwable t) 
 		{
 			t.printStackTrace();
 			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
 		}
-		
 		return serviceOutput;
-		
 	}
 
 	@POST
@@ -73,30 +71,30 @@ public class RegisterApi
 	public ServiceOutput createCompany(@Context HttpServletRequest request, CreateCompanyInput createCompanyInput) throws ApplicationException
 	{
 		ServiceOutput serviceOutput = new ServiceOutput();
-		
+
 		try 
 		{
 			System.out.println(createCompanyInput);
-					
+
 			UsersBlo usersBlo = new UsersBlo();
 			CompanysBlo companysBlo = new CompanysBlo();
-			
+
 			/**
 			 *  Get admin user
 			 */		
 			User loggedUser = usersBlo.getAdminUser();
-	
-	
+
+
 			/**
 			 *  Create new company
 			 */		
-	
+
 			User 	newUser	= new User		( 	createCompanyInput.getUserName()  
-												,createCompanyInput.getLoginName() 
-												,createCompanyInput.getLoginPassword() );
-			
+					,createCompanyInput.getLoginName() 
+					,createCompanyInput.getLoginPassword() );
+
 			Company	company	= new Company	( createCompanyInput.getCompanyName(), createCompanyInput.getCompanyEmail()	);
-					
+
 			companysBlo.createCompany( loggedUser, newUser , company);
 		}
 		catch (Throwable t) 
@@ -104,10 +102,10 @@ public class RegisterApi
 			t.printStackTrace();
 			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
 		}
-			
+
 		return serviceOutput;
-			
-			
+
+
 	}
-	
+
 }

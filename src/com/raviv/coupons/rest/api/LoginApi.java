@@ -1,6 +1,5 @@
 package com.raviv.coupons.rest.api;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import com.raviv.coupons.beans.User;
 import com.raviv.coupons.blo.UsersBlo;
 import com.raviv.coupons.exceptions.ApplicationException;
-import com.raviv.coupons.utils.LoginSession;
 
 @Path("/login")
 public class LoginApi {

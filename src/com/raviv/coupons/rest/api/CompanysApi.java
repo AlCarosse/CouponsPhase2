@@ -28,111 +28,146 @@ import com.raviv.coupons.exceptions.ApplicationException;
 import com.raviv.coupons.exceptions.ExceptionHandler;
 import com.raviv.coupons.rest.api.inputs.CreateCompanyInput;
 import com.raviv.coupons.rest.api.outputs.GetAllCompanysOutput;
+import com.raviv.coupons.rest.api.outputs.GetCompanyOutput;
+import com.raviv.coupons.rest.api.outputs.ServiceOutput;
 import com.raviv.coupons.utils.LoginSession;
 
 @Path("api/companys")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class CompanysApi {
 
 	@POST
 	@Path("/createCompany")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void createCompany(@Context HttpServletRequest request, CreateCompanyInput createCompanyInput) throws ApplicationException
+	public ServiceOutput createCompany(@Context HttpServletRequest request, CreateCompanyInput createCompanyInput) throws ApplicationException
 	{
-		System.out.println(createCompanyInput);
-	
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-			
-		UsersBlo usersBlo = new UsersBlo();
-		CompanysBlo companysBlo = new CompanysBlo();
-		
-		/**
-		 *  Get the logged user
-		 */		
-		User loggedUser = usersBlo.getUserById( loginUserId);
+		ServiceOutput serviceOutput = new ServiceOutput();		
+		try 
+		{
+
+			System.out.println(createCompanyInput);
+
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+
+			UsersBlo usersBlo = new UsersBlo();
+			CompanysBlo companysBlo = new CompanysBlo();
+
+			/**
+			 *  Get the logged user
+			 */		
+			User loggedUser = usersBlo.getUserById( loginUserId);
 
 
-		/**
-		 *  Create new company
-		 */		
+			/**
+			 *  Create new company
+			 */		
 
-		User 	newUser	= new User		( 	createCompanyInput.getUserName()  
-											,createCompanyInput.getLoginName() 
-											,createCompanyInput.getLoginPassword() );
-		
-		Company	company	= new Company	( createCompanyInput.getCompanyName(), createCompanyInput.getCompanyEmail()	);
-				
-		companysBlo.createCompany( loggedUser, newUser , company);
+			User 	newUser	= new User		( 	createCompanyInput.getUserName()  
+					,createCompanyInput.getLoginName() 
+					,createCompanyInput.getLoginPassword() );
+
+			Company	company	= new Company	( createCompanyInput.getCompanyName(), createCompanyInput.getCompanyEmail()	);
+
+			companysBlo.createCompany( loggedUser, newUser , company);
+
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}
+		return serviceOutput;
+
 	}
-		
+
 	@DELETE
 	@Path("/deleteCompany/companyId/{companyId}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void deleteCompany(@Context HttpServletRequest request, @PathParam("companyId") long companyId ) throws ApplicationException
+	public ServiceOutput deleteCompany(@Context HttpServletRequest request, @PathParam("companyId") long companyId ) throws ApplicationException
 	{
-		System.out.println("companyId : " + companyId);
-	
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-		
-		
-		UsersBlo usersBlo = new UsersBlo();
-		CompanysBlo companysBlo = new CompanysBlo();
-		
-		/**
-		 *  Get the logged user
-		 */		
-		User loggedUser = usersBlo.getUserById( loginUserId);
-		
+		ServiceOutput serviceOutput = new ServiceOutput();		
+		try 
+		{
+			System.out.println("companyId : " + companyId);
 
-		/**
-		 *  Delete company
-		 */		
-				
-		companysBlo.deleteCompany( loggedUser,  companyId );
+			Integer loginUserId = LoginSession.getLoginUserId(request);
 
-				
+
+			UsersBlo usersBlo = new UsersBlo();
+			CompanysBlo companysBlo = new CompanysBlo();
+
+			/**
+			 *  Get the logged user
+			 */		
+			User loggedUser = usersBlo.getUserById( loginUserId);
+
+
+			/**
+			 *  Delete company
+			 */		
+
+			companysBlo.deleteCompany( loggedUser,  companyId );
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}		
+		return serviceOutput;
+
 	}
-	
+
 	@PUT
 	@Path("/updateCompany")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateCompany( @Context HttpServletRequest request, Company company ) throws ApplicationException
+	public ServiceOutput updateCompany( @Context HttpServletRequest request, Company company ) throws ApplicationException
 	{
-		System.out.println(company);
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-		
-		UsersBlo usersBlo = new UsersBlo();
-		CompanysBlo companysBlo = new CompanysBlo();
-		
-		/**
-		 *  Get the logged user
-		 */		
-		User loggedUser = usersBlo.getUserById( loginUserId);
-		
-		/**
-		 *  Update company
-		 */		
-		companysBlo.updateCompany( loggedUser , company );
+		ServiceOutput serviceOutput = new ServiceOutput();		
+		try 
+		{
+			System.out.println(company);
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+
+			UsersBlo usersBlo = new UsersBlo();
+			CompanysBlo companysBlo = new CompanysBlo();
+
+			/**
+			 *  Get the logged user
+			 */		
+			User loggedUser = usersBlo.getUserById( loginUserId);
+
+			/**
+			 *  Update company
+			 */		
+			companysBlo.updateCompany( loggedUser , company );
+		}		
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}		
+		return serviceOutput;
 	}
-	
+
 	@GET
 	@Path("/getAllCompanys")
 	@Produces(MediaType.APPLICATION_JSON)
 	public GetAllCompanysOutput getAllCompanys( @Context HttpServletRequest request ) throws ApplicationException
 	{
 		GetAllCompanysOutput serviceOutput = new GetAllCompanysOutput();
-
 		try 
 		{
 			Integer loginUserId = LoginSession.getLoginUserId(request);
-			
+
 			UsersBlo usersBlo = new UsersBlo();
 			CompanysBlo companyBl = new CompanysBlo();
-			
+
 			/**
 			 *  Get the logged user
 			 */		
 			User loggedUser = usersBlo.getUserById( loginUserId);
-	
+
 			/**
 			 *  Get all companies
 			 */		
@@ -143,56 +178,71 @@ public class CompanysApi {
 		{
 			t.printStackTrace();
 			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
-		}
-		
+		}		
 		return serviceOutput;
-
 	}
 
 	@GET
 	@Path("/getCompanyByCompanyId/companyId/{companyId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Company getCompanyByCompanyId( @Context HttpServletRequest request, @PathParam("companyId") Integer companyId ) throws ApplicationException
+	public GetCompanyOutput getCompanyByCompanyId( @Context HttpServletRequest request, @PathParam("companyId") Integer companyId ) throws ApplicationException
 	{
-		/**
-		 *  Get the logged user
-		 */		
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-		UsersBlo usersBlo = new UsersBlo();
-		User loggedUser = usersBlo.getUserById( loginUserId);
-		
-		Company company = null;	
-		CompanysBlo companysBlo = new CompanysBlo();
-		
-		/**
-		 *  Get company, ADMIN profile
-		 */		
-		company =  companysBlo.getCompany( loggedUser , companyId );
-		
-		return company;
-		
+		GetCompanyOutput serviceOutput = new GetCompanyOutput();		
+		try 
+		{
+			/**
+			 *  Get the logged user
+			 */		
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+			UsersBlo usersBlo = new UsersBlo();
+			User loggedUser = usersBlo.getUserById( loginUserId);
+
+			Company company = null;	
+			CompanysBlo companysBlo = new CompanysBlo();
+
+			/**
+			 *  Get company, ADMIN profile
+			 */		
+			company =  companysBlo.getCompany( loggedUser , companyId );
+			serviceOutput.setCompany(company);
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}		
+		return serviceOutput;
 	}
 
 	@GET
 	@Path("/getCompanyByLoggedUser")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Company getCompanyByLoggedUser( @Context HttpServletRequest request ) throws ApplicationException
+	public GetCompanyOutput getCompanyByLoggedUser( @Context HttpServletRequest request ) throws ApplicationException
 	{
-		/**
-		 *  Get the logged user
-		 */		
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-		UsersBlo usersBlo = new UsersBlo();
-		User loggedUser = usersBlo.getUserById( loginUserId);
+		GetCompanyOutput serviceOutput = new GetCompanyOutput();		
+		try 
+		{
+			/**
+			 *  Get the logged user
+			 */		
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+			UsersBlo usersBlo = new UsersBlo();
+			User loggedUser = usersBlo.getUserById( loginUserId);
 
-		/**
-		 *  Get company, COMPANY profile 
-		 */		
-		Company company = null;
-		CompanysBlo companysBlo = new CompanysBlo();		
-		company =  companysBlo.getCompany( loggedUser );
-		
-		return company;		
+			/**
+			 *  Get company, COMPANY profile 
+			 */		
+			Company company = null;
+			CompanysBlo companysBlo = new CompanysBlo();		
+			company =  companysBlo.getCompany( loggedUser );
+			serviceOutput.setCompany(company);
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}		
+		return serviceOutput;
 	}
 
 }

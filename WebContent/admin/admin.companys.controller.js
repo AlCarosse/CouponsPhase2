@@ -12,8 +12,10 @@
         
         vm.user = null;
         vm.allUsers = [];
-        vm.deleteUser = deleteUser;
+        vm.deleteCompany = deleteCompany;
         vm.allCompanys = [];
+
+        vm.deleteCompany = deleteCompany;
 
         initController();
 
@@ -45,6 +47,22 @@
         };
 
         
+        function deleteCompany(companyId) {
+            vm.dataLoading = true;
+            CompanysService.DeleteCompany(companyId,	 
+            							function (response) 
+            {
+                if (response.data.serviceStatus.success === "true") 
+                {
+                	getAllCompanys();                } 
+                else 
+                {
+                    FlashService.Error(response.data.serviceStatus.errorMessage);
+                    vm.dataLoading = false;
+                }
+            });
+        };
+
         
         function deleteUser(id) {
             UsersService.Delete(id)
