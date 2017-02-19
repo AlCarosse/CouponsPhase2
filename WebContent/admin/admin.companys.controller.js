@@ -58,6 +58,7 @@
         	    callback: function (result) 
         	    {
                 	if (result !=  true ){
+                		// User canceled delete
                 		return;
                 	}
 
