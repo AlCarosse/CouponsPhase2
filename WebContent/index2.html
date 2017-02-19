@@ -4,15 +4,15 @@
     <meta charset="utf-8" />
     <title>AngularJS User Registration and Login Example</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link href="css/app.css" rel="stylesheet2" />
+    <link href="app-content/app.css" rel="stylesheet" />
 </head>
 <body>
     <div class="jumbotron">
         <div class="container">
-            
+            <div class="col-sm-8 col-sm-offset-2">
                 <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
                 <div ng-view></div>
-            
+            </div>
         </div>
     </div>
     <div class="credits text-center">
@@ -37,6 +37,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script src="app.js"></script>
+    <!--script src="scripts/bootstrap.js"></script>    
+    <script src="scripts/bootstrap-confirmation.js"></script-->
     <script src="scripts/bootbox.min.js"></script>
     
     <script src="app-services/flash.service.js"></script>

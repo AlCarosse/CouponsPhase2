@@ -47,27 +47,34 @@
         };
 
         
-        function deleteCompany(companyId) {
+        function deleteCompany(companyId, companName) 
+        {
         	
-        	var r = confirm("Are you sure?");
-        	
-        	if (r !=  true ) {
-        		return;
-        	}
-        	
-            vm.dataLoading = true;
-            CompanysService.DeleteCompany(companyId,	 
-            							function (response) 
-            {
-                if (response.data.serviceStatus.success === "true") 
-                {
-                	getAllCompanys();                } 
-                else 
-                {
-                    FlashService.Error(response.data.serviceStatus.errorMessage);
-                    vm.dataLoading = false;
-                }
-            });
+        	bootbox.confirm
+        	({
+        		message: "Remove "+companName+"?",
+        	    buttons: { confirm: { label: 'Yes', className: 'btn-success'}, cancel:  { label: 'No',  className: 'btn-danger' }
+        	    },
+        	    callback: function (result) 
+        	    {
+                	if (result !=  true ){
+                		return;
+                	}
+
+                	vm.dataLoading = true;
+                    CompanysService.DeleteCompany(companyId,	function (response) 
+                    {
+                        if (response.data.serviceStatus.success === "true") 
+                        {
+                        	getAllCompanys();                } 
+                        else 
+                        {
+                            FlashService.Error(response.data.serviceStatus.errorMessage);
+                            vm.dataLoading = false;
+                        }
+                    });        	    }
+        	});
+        	        	
         };
 
         
@@ -77,6 +84,7 @@
                 loadAllUsers();
             });
         }
+        
     }
 
 })();
