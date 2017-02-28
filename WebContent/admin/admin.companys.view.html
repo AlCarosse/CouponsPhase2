@@ -49,25 +49,76 @@ table, td  {
     <td ng-if="$odd" style="background-color:white"> <button ng-click="vm.deleteCompany(company.companyId,company.companyName)" type="button" class="btn btn-default btn-sm" ><span class="glyphicon glyphicon-trash"></span> Remove</button></td>
     <td ng-if="$even">                               <button ng-click="vm.deleteCompany(company.companyId,company.companyName)" type="button" class="btn btn-default btn-sm" ><span class="glyphicon glyphicon-trash"></span> Remove</button></td>
 
-    <td ng-if="$odd" style="background-color:white"> <button href="#" data-toggle="modal" data-target="#login-modal"><span class="glyphicon glyphicon-edit" ></span> Edit</button></td>
-    <td ng-if="$even">                               <button ng-click="vm.deleteUser(company.id)" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" ></span> Edit</button></td>
+    <td ng-if="$odd" style="background-color:white"> <button ng-click="vm.setCurrentCompany(company)" href="#" data-toggle="modal" data-target="#login-modal"><span class="glyphicon glyphicon-edit" ></span> Edit</button></td>
+    <td ng-if="$even">                               <button ng-click="vm.setCurrentCompany(company)" href="#" data-toggle="modal" data-target="#login-modal"><span class="glyphicon glyphicon-edit" ></span> Edit</button></td>
     
   </tr>
 </table>
 
-<!-- a href="#" data-toggle="modal" data-target="#login-modal">Login</a-->
 
-
-
-<!--  ul>
-    <li ng-repeat="company in vm.allCompanys">
-        {{company.companyName}} ({{company.companyEmail}} {{company.sysCreationDate}})
-        - <a ng-click="vm.deleteUser(company.id)">Delete</a>
-    </li>
-</ul -->
 
 <!-- BEGIN # MODAL LOGIN -->
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    	<div class="modal-dialog">
+			<div class="modal-content">
+			
+				<div class="modal-header" align="center">
+					<!--  img class="img-circle" id="img_logo" src="http://bootsnipp.com/img/logo.jpg"-->
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+				</div>
+                
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+                
+                    <!-- Begin # Login Form -->
+                    <form id="login-form" ng-submit="vm.updateCompany()">
+		                <div class="modal-body">
+		                
+				    		<div id="div-login-msg">
+                                <!-- div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div -->
+                                <span id="text-login-msg">Update company</span>
+                            </div>
+                            
+							<br />
+				    		
+				    		<div>
+                                Company name : {{vm.currentCompany.companyName}}
+                            </div>
+				    		<div>
+                                Company email : {{vm.currentCompany.companyEmail}}
+                            </div>
+                            
+                            <br />
+
+				    		<input id="companyName"  class="form-control" type="text" placeholder="Company name"  required ng-model="vm.currentCompany.companyName">
+				    		<input id="companyEmail" class="form-control" type="text" placeholder="Company email" required ng-model="vm.currentCompany.companyEmail">
+				    		                            
+        		    	</div>
+				        <div class="modal-footer">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">Update</button>
+                            </div>
+				        </div>
+                    </form>
+                    <!-- End # Login Form -->
+                    
+                </div>
+                <!-- End # DIV Form -->
+                
+			</div>
+		</div>
+	</div>
+<!-- END # MODAL LOGIN -->
+    
+    
+
+
+
+
+<!-- BEGIN # MODAL LOGIN -->
+<div class="modal fade" id="bak-login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     	<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header" align="center">
@@ -157,4 +208,7 @@ table, td  {
 			</div>
 		</div>
 	</div>
-    <!-- END # MODAL LOGIN -->
+<!-- END # MODAL LOGIN -->
+
+    
+    

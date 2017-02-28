@@ -15,8 +15,15 @@
         vm.deleteCompany = deleteCompany;
         vm.allCompanys = [];
 
-        vm.deleteCompany = deleteCompany;
+        vm.setCurrentCompany = setCurrentCompany;
+        vm.currentCompany = null;
 
+        vm.updateCompany = updateCompany;
+
+    	vm.companyName = null;
+    	vm.companyEmail = null;
+
+        
         initController();
 
         function initController() {
@@ -25,9 +32,26 @@
             getAllCompanys();
         }
 
+        function updateCompany() {
+
+        	vm.currentCompany.companyName;
+        	vm.currentCompany.companyEmail;
+        	
+        	return;        	
+        	
+        }
+
+        
+        
         function loadCurrentUser() {
         	vm.user = $rootScope.globals.currentUser;
         }
+
+        function setCurrentCompany(company) {
+        	vm.currentCompany = company;
+        	$rootScope.globals.currentCompany = company;
+        }
+
         
         function getAllCompanys() {
             vm.dataLoading = true;
@@ -79,12 +103,6 @@
         };
 
         
-        function deleteUser(id) {
-            UsersService.Delete(id)
-            .then(function () {
-                loadAllUsers();
-            });
-        }
         
     }
 
