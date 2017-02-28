@@ -11,18 +11,19 @@
         var vm = this;
         
         vm.user = null;
-        vm.allUsers = [];
-        vm.deleteCompany = deleteCompany;
+        vm.currentCompany = null;
         vm.allCompanys = [];
 
         vm.setCurrentCompany = setCurrentCompany;
-        vm.currentCompany = null;
-
+        
+        vm.deleteCompany = deleteCompany;
         vm.updateCompany = updateCompany;
 
+        /*
+         vm.allUsers = [];
     	vm.companyName = null;
     	vm.companyEmail = null;
-
+         */
         
         initController();
 
@@ -33,15 +34,11 @@
         }
 
         function updateCompany() {
-
         	vm.currentCompany.companyName;
         	vm.currentCompany.companyEmail;
-        	
         	return;        	
-        	
         }
 
-        
         
         function loadCurrentUser() {
         	vm.user = $rootScope.globals.currentUser;
@@ -70,7 +67,7 @@
             });
         };
 
-        
+
         function deleteCompany(companyId, companName) 
         {
         	
