@@ -163,6 +163,15 @@ public class CompanysBlo  {
 		ProfileIdVerifier.verifyAdminProfileId(loggedUser);
 		
 		// =====================================================
+		// Verify valid email
+		// =====================================================
+		EmailValidator emailValidator =  new EmailValidator();
+		if (  !emailValidator.isValid(inputCompany.getCompanyEmail())  )
+		{
+			throw new ApplicationException(ErrorType.INVALID_EMAIL,  "Company emmail is not valid : " + inputCompany.getCompanyEmail() );
+		}
+
+		// =====================================================
 		// Start transaction by creating JdbcTransactionManager
 		// =====================================================		
 		JdbcTransactionManager jdbcTransactionManager = new JdbcTransactionManager();
