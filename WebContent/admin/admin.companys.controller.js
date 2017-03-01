@@ -12,6 +12,8 @@
         
         vm.user = null;
         vm.currentCompany = null;
+        vm.currentCompanyNew = null;
+        
         vm.allCompanys = [];
 
         vm.setCurrentCompany = setCurrentCompany;
@@ -34,8 +36,8 @@
         }
 
         function updateCompany() {
-        	vm.currentCompany.companyName;
-        	vm.currentCompany.companyEmail;
+        	vm.currentCompanyNew.companyName;
+        	vm.currentCompanyNew.companyEmail;
         	return;        	
         }
 
@@ -46,7 +48,8 @@
 
         function setCurrentCompany(company) {
         	vm.currentCompany = company;
-        	$rootScope.globals.currentCompany = company;
+        	vm.currentCompanyNew = angular.copy(company);
+        	//$rootScope.globals.currentCompany = company;
         }
 
         
