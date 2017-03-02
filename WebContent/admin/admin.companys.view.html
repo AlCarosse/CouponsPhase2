@@ -73,10 +73,10 @@
 				    		             
                             <table>
 								<tr>
-									<td style="background-color:#b7b39a"><b>Company name : </b>{{vm.currentCompanyNew.companyName}}</td>
+									<td style="background-color:white"><b>Company name : </b>{{vm.currentCompanyNew.companyName}}</td>
 								</tr>
 								<tr>
-									<td style="background-color:#b7b39a"><b>Company email : </b>{{vm.currentCompanyNew.companyEmail}}</td>
+									<td style="background-color:white"><b>Company email : </b>{{vm.currentCompanyNew.companyEmail}}</td>
 								</tr>
 							</table>
 								
@@ -89,7 +89,7 @@
         		    	</div>
 				        <div class="modal-footer">
                             <div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block" onclick="$('.modal').modal('hide')">Update</button>
+                                <button type="submit" ng-disabled="!vm.currentCompanyNew.companyName || !vm.currentCompanyNew.companyEmail" class="btn btn-primary btn-lg btn-block" onclick="$('.modal').modal('hide')">Update</button>
                             </div>
 				        </div>
                     </form>
