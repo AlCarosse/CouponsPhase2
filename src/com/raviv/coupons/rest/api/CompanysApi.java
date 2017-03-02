@@ -37,6 +37,7 @@ import com.raviv.coupons.utils.LoginSession;
 @Produces(MediaType.APPLICATION_JSON)
 public class CompanysApi {
 
+	
 	@POST
 	@Path("/createCompany")
 	@Consumes(MediaType.APPLICATION_JSON)

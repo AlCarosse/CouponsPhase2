@@ -10,11 +10,21 @@
 
     	var service = {};
 
+        service.UpdateCompany = UpdateCompany;
         service.DeleteCompany = DeleteCompany;
         service.CreateCompany = CreateCompany;
         service.GetAllCompanys = GetAllCompanys;
         
         return service;
+
+        function UpdateCompany( company , callback) 
+        {
+            $http.put('/CouponsPhase2/rest/api/companys/updateCompany/' , { companyId : company.companyId ,companyName: company.companyName , companyEmail: company.companyEmail} 
+            )
+                .then(function (response) {
+                    callback(response);
+                });
+        }
 
 
         function DeleteCompany(i_companyId , callback) 

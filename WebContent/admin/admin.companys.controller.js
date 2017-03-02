@@ -36,9 +36,27 @@
         }
 
         function updateCompany() {
-        	vm.currentCompanyNew.companyName;
-        	vm.currentCompanyNew.companyEmail;
-        	return;        	
+        	
+        	
+        	vm.dataLoading = true;
+            CompanysService.UpdateCompany(vm.currentCompanyNew,	function (response) 
+            {
+                if (response.data.serviceStatus.success === "true") 
+                {
+                	vm.currentCompany.companyName = vm.currentCompanyNew.companyName;
+                	vm.currentCompany.companyEmail = vm.currentCompanyNew.companyEmail;
+                	bootbox.alert("Successfully updated company details");
+                } 
+                else 
+                {
+                    //FlashService.Error(response.data.serviceStatus.errorMessage);
+                	
+                    bootbox.alert("Update company details failed : " + response.data.serviceStatus.errorMessage );
+                    
+                    vm.dataLoading = false;
+                }
+            });
+            
         }
 
         
