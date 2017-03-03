@@ -13,6 +13,7 @@
         vm.user = null;
         vm.currentCompany = null;
         vm.currentCompanyNew = null;
+        vm.updateCompanyStatus = null;
         
         vm.allCompanys = [];
 
@@ -45,13 +46,15 @@
                 {
                 	vm.currentCompany.companyName = vm.currentCompanyNew.companyName;
                 	vm.currentCompany.companyEmail = vm.currentCompanyNew.companyEmail;
-                	bootbox.alert("Successfully updated company details");
+                	//bootbox.alert("Successfully updated company details");
+                	vm.updateCompanyStatus = "success";
                 } 
                 else 
                 {
                     //FlashService.Error(response.data.serviceStatus.errorMessage);
-                	
-                    bootbox.alert("Update company details failed : " + response.data.serviceStatus.errorMessage );
+                	vm.updateCompanyStatus = "fail";
+                	vm.errorMesage = response.data.serviceStatus.errorMessage;
+                    //bootbox.alert("Update company details failed : " + response.data.serviceStatus.errorMessage );
                     
                     vm.dataLoading = false;
                 }
@@ -67,10 +70,10 @@
         function setCurrentCompany(company) {
         	vm.currentCompany = company;
         	vm.currentCompanyNew = angular.copy(company);
-        	//$rootScope.globals.currentCompany = company;
+        	vm.updateCompanyStatus = null;
         }
 
-        
+      
         function getAllCompanys() {
             vm.dataLoading = true;
             CompanysService.GetAllCompanys(	 

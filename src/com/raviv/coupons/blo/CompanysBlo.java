@@ -179,6 +179,14 @@ public class CompanysBlo  {
 		ICompanysDao companysDao	= new CompanysDao( jdbcTransactionManager );
 
 		// =====================================================
+		// Verify valid email
+		// =====================================================
+		if ( companysDao.isDuplicateCompanyNameExists (inputCompany.getCompanyId(), inputCompany.getCompanyName()) )
+		{
+			throw new ApplicationException(ErrorType.COMPANY_NAME_ALREADY_EXISTS,  "Duplicate company name : " + inputCompany.getCompanyEmail() );			
+		}
+		
+		// =====================================================
 		// Get the company from data layer
 		// =====================================================				
 		Company company;

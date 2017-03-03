@@ -13,4 +13,6 @@ public interface ICompanysDao {
 
 	public void 	deleteCompany(long    companyId) throws ApplicationException;
 
+	public boolean isDuplicateCompanyNameExists(long companyId, String companyName) throws ApplicationException;
+
 }

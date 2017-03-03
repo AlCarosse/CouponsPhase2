@@ -3,6 +3,8 @@ package com.raviv.coupons.exceptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.raviv.coupons.enums.ErrorType;
+
 public class ClientErrorMessage {
 
 	private Map<Integer,String> mapErrorMessages;
@@ -15,51 +17,37 @@ public class ClientErrorMessage {
 	{
 		this.mapErrorMessages = new HashMap<Integer,String>();
 
-	 	 //CUSTOMER_NAME_ALREADY_EXISTS	( 100)
-		mapErrorMessages.put(100, "CUSTOMER NAME ALREADY EXISTS");
+		mapErrorMessages.put(ErrorType.CUSTOMER_NAME_ALREADY_EXISTS.getInternalErrorCode(), "CUSTOMER NAME ALREADY EXISTS");
 
-		//USER_LOGIN_NAME_ALREADY_EXISTS( 110)
-		mapErrorMessages.put(110, "User already taken");
+		mapErrorMessages.put(ErrorType.USER_LOGIN_NAME_ALREADY_EXISTS.getInternalErrorCode(), "User already taken");
 		
-		//COUPON_NAME_ALREADY_EXISTS		( 200)
-		mapErrorMessages.put(200, "COUPON NAME ALREADY EXISTS");
+		mapErrorMessages.put(ErrorType.COMPANY_NAME_ALREADY_EXISTS.getInternalErrorCode(), "Company name already taken");
+		
+		mapErrorMessages.put(ErrorType.COUPON_NAME_ALREADY_EXISTS.getInternalErrorCode(), "Coupon name already taken");
 
-		//INVALID_EMAIL					( 300)
-		mapErrorMessages.put(300, "Invalid email");
+		mapErrorMessages.put(ErrorType.INVALID_EMAIL.getInternalErrorCode(), "Invalid email");
 
-		//GENERAL_ERROR					( 400)
-		mapErrorMessages.put(400, "Action failed");
+		mapErrorMessages.put(ErrorType.GENERAL_ERROR.getInternalErrorCode(), "Action failed");
 
-		//DAO_CREATE_ERROR				( 500)
-		mapErrorMessages.put(500, "ACTION FAILED");
+		mapErrorMessages.put(ErrorType.DAO_CREATE_ERROR.getInternalErrorCode(), "ACTION FAILED");
 
-		//DAO_GET_ERROR					( 600)
-		mapErrorMessages.put(600, "ACTION FAILED");
+		mapErrorMessages.put(ErrorType.DAO_GET_ERROR.getInternalErrorCode(), "ACTION FAILED");
 
-		//DAO_UPDATE_ERROR				( 700)
-		mapErrorMessages.put(700, "ACTION FAILED");
+		mapErrorMessages.put(ErrorType.DAO_UPDATE_ERROR.getInternalErrorCode(), "ACTION FAILED");
 
-		//DAO_DELETE_ERROR				( 800)
-		mapErrorMessages.put(800, "ACTION FAILED");
+		mapErrorMessages.put(ErrorType.DAO_DELETE_ERROR.getInternalErrorCode(), "ACTION FAILED");
 
-		//LOGIN_ERROR					( 900)
-		mapErrorMessages.put(900, "Login failed");
+		mapErrorMessages.put(ErrorType.LOGIN_ERROR.getInternalErrorCode(), "Login failed");
 
-		//COUPON_OUT_OF_STOCK_ERROR		(1000)
-		mapErrorMessages.put(1000, "Coupon is out of stock");
+		mapErrorMessages.put(ErrorType.COUPON_OUT_OF_STOCK_ERROR.getInternalErrorCode(), "Coupon is out of stock");
 
-		//DUPLICATE_COUPON_FOR_CUSTOMER	(1100)
-		mapErrorMessages.put(1100, "Coupon already exists");
+		mapErrorMessages.put(ErrorType.DUPLICATE_COUPON_FOR_CUSTOMER.getInternalErrorCode(), "Coupon already exists");
 
-		//INVALID_USER_PROFILE_ID		(1200)
-		mapErrorMessages.put(1200, "Invalid user profile");
+		mapErrorMessages.put(ErrorType.INVALID_USER_PROFILE_ID.getInternalErrorCode(), "Invalid user profile");
 
-		//BLO_GET_ERROR					(1300)
-		mapErrorMessages.put(1300, "ACTION FAILED");
+		mapErrorMessages.put(ErrorType.BLO_GET_ERROR.getInternalErrorCode(), "ACTION FAILED");
 
-		//COUPON_IS_NOT_FOR_SALE			(1400)
-		mapErrorMessages.put(1400, "Coupon is not for sale");
-
+		mapErrorMessages.put(ErrorType.COUPON_IS_NOT_FOR_SALE.getInternalErrorCode(), "Coupon is not for sale");
 	}
 	
 	public static ClientErrorMessage 	getInstance()  {

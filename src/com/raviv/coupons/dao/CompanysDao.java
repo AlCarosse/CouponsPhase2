@@ -374,5 +374,53 @@ public class CompanysDao extends InfraDao implements ICompanysDao {
 		company.setCompanyName    	( resultSet.getString    ( "COMPANY_NAME" ) );
 		company.setCompanyEmail   	( resultSet.getString    ( "COMPANY_EMAIL" ) );
 	}
+
+	@Override
+	public boolean 			isDuplicateCompanyNameExists(long companyId, String companyName) throws ApplicationException {
+		Connection 			connection 			= null;
+		PreparedStatement 	preparedStatement 	= null;		
+		ResultSet 			resultSet 			= null;
+
+	// getting the specific entry by the input id
+	// storing it into resultSet
+		try 
+		{
+			// Getting a connection from the connections manager or Transaction manager
+			connection = super.getConnection();
+			
+			String sql = "SELECT * FROM COMPANYS WHERE COMPANY_ID != ? AND COMPANY_NAME = ?";
+			
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setLong  (1, companyId  );
+			preparedStatement.setString(2, companyName);
+			
+			// execute query
+			resultSet = preparedStatement.executeQuery();
+	
+			// Not found ...
+			if ( !resultSet.next() ) { return false; } 
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			throw new ApplicationException(ErrorType.DAO_GET_ERROR, e, "Failed to get company with id : " + companyId + " " + e.getMessage());
+		} 
+		finally 
+		{
+			if ( super.isJdbcTransactionManagerInUse() )
+			{
+				// Transaction manager will close the connection later.
+				super.connectionPoolManager.closeResources(preparedStatement, resultSet);
+			}
+			else
+			{
+				// We do not have transaction manager.
+				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
+			}				
+		}
+		
+		//Duplicate company name found
+		return true;
+	}
 	
 }
