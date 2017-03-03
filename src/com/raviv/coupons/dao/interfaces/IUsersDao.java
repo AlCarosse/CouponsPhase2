@@ -11,6 +11,6 @@ public interface IUsersDao {
 
 	public void 	updateUser	(User	user  ) throws ApplicationException;
 
-	public void 	deleteUser	(int	userId) throws ApplicationException;
+	public void 	deleteUser	(long	userId) throws ApplicationException;
 	
 }

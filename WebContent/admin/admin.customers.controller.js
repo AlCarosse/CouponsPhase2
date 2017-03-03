@@ -20,30 +20,8 @@
 
         vm.setCurrentCustomer = setCurrentCustomer;
         vm.deleteCustomer = deleteCustomer;
-
-        /*
-        vm.currentCompany = null;
-        vm.currentCompanyNew = null;
-        vm.updateCompanyStatus = null;
-
-        vm.currentCustomer = null;
-        vm.currentCustomerNew = null;
-        vm.updateCustomerStatus = null;
-
-        
-        vm.allCompanys = [];
-        vm.allCustomers = [];
-
-        vm.setCurrentCompany = setCurrentCompany;
-        vm.setCurrentCustomer = setCurrentCustomer;
-        
-        vm.deleteCompany = deleteCompany;
-        vm.updateCompany = updateCompany;
-
-        vm.deleteCustomer = deleteCustomer;
         vm.updateCustomer = updateCustomer;
-
-        */
+        
         
         initController();
 
@@ -116,6 +94,27 @@
         	});
         	        	
         };
+        
+        
+        function updateCustomer() 
+        {		
+        	vm.dataLoading = true;
+        	CustomersService.UpdateCustomer(vm.currentCustomerNew,	function (response) 
+            {
+                if (response.data.serviceStatus.success === "true") 
+                {
+                	vm.currentCustomer.customerName = vm.currentCustomerNew.customerName;
+                	vm.updateCustomerStatus = "success";
+                } 
+                else 
+                {
+                	vm.updateCustomerStatus = "fail";
+                	vm.errorMesage = response.data.serviceStatus.errorMessage;                    
+                    vm.dataLoading = false;
+                }
+            });
+            
+        }
         
         
         

@@ -5,8 +5,8 @@
         .module('app')
         .controller('RegisterCompanyController', RegisterCompanyController);
 
-    RegisterCompanyController.$inject = ['CompanysService', '$location', '$rootScope', 'FlashService'];
-    function RegisterCompanyController( CompanysService, $location, $rootScope, FlashService) {
+    RegisterCompanyController.$inject = ['LoginService', 'CompanysService', '$location', '$rootScope', 'FlashService'];
+    function RegisterCompanyController( LoginService, CompanysService, $location, $rootScope, FlashService) {
         var vm = this;
 
         vm.register = register;
@@ -23,7 +23,8 @@
             {
                 if (response.data.serviceStatus.success === "true") 
                 {
-                        $location.path('/login');                	                    
+                        //$location.path('/login');  
+                        login(vm.user.loginName, vm.user.loginPassword);
                 } 
                 else 
                 {
@@ -32,7 +33,34 @@
                 }
             });
         };
-    }
-
-    
-})();
+        
+        
+        function login( loginName, loginPassword ) 
+        {
+            LoginService.Login(loginName, loginPassword, function (response) {
+            	            	
+                if (response.data.userId !== "0" ) 
+                {                	
+                    LoginService.setCurrentUser( response.data );
+                    
+                    if (response.data.userProfileId === "2" )
+                    {
+                        $location.path('/company');
+                    }
+                    else
+                	{
+                        $location.path('/');                	
+                	}
+                } 
+                else 
+                {
+                    FlashService.Error("Login failed");
+                    vm.dataLoading = false;
+                }
+            });
+        };
+        
+        
+        
+    }// RegisterCompanyController
+})(); // function ()

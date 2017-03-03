@@ -5,14 +5,15 @@
         .module('app')
         .controller('RegisterCustomerController', RegisterCustomerController);
 
-    RegisterCustomerController.$inject = [ 'CustomersService', '$location', '$rootScope', 'FlashService'];
-    function RegisterCustomerController( CustomersService, $location, $rootScope, FlashService) {
+    RegisterCustomerController.$inject = [ 'LoginService', 'CustomersService', '$location', '$rootScope', 'FlashService'];
+    function RegisterCustomerController( LoginService, CustomersService, $location, $rootScope, FlashService) {
         var vm = this;
-
+        
         vm.register = register;
 
         
-        function register() {
+        function register() 
+        {
             vm.dataLoading = true;
             CustomersService.CreateCustomer(	vm.user.customerName, // User name in users table.
             									vm.user.loginName, 
@@ -22,7 +23,7 @@
             {
                 if (response.data.serviceStatus.success === "true") 
                 {
-                        $location.path('/login');                	                    
+                		login(vm.user.loginName, vm.user.loginPassword);              	                    
                 } 
                 else 
                 {
@@ -31,7 +32,35 @@
                 }
             });
         };
+        
+        
+        function login( loginName, loginPassword ) 
+        {
+            LoginService.Login(loginName, loginPassword, function (response) {
+            	            	
+                if (response.data.userId !== "0" ) 
+                {                	
+                    LoginService.setCurrentUser( response.data );
+                    
+                    if (response.data.userProfileId === "3" )
+                    {
+                        $location.path('/customer');
+                    }
+                    else
+                	{
+                        $location.path('/');                	
+                	}
+                } 
+                else 
+                {
+                    FlashService.Error("Login failed");
+                    vm.dataLoading = false;
+                }
+            });
+        };
+        
+        
+        
     }
 
-    
 })();

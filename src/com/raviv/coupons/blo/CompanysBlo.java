@@ -124,9 +124,20 @@ public class CompanysBlo  {
 		JdbcTransactionManager jdbcTransactionManager = new JdbcTransactionManager();
 		// Inject transaction manager to DAO via constructor
 		ICompanysDao companysDao	= new CompanysDao( jdbcTransactionManager );
+		IUsersDao    usersDao	    = new UsersDao( jdbcTransactionManager );
 		
 		try
 		{
+			// =====================================================
+			// Delete company related user
+			// =====================================================
+			Company company = companysDao.getCompany(companyId);
+			if (company == null){return;}
+			long userId = company.getUserId();
+			usersDao.deleteUser( userId );
+			PrintUtils.printHeader("CompanysBlo : deleteCompany deleted userId : " + userId );			
+			
+			
 			// =====================================================
 			// Delete company, related coupons and related customer coupons
 			// COUPONS         has FK to COMPANYS using company id, with delete Cascade

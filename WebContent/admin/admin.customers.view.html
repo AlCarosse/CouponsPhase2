@@ -83,7 +83,7 @@ tr:nth-child(even) {
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 				</button>
 				<h4 class="modal-title">
-					<font color="white">Update company</font>
+					<font color="white">Update customer</font>
 				</h4>
 				<br />
 			</div>
@@ -91,47 +91,41 @@ tr:nth-child(even) {
 			<!-- Begin # DIV Form -->
 			<div id="div-forms">
 
-				<!-- Begin # Login Form -->
-				<form id="login-form" ng-submit="vm.updateCompany()">
+				<!-- Begin # Update Form -->
+				<form id="login-form" ng-submit="vm.updateCustomer()">
 					<div class="modal-body">
 
 						<!-- Success alert -->
 						<div class="alert alert-success" role="alert"
-							ng-show="vm.updateCompanyStatus=='success'">
+							ng-show="vm.updateCustomerStatus=='success'">
 							<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
-							Successfully updated company details.
+							Successfully updated customer details.
 						</div>
 
 						<!-- Fail alert -->
 						<div class="alert alert-danger" role="alert"
-							ng-show="vm.updateCompanyStatus=='fail'">
+							ng-show="vm.updateCustomerStatus=='fail'">
 							<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
-							Update company details failed : {{vm.errorMesage}}
+							Update customer details failed : {{vm.errorMesage}}
 						</div>
 
-						<b>Company name : </b>{{vm.currentCompanyNew.companyName}} <br />
-						<b>Company email : </b>{{vm.currentCompanyNew.companyEmail}} <br />
-
-
-
-						<br /> <input id="companyName" class="form-control" type="text"
-							placeholder="Company name" required
-							ng-model="vm.currentCompanyNew.companyName"> <input
-							id="companyEmail" class="form-control" type="text"
-							placeholder="Company email" required
-							ng-model="vm.currentCompanyNew.companyEmail">
-
+						<b>Customer name : </b>{{vm.currentCustomerNew.customerName}} <br />
+						
+						
+						<br> <input id="customerName" class="form-control" type="text"
+							placeholder="Customer name" required
+							ng-model="vm.currentCustomerNew.customerName"> 
 					</div>
 					<div class="modal-footer">
 						<div>
 							<button type="submit"
-								ng-disabled="!vm.currentCompanyNew.companyName || !vm.currentCompanyNew.companyEmail"
+								ng-disabled="!vm.currentCustomerNew.customerName"
 								class="btn btn-primary btn-lg btn-block">Update</button>
 							<!-- onclick="$('.modal').modal('hide')" -->
 						</div>
 					</div>
 				</form>
-				<!-- End # Login Form -->
+				<!-- End # Upadte Form -->
 
 			</div>
 			<!-- End # DIV Form -->
@@ -139,4 +133,4 @@ tr:nth-child(even) {
 		</div>
 	</div>
 </div>
-<!-- END # MODAL LOGIN -->
+<!-- END # MODAL UPDATE -->

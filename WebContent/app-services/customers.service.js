@@ -12,11 +12,23 @@
 
         service.CreateCustomer = CreateCustomer;
         service.DeleteCustomer = DeleteCustomer;
+        service.UpdateCustomer = UpdateCustomer;
         
         service.GetAllCustomers = GetAllCustomers;
         
         return service;
 
+        
+        function UpdateCustomer( customer , callback) 
+        {
+            $http.put('/CouponsPhase2/rest/api/customers/updateCustomer/' , { customerId : customer.customerId, customerName: customer.customerName } 
+            )
+                .then(function (response) {
+                    callback(response);
+                });
+        }
+        
+        
         function DeleteCustomer(i_cusomerId , callback) 
         {
             $http.delete('/CouponsPhase2/rest/api/customers/deleteCustomer/customerId/' + i_cusomerId 

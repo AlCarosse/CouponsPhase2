@@ -209,8 +209,54 @@ public class UsersDao extends InfraDao implements IUsersDao {
 	}
 
 	@Override
-	public void deleteUser(int userId) {
-		// TODO Auto-generated method stub
+	public void deleteUser(long userId) throws ApplicationException {
+		PreparedStatement 	preparedStatement	= null;
+		Connection 			connection 			= null;
+
+		try 
+		{
+			// Getting a connection from the connections manager or Transaction manager
+			connection = super.getConnection();
+
+			// Creating a statement object which holds the SQL we're about to execute
+			String sql;
+			
+			// =====================================================
+			// Delete user 
+			// =====================================================	
+			
+			sql = " DELETE FROM USERS ";
+			sql += "WHERE";
+			sql += "      	USER_ID = ? ";
+			
+			preparedStatement = connection.prepareStatement(sql);
+
+			// Replacing question marks with the beans values.
+			preparedStatement.setLong ( 1 ,	userId );
+
+
+			// executeUpdate is a method used in order to : insert, delete, update (not get)
+			preparedStatement.executeUpdate();	        
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			throw new ApplicationException(ErrorType.DAO_DELETE_ERROR, e, "Failed to delete user due to :" + e.getMessage() );
+		} 
+		finally 
+		{
+			if ( super.isJdbcTransactionManagerInUse() )
+			{
+				// Transaction manager will close the connection later.
+				super.connectionPoolManager.closeResources(preparedStatement);
+			}
+			else
+			{
+				// We do not have transaction manager.
+				super.connectionPoolManager.closeResources(connection, preparedStatement);
+			}
+		}
+
 		
 	}
 

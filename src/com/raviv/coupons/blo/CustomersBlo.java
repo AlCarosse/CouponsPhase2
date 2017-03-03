@@ -2,6 +2,7 @@ package com.raviv.coupons.blo;
 
 import java.util.List;
 
+import com.raviv.coupons.beans.Company;
 import com.raviv.coupons.beans.Customer;
 import com.raviv.coupons.beans.User;
 import com.raviv.coupons.dao.CustomersDao;
@@ -116,9 +117,19 @@ public class CustomersBlo {
 
 		// Inject transaction manager to DAO via constructor
 		ICustomersDao customersDao	= new CustomersDao( jdbcTransactionManager );
+		IUsersDao    usersDao	    = new UsersDao( jdbcTransactionManager );
 		
 		try
 		{
+			// =====================================================
+			// Delete customer related user
+			// =====================================================
+			Customer customer = customersDao.getCustomer(customerId);
+			if (customer == null){return;}
+			long userId = customer.getUserId();
+			usersDao.deleteUser( userId );
+			PrintUtils.printHeader("CustomersBlo : deleteCustomer deleted userId : " + userId );	
+			
 			// =====================================================
 			// Delete customer and related customer coupons
 			// CUSTOMER_COUPON has FK to CUSTOMERS using customer id, with delete Cascade
@@ -129,7 +140,7 @@ public class CustomersBlo {
 			// Commit transaction
 			// =====================================================
 			jdbcTransactionManager.commit();
-			PrintUtils.printHeader("deleteCustomer deleted customerId : " + customerId );
+			PrintUtils.printHeader("CustomersBlo : deleteCustomer deleted customerId : " + customerId );
 			
 		}
 		catch (ApplicationException e)
