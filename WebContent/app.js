@@ -27,7 +27,7 @@
         })
 
        .when('/admin.customers', {
-            controller: 'AdminController',
+            controller: 'AdminCustomersController',
             templateUrl: 'admin/admin.customers.view.html',
             controllerAs: 'vm'
         })

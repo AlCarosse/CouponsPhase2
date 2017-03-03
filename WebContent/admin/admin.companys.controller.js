@@ -22,11 +22,6 @@
         vm.deleteCompany = deleteCompany;
         vm.updateCompany = updateCompany;
 
-        /*
-         vm.allUsers = [];
-    	vm.companyName = null;
-    	vm.companyEmail = null;
-         */
         
         initController();
 
@@ -36,9 +31,8 @@
             getAllCompanys();
         }
 
-        function updateCompany() {
-        	
-        	
+        function updateCompany() 
+        {		
         	vm.dataLoading = true;
             CompanysService.UpdateCompany(vm.currentCompanyNew,	function (response) 
             {
@@ -46,16 +40,12 @@
                 {
                 	vm.currentCompany.companyName = vm.currentCompanyNew.companyName;
                 	vm.currentCompany.companyEmail = vm.currentCompanyNew.companyEmail;
-                	//bootbox.alert("Successfully updated company details");
                 	vm.updateCompanyStatus = "success";
                 } 
                 else 
                 {
-                    //FlashService.Error(response.data.serviceStatus.errorMessage);
                 	vm.updateCompanyStatus = "fail";
-                	vm.errorMesage = response.data.serviceStatus.errorMessage;
-                    //bootbox.alert("Update company details failed : " + response.data.serviceStatus.errorMessage );
-                    
+                	vm.errorMesage = response.data.serviceStatus.errorMessage;                    
                     vm.dataLoading = false;
                 }
             });
@@ -92,12 +82,12 @@
         };
 
 
-        function deleteCompany(companyId, companName) 
+        function deleteCompany(companyId, companyName) 
         {
         	
         	bootbox.confirm
         	({
-        		message: "Remove "+companName+"?",
+        		message: "Remove "+companyName+"?",
         	    buttons: { confirm: { label: 'Yes', className: 'btn-success'}, cancel:  { label: 'No',  className: 'btn-danger' }
         	    },
         	    callback: function (result) 
@@ -112,10 +102,11 @@
                     {
                         if (response.data.serviceStatus.success === "true") 
                         {
+                        	bootbox.alert("Successfully removed "+companyName);
                         	getAllCompanys();                } 
                         else 
                         {
-                            FlashService.Error(response.data.serviceStatus.errorMessage);
+                        	bootbox.alert("Action failed : "+response.data.serviceStatus.errorMessage);
                             vm.dataLoading = false;
                         }
                     });        	    }

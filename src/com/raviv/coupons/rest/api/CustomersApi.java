@@ -19,125 +19,180 @@ import com.raviv.coupons.beans.User;
 import com.raviv.coupons.blo.CustomersBlo;
 import com.raviv.coupons.blo.UsersBlo;
 import com.raviv.coupons.exceptions.ApplicationException;
+import com.raviv.coupons.exceptions.ExceptionHandler;
 import com.raviv.coupons.rest.api.inputs.CreateCustomerInput;
+import com.raviv.coupons.rest.api.outputs.GetAllCustomersOutput;
+import com.raviv.coupons.rest.api.outputs.GetCustomerOutput;
+import com.raviv.coupons.rest.api.outputs.ServiceOutput;
 import com.raviv.coupons.utils.LoginSession;
 
 @Path("api/customers")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class CustomersApi {
 
 	@POST
 	@Path("/createCustomer")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void createCustomer(@Context HttpServletRequest request, CreateCustomerInput createCustomerInput) throws ApplicationException
+	public ServiceOutput createCustomer(@Context HttpServletRequest request, CreateCustomerInput createCustomerInput) throws ApplicationException
 	{
-		System.out.println(createCustomerInput);
-	
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-			
-		UsersBlo usersBlo = new UsersBlo();
-		CustomersBlo customersBlo = new CustomersBlo();
-		
-		/**
-		 *  Get the logged user
-		 */		
-		User loggedUser = usersBlo.getUserById( loginUserId);
+		ServiceOutput serviceOutput = new ServiceOutput();		
+		try 
+		{
+			System.out.println(createCustomerInput);
+
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+
+			UsersBlo usersBlo = new UsersBlo();
+			CustomersBlo customersBlo = new CustomersBlo();
+
+			/**
+			 *  Get the logged user
+			 */		
+			User loggedUser = usersBlo.getUserById( loginUserId);
 
 
-		/**
-		 *  Create new customer
-		 */		
+			/**
+			 *  Create new customer
+			 */		
 
-		User 	newUser	= new User		( 	createCustomerInput.getUserName()  
-											,createCustomerInput.getLoginName() 
-											,createCustomerInput.getLoginPassword() );
-		
-		Customer	customer	= new Customer	( createCustomerInput.getCustomerName()	);
-						
-		customersBlo.createCustomer ( loggedUser, newUser, customer );
+			User 	newUser	= new User		( 	createCustomerInput.getUserName()  
+					,createCustomerInput.getLoginName() 
+					,createCustomerInput.getLoginPassword() );
 
+			Customer	customer	= new Customer	( createCustomerInput.getCustomerName()	);
+
+			customersBlo.createCustomer ( loggedUser, newUser, customer );
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}
+		return serviceOutput;
 	}
-	
+
 	@DELETE
 	@Path("/deleteCustomer/customerId/{customerId}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void deleteCustomer(@Context HttpServletRequest request, @PathParam("customerId") long customerId ) throws ApplicationException
+	public ServiceOutput deleteCustomer(@Context HttpServletRequest request, @PathParam("customerId") long customerId ) throws ApplicationException
 	{
-		System.out.println("customerId : " + customerId);
-			
-		UsersBlo usersBlo = new UsersBlo();
-		CustomersBlo customersBlo = new CustomersBlo();
-		
-		/**
-		 *  Get the logged user
-		 */
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-		User loggedUser = usersBlo.getUserById( loginUserId);
-		
-		/**
-		 *  Delete customer
-		 */		
-		customersBlo.deleteCustomer( loggedUser,  customerId );
+		ServiceOutput serviceOutput = new ServiceOutput();		
+		try 
+		{
+			System.out.println("customerId : " + customerId);
+
+			UsersBlo usersBlo = new UsersBlo();
+			CustomersBlo customersBlo = new CustomersBlo();
+
+			/**
+			 *  Get the logged user
+			 */
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+			User loggedUser = usersBlo.getUserById( loginUserId);
+
+			/**
+			 *  Delete customer
+			 */		
+			customersBlo.deleteCustomer( loggedUser,  customerId );
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}
+		return serviceOutput;
 	}
 
 	@PUT
 	@Path("/updateCustomer")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateCompany( @Context HttpServletRequest request, Customer customer ) throws ApplicationException
+	public ServiceOutput updateCustomer( @Context HttpServletRequest request, Customer customer ) throws ApplicationException
 	{
-		System.out.println(customer);
-		
-		/**
-		 *  Get the logged user
-		 */
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-		UsersBlo usersBlo = new UsersBlo();
-		User loggedUser = usersBlo.getUserById( loginUserId);
-		
-		/**
-		 *  Update customer
-		 */
-		CustomersBlo customersBlo = new CustomersBlo();
-		customersBlo.updateCustomer( loggedUser , customer );
+		ServiceOutput serviceOutput = new ServiceOutput();		
+		try 
+		{
+			System.out.println(customer);
+
+			/**
+			 *  Get the logged user
+			 */
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+			UsersBlo usersBlo = new UsersBlo();
+			User loggedUser = usersBlo.getUserById( loginUserId);
+
+			/**
+			 *  Update customer
+			 */
+			CustomersBlo customersBlo = new CustomersBlo();
+			customersBlo.updateCustomer( loggedUser , customer );
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}
+		return serviceOutput;
 	}
 
 	@GET
 	@Path("/getAllCustomers")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Customer> getAllCompanys( @Context HttpServletRequest request ) throws ApplicationException
+	public GetAllCustomersOutput getAllCustomers( @Context HttpServletRequest request ) throws ApplicationException
 	{		
-		/**
-		 *  Get the logged user
-		 */
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-		UsersBlo usersBlo = new UsersBlo();
-		User loggedUser = usersBlo.getUserById( loginUserId);
+		GetAllCustomersOutput serviceOutput = new GetAllCustomersOutput();
+		try 
+		{
+			/**
+			 *  Get the logged user
+			 */
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+			UsersBlo usersBlo = new UsersBlo();
+			User loggedUser = usersBlo.getUserById( loginUserId);
 
-		/**
-		 *  Get all companies
-		 */
-		CustomersBlo customersBl = new CustomersBlo();
-		return customersBl.getAllCustomers(loggedUser);
+			/**
+			 *  Get all customers
+			 */
+			CustomersBlo customersBl = new CustomersBlo();
+			List<Customer> customers = customersBl.getAllCustomers(loggedUser);
+			serviceOutput.setCustomers(customers);
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}		
+		return serviceOutput;
 	}
 
 	@GET
 	@Path("/getCustomer/customerId/{customerId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Customer getCustomer( @Context HttpServletRequest request, @PathParam("customerId") long customerId ) throws ApplicationException
+	public GetCustomerOutput getCustomer( @Context HttpServletRequest request, @PathParam("customerId") long customerId ) throws ApplicationException
 	{
-		/**
-		 *  Get the logged user
-		 */
-		Integer loginUserId = LoginSession.getLoginUserId(request);
-		UsersBlo usersBlo = new UsersBlo();
-		User loggedUser = usersBlo.getUserById( loginUserId);
+		GetCustomerOutput serviceOutput = new GetCustomerOutput();		
+		try 
+		{
+			/**
+			 *  Get the logged user
+			 */
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+			UsersBlo usersBlo = new UsersBlo();
+			User loggedUser = usersBlo.getUserById( loginUserId);
 
-		/**
-		 *  Get customer
-		 */
-		
-		CustomersBlo customersBlo = new CustomersBlo();
-		
-		return customersBlo.getCustomer( loggedUser , customerId );
+			/**
+			 *  Get customer
+			 */
+			CustomersBlo customersBlo = new CustomersBlo();
+			Customer customer = customersBlo.getCustomer( loggedUser , customerId );
+			serviceOutput.setCustomer(customer);
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}		
+		return serviceOutput;
 	}
 
 }

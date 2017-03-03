@@ -1,10 +1,142 @@
 <div ng-include="'admin/navbar.html'"></div>
 
+<style>
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #dddddd;
+}
+</style>
+
 <h3>Registered customers:</h3>
-<ul>
-    <li ng-repeat="user in vm.allUsers">
-        {{user.username}} ({{user.firstName}} {{user.lastName}})
-        - <a ng-click="vm.deleteUser(user.id)">Delete</a>
-    </li>
-</ul>
-<p>&nbsp;</p>
+
+
+<table>
+
+	<tr>
+		<th>Customer</th>
+		<th>Remove</th>
+		<th>Edit</th>
+	</tr>
+
+	<tr ng-repeat="customer in vm.allCustomers">
+
+		<td ng-if="$odd" style="background-color: white">{{
+			customer.customerName }}</td>
+		<td ng-if="$even">{{ customer.customerName }}</td>
+
+
+		<td ng-if="$odd" style="background-color: white">
+			<button
+				ng-click="vm.deleteCustomer(customer.customerId,customer.customerName)"
+				type="button" class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-trash"></span> Remove
+			</button>
+		</td>
+		<td ng-if="$even">
+			<button
+				ng-click="vm.deleteCustomer(customer.customerId,customer.customerName)"
+				type="button" class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-trash"></span> Remove
+			</button>
+		</td>
+
+		<td ng-if="$odd" style="background-color: white">
+			<button ng-click="vm.setCurrentCustomer(customer)" href="#"
+				data-toggle="modal" data-target="#Update-modal">
+				<span class="glyphicon glyphicon-edit"></span> Edit
+			</button>
+		</td>
+		<td ng-if="$even">
+			<button ng-click="vm.setCurrentCustomer(customer)" href="#"
+				data-toggle="modal" data-target="#Update-modal">
+				<span class="glyphicon glyphicon-edit"></span> Edit
+			</button>
+		</td>
+
+	</tr>
+</table>
+
+
+
+<!-- BEGIN # MODAL UPDATE -->
+<div class="modal fade" id="Update-modal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true"
+	style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<div class="modal-header modal-header-info" align="center"
+				style="background-color: #0480be">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
+				<h4 class="modal-title">
+					<font color="white">Update company</font>
+				</h4>
+				<br />
+			</div>
+
+			<!-- Begin # DIV Form -->
+			<div id="div-forms">
+
+				<!-- Begin # Login Form -->
+				<form id="login-form" ng-submit="vm.updateCompany()">
+					<div class="modal-body">
+
+						<!-- Success alert -->
+						<div class="alert alert-success" role="alert"
+							ng-show="vm.updateCompanyStatus=='success'">
+							<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
+							Successfully updated company details.
+						</div>
+
+						<!-- Fail alert -->
+						<div class="alert alert-danger" role="alert"
+							ng-show="vm.updateCompanyStatus=='fail'">
+							<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
+							Update company details failed : {{vm.errorMesage}}
+						</div>
+
+						<b>Company name : </b>{{vm.currentCompanyNew.companyName}} <br />
+						<b>Company email : </b>{{vm.currentCompanyNew.companyEmail}} <br />
+
+
+
+						<br /> <input id="companyName" class="form-control" type="text"
+							placeholder="Company name" required
+							ng-model="vm.currentCompanyNew.companyName"> <input
+							id="companyEmail" class="form-control" type="text"
+							placeholder="Company email" required
+							ng-model="vm.currentCompanyNew.companyEmail">
+
+					</div>
+					<div class="modal-footer">
+						<div>
+							<button type="submit"
+								ng-disabled="!vm.currentCompanyNew.companyName || !vm.currentCompanyNew.companyEmail"
+								class="btn btn-primary btn-lg btn-block">Update</button>
+							<!-- onclick="$('.modal').modal('hide')" -->
+						</div>
+					</div>
+				</form>
+				<!-- End # Login Form -->
+
+			</div>
+			<!-- End # DIV Form -->
+
+		</div>
+	</div>
+</div>
+<!-- END # MODAL LOGIN -->
