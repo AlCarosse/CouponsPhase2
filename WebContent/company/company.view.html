@@ -1,10 +1,7 @@
 <div ng-include="'company/navbar.html'"></div>
 
-<h3>Company coupons:</h3>
-<ul>
-    <li ng-repeat="user in vm.allUsers">
-        {{user.username}} ({{user.firstName}} {{user.lastName}})
-        - <a ng-click="vm.deleteUser(user.id)">Delete</a>
-    </li>
-</ul>
-<p>&nbsp;</p>
+<br>
+
+<div class="alert alert-success" role="alert">
+  <strong>Welcome {{vm.user.userName}}!</strong>
+</div>
