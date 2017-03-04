@@ -39,11 +39,11 @@
                     }
                     else if (response.data.userProfileId === "2" )
                     {
-                        $location.path('/company');
+                        $location.path('/company.home');
                     }
                     else if (response.data.userProfileId === "3" )
                     {
-                        $location.path('/customer');
+                        $location.path('/customer.home');
                     }
                     else
                 	{

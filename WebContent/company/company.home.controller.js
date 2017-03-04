@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .controller('CompanyController', CompanyController);
+        .controller('CompanyHomeController', CompanyHomeController);
 
-    CompanyController.$inject = ['UsersService', '$rootScope', 'LoginService'];
+    CompanyHomeController.$inject = ['UsersService', '$rootScope', 'LoginService'];
     
-    function CompanyController(UsersService, $rootScope, LoginService) {
+    function CompanyHomeController(UsersService, $rootScope, LoginService) {
         var vm = this;
         
         vm.user = null;
