@@ -4,7 +4,7 @@ public enum CouponType {
 	
 	
 	HOLIDAY(1),
-	RESUTRANT(2),
+	RESTAURANT(2),
 	ENTERTAINMENT(3),
 	TRAVELLING(4);
 	

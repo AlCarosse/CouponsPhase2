@@ -1,13 +1,18 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
+
 <head>
     <meta charset="utf-8" />
-    <title>AngularJS User Registration and Login Example</title>
+    <title>Coupons</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
     <link href="css/app.css" rel="stylesheet2" />
 </head>
+
+
+
 <body>
-    <div class="jumbotron">
+    <div class="jumbotron" style="background-color: white">
         <div class="container">
             
                 <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
@@ -15,6 +20,8 @@
             
         </div>
     </div>
+    
+    
     <div class="credits text-center">
         <p>
             <a href="http://jasonwatmore.com/post/2015/03/10/angularjs-user-registration-and-login-example-tutorial">AngularJS User Registration and Login Example</a>
@@ -25,7 +32,6 @@
         <p>
             <a href="https://www.linkedin.com/in/raviv-shweid-ab346733">Raviv Shweid</a>
         </p>
-
     </div>
 
     <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>

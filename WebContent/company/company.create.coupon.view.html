@@ -1,0 +1,97 @@
+<div ng-include="'company/navbar.html'"></div>
+
+	<br>
+	<div class="alert alert-info" role="alert">
+		<strong>Create coupon</strong>
+	</div>
+	<br>
+
+	<!-- Success alert -->
+	<div class="alert alert-success" role="alert"
+		ng-show="vm.updateCompanyStatus=='success'">
+		<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
+		Successfully created new coupon
+	</div>
+
+	<!-- Fail alert -->
+	<div class="alert alert-danger" role="alert"
+		ng-show="vm.updateCompanyStatus=='fail'">
+		<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
+		Create coupon failed : {{vm.errorMesage}}
+	</div>
+
+
+
+	<!-- Create coupon form -->
+	<div class="col-md-6 col-md-offset-3">
+
+		<form name="form" ng-submit="vm.createCoupon()" role="form">
+
+			<!-- Input : Coupon title -->
+			<div class="form-group"
+				ng-class="{ 'has-error': form.couponTitle.$dirty && form.couponTitle.$error.required }">
+				<label for="couponTitle">Coupon title</label> <input type="text"
+					name="couponTitle" id="couponTitle" class="form-control"
+					ng-model="vm.coupon.couponTitle" required /> <span
+					ng-show="form.couponTitle.$dirty && form.couponTitle.$error.required"
+					class="help-block">Coupon title is required</span>
+			</div>
+
+			<!-- Input  Coupon start date-->
+			<div class="form-group"
+				ng-class="{ 'has-error': form.couponStartDate.$dirty && form.couponStartDate.$error.required }">
+				<label for="couponStartDate">Coupon start date</label> <input type="date"
+					name="couponStartDate" id="couponStartDate" class="form-control"
+					ng-model="vm.coupon.couponStartDate" required /> <span
+					ng-show="form.couponStartDate.$dirty && form.couponStartDate.$error.required"
+					class="help-block">Coupon start date is required</span>
+			</div>
+
+			<!-- Input  Coupon end date-->
+			<div class="form-group"
+				ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+				<label for="password">Coupon end date</label> <input type="date"
+					name="password" id="password" class="form-control"
+					ng-model="vm.coupon.couponEndDate" required /> <span
+					ng-show="form.password.$dirty && form.password.$error.required"
+					class="help-block">Coupon end date is required</span>
+			</div>
+
+			<!-- Input : Coupons in stock -->
+			<div class="form-group"
+				ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+				<label for="username">Coupons in stock</label> <input type="number"
+					name="username" id="username" class="form-control"
+					ng-model="vm.coupon.couponsInStock" required /> <span
+					ng-show="form.username.$dirty && form.username.$error.required"
+					class="help-block">Coupons in stock is required</span>
+			</div>
+
+
+			<!-- Input : Coupon type -->
+			<div class="form-group"
+				ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+				<label for="username">Coupon type</label> <input type="number"
+					name="username" id="username" class="form-control"
+					ng-model="vm.coupon.couponTypeId" required /> <span
+					ng-show="form.username.$dirty && form.username.$error.required"
+					class="help-block">Coupon type is required</span> 
+					<select name="couponTypeId" ng-model="vm.coupon.couponTypeId">
+					<option value="1">HOLIDAY</option>
+					<option value="2">RESTAURANT</option>
+					<option value="3">ENTERTAINMENT</option>
+					<option value="4">TRAVELLING</option>
+				</select>
+
+
+			</div>
+
+
+			<!-- Submit button : Create coupon-->
+			<div class="form-actions">
+				<button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
+					class="btn btn-primary">Create coupon</button>
+			</div>
+
+		</form>
+	</div>
