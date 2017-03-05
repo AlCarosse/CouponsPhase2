@@ -15,7 +15,7 @@
    		   	  	,"couponStartDate": null
    		   	  	,"couponEndDate"  : null //(new Date).add(1,'years')
    		   	    ,"couponsInStock": 100
-   		   	  	,"couponTypeId"  : 0
+   		   	  	,"couponTypeId"  : null
    		   	  	,"couponMessage": ""  
    		   	  	,"couponPrice"  : 10
    		   	  	,"imageFileName": "Browse..."	  
