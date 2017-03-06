@@ -1,7 +1,6 @@
 package com.raviv.coupons.rest.api.outputs;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import com.raviv.coupons.beans.Company;
 import com.raviv.coupons.beans.Customer;
 
 /**

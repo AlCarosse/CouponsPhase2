@@ -23,7 +23,7 @@
         
         vm.user = null;
         vm.createCoupon = createCoupon;
-
+        
         initController();
 
         function initController() {        	
@@ -49,10 +49,14 @@
         
         function createCoupon() {
         	
-        	vm.coupon;
+
+        	vm.selectedFile = document.getElementById('imageFileName').files[0];
 
         	vm.coupon;
 
+        	vm.coupon;
+
+        	
         }
 
         

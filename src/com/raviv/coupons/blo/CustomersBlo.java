@@ -2,7 +2,6 @@ package com.raviv.coupons.blo;
 
 import java.util.List;
 
-import com.raviv.coupons.beans.Company;
 import com.raviv.coupons.beans.Customer;
 import com.raviv.coupons.beans.User;
 import com.raviv.coupons.dao.CustomersDao;

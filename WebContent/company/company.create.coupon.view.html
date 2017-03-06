@@ -1,103 +1,315 @@
 <div ng-include="'company/navbar.html'"></div>
 
-	<br>
-	<div class="alert alert-info" role="alert">
-		<strong>Create coupon</strong>
-	</div>
-	<br>
+<br>
+<div class="alert alert-info" role="alert">
+	<strong>Create coupon</strong>
+</div>
+<br>
 
-	<!-- Success alert -->
-	<div class="alert alert-success" role="alert"
-		ng-show="vm.updateCompanyStatus=='success'">
-		<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
-		Successfully created new coupon
-	</div>
+<!-- Success alert -->
+<div class="alert alert-success" role="alert"
+	ng-show="vm.updateCompanyStatus=='success'">
+	<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
+	Successfully created new coupon
+</div>
 
-	<!-- Fail alert -->
-	<div class="alert alert-danger" role="alert"
-		ng-show="vm.updateCompanyStatus=='fail'">
-		<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
-		Create coupon failed : {{vm.errorMesage}}
-	</div>
-
-
-
-	<!-- Create coupon form -->
-	<div class="col-md-6 col-md-offset-3">
-
-		<form name="form" ng-submit="vm.createCoupon()" role="form">
-
-			<!-- Input : Coupon title -->
-			<div class="form-group"
-				ng-class="{ 'has-error': form.couponTitle.$dirty && form.couponTitle.$error.required }">
-				<label for="couponTitle">Coupon title</label> <input type="text"
-					name="couponTitle" id="couponTitle" class="form-control"
-					ng-model="vm.coupon.couponTitle" required /> <span
-					ng-show="form.couponTitle.$dirty && form.couponTitle.$error.required"
-					class="help-block">Coupon title is required</span>
-			</div>
-
-			<!-- Input  Coupon start date-->
-			<div class="form-group"
-				ng-class="{ 'has-error': form.couponStartDate.$dirty && form.couponStartDate.$error.required }">
-				<label for="couponStartDate">Coupon start date</label> <input type="date"
-					name="couponStartDate" id="couponStartDate" class="form-control"
-					ng-model="vm.coupon.couponStartDate" required /> <span
-					ng-show="form.couponStartDate.$dirty && form.couponStartDate.$error.required"
-					class="help-block">Coupon start date is required</span>
-			</div>
-
-			<!-- Input  Coupon end date-->
-			<div class="form-group"
-				ng-class="{ 'has-error': form.couponEndDate.$dirty && form.couponEndDate.$error.required }">
-				<label for="couponEndDate">Coupon end date</label> <input type="date"
-					name="couponEndDate" id="couponEndDate" class="form-control"
-					ng-model="vm.coupon.couponEndDate" required /> <span
-					ng-show="form.couponEndDate.$dirty && form.couponEndDate.$error.required"
-					class="help-block">Coupon end date is required</span>
-			</div>
-
-			<!-- Input : Coupons in stock -->
-			<div class="form-group"
-				ng-class="{ 'has-error': form.couponsInStock.$dirty && form.couponsInStock.$error.required }">
-				<label for="couponsInStock">Coupons in stock</label> <input type="number"
-					name="couponsInStock" id="couponsInStock" class="form-control"
-					ng-model="vm.coupon.couponsInStock" required /> <span
-					ng-show="form.couponsInStock.$dirty && form.couponsInStock.$error.required"
-					class="help-block">Coupons in stock is required</span>
-			</div>
+<!-- Fail alert -->
+<div class="alert alert-danger" role="alert"
+	ng-show="vm.updateCompanyStatus=='fail'">
+	<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
+	Create coupon failed : {{vm.errorMesage}}
+</div>
 
 
-			<!-- Input : Coupon type -->
-			<div class="form-group"
-				ng-class="{ 'has-error': form.couponTypeId.$dirty && (form.couponTypeId.$error.required || !vm.coupon.couponTypeId) }">
-				<label for="couponTypeId">Coupon type</label> 
 
-				<span ng-show="( form.couponTypeId.$dirty && (form.couponTypeId.$error.required ) || !vm.coupon.couponTypeId)" class="help-block">Coupon type is required</span> 
-				
-				<!--  input type="number"
+<!-- Create coupon form -->
+<div class="col-md-6 col-md-offset-3">
+
+	<form name="form" ng-submit="vm.createCoupon()" role="form">
+
+		<!-- Input : Coupon title -->
+		<div class="form-group"
+			ng-class="{ 'has-error': form.couponTitle.$dirty && form.couponTitle.$error.required }">
+			<label for="couponTitle">Coupon title</label> <input type="text"
+				name="couponTitle" id="couponTitle" class="form-control"
+				ng-model="vm.coupon.couponTitle" required /> <span
+				ng-show="form.couponTitle.$dirty && form.couponTitle.$error.required"
+				class="help-block">Coupon title is required</span>
+		</div>
+
+		<!-- Input  Coupon start date-->
+		<div class="form-group"
+			ng-class="{ 'has-error': form.couponStartDate.$dirty && form.couponStartDate.$error.required }">
+			<label for="couponStartDate">Coupon start date</label> <input
+				type="date" name="couponStartDate" id="couponStartDate"
+				class="form-control" ng-model="vm.coupon.couponStartDate" required />
+			<span
+				ng-show="form.couponStartDate.$dirty && form.couponStartDate.$error.required"
+				class="help-block">Coupon start date is required</span>
+		</div>
+
+		<!-- Input  Coupon end date-->
+		<div class="form-group"
+			ng-class="{ 'has-error': form.couponEndDate.$dirty && form.couponEndDate.$error.required }">
+			<label for="couponEndDate">Coupon end date</label> <input type="date"
+				name="couponEndDate" id="couponEndDate" class="form-control"
+				ng-model="vm.coupon.couponEndDate" required /> <span
+				ng-show="form.couponEndDate.$dirty && form.couponEndDate.$error.required"
+				class="help-block">Coupon end date is required</span>
+		</div>
+
+		<!-- Input : Coupons in stock -->
+		<div class="form-group"
+			ng-class="{ 'has-error': form.couponsInStock.$dirty && form.couponsInStock.$error.required }">
+			<label for="couponsInStock">Coupons in stock</label> <input
+				type="number" name="couponsInStock" id="couponsInStock"
+				class="form-control" ng-model="vm.coupon.couponsInStock" required />
+			<span
+				ng-show="form.couponsInStock.$dirty && form.couponsInStock.$error.required"
+				class="help-block">Coupons in stock is required</span>
+		</div>
+
+		<!-- Input : Coupon type -->
+		<div class="form-group"
+			ng-class="{ 'has-error': form.couponTypeId.$dirty && form.couponTypeId.$error.required }">
+			<label for="couponTypeId">Coupon type</label> <span
+				ng-show="( form.couponTypeId.$dirty && (form.couponTypeId.$error.required ) || !vm.coupon.couponTypeId)"
+				class="help-block">Coupon type is required</span>
+
+			<!--  input type="number"
 					name="couponTypeId" id="couponTypeId" class="form-control"
-					ng-model="vm.coupon.couponTypeId" required / --> 
-					
-					
-					<select type="number" name="couponTypeId" class="form-control" ng-model="vm.coupon.couponTypeId" required >			
-						<option value="1">HOLIDAY</option>
-						<option value="2">RESTAURANT</option>
-						<option value="3">ENTERTAINMENT</option>
-						<option value="4">TRAVELLING</option>
-					</select>
+					ng-model="vm.coupon.couponTypeId" required / -->
+			<select type="number" name="couponTypeId" class="form-control"
+				ng-model="vm.coupon.couponTypeId" required>
+				<option value="1">HOLIDAY</option>
+				<option value="2">RESTAURANT</option>
+				<option value="3">ENTERTAINMENT</option>
+				<option value="4">TRAVELLING</option>
+			</select>
+		</div>
+
+		<!-- Input  Coupon message-->
+		<div class="form-group"
+			ng-class="{ 'has-error': form.couponMessage.$dirty && form.couponMessage.$error.required }">
+			<label for="couponMessage">Coupon message</label> <input type="text"
+				name="couponMessage" id="couponMessage" class="form-control"
+				ng-model="vm.coupon.couponMessage" required /> <span
+				ng-show="form.couponMessage.$dirty && form.couponMessage.$error.required"
+				class="help-block">Coupon message is required</span>
+		</div>
+
+		<!-- Input  Coupon price-->
+		<div class="form-group"
+			ng-class="{ 'has-error': form.couponPrice.$dirty && form.couponPrice.$error.required }">
+			<label for="couponPrice">Coupon price</label> <input type="number"
+				name="couponPrice" id="couponPrice" class="form-control"
+				ng-model="vm.coupon.couponPrice" required /> <span
+				ng-show="form.couponPrice.$dirty && form.couponPrice.$error.required"
+				class="help-block">Coupon price is required</span>
+		</div>
+
+		<!-- Input  Image file name-->
+		<div class="form-group"
+			ng-class="{ 'has-error': form.imageFileName.$dirty && form.imageFileName.$error.required }">
+			<label for="imageFileName">Image file</label> <input type="file"
+				name="imageFileName" id="imageFileName" class="form-control"
+				ng-simple-upload web-api-url="/api/Upload"
+				ng-model="vm.coupon.imageFileName" required /> <span
+				ng-show="form.imageFileName.$dirty && form.imageFileName.$error.required"
+				class="help-block">Image file is required</span>
+		</div>
 
 
 
+		<!-- Submit button : Create coupon-->
+		<div class="form-actions">
+			<button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
+				class="btn btn-primary">Create coupon</button>
+		</div>
 
-			</div>
+	</form>
+</div>
 
+<div class="col-md-6 col-md-offset-3">
+	<form action="/CouponsPhase2/UploadServlet" method="post" enctype="multipart/form-data">
+ 
+	   <p>
+		Select a file : <input type="file" name="file" size="45" />
+	   </p>
+ 
+	   <input type="submit" value="Upload It" />
+	</form>
+</div>
 
-			<!-- Submit button : Create coupon-->
-			<div class="form-actions">
-				<button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
-					class="btn btn-primary">Create coupon</button>
-			</div>
+<!-- style>
+.upload_form_cont {
+background: -moz-linear-gradient(#ffffff, #f2f2f2);
+background: -ms-linear-gradient(#ffffff, #f2f2f2);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f2f2f2));
+background: -webkit-linear-gradient(#ffffff, #f2f2f2);
+background: -o-linear-gradient(#ffffff, #f2f2f2);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2');
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2')";
+background: linear-gradient(#ffffff, #f2f2f2);
+color:#000;
+overflow:hidden;
+}
+#upload_form {
+float:left;
+padding:20px;
+width:700px;
+}
+#preview {
+background-color:#fff;
+display:block;
+float:right;
+width:200px;
+}
+#upload_form > div {
+margin-bottom:10px;
+}
+#speed,#remaining {
+float:left;
+width:100px;
+}
+#b_transfered {
+float:right;
+text-align:right;
+}
+.clear_both {
+clear:both;
+}
+input {
+border-radius:10px;
+-moz-border-radius:10px;
+-ms-border-radius:10px;
+-o-border-radius:10px;
+-webkit-border-radius:10px;
+border:1px solid #ccc;
+font-size:14pt;
+padding:5px 10px;
+}
+input[type=button] {
+background: -moz-linear-gradient(#ffffff, #dfdfdf);
+background: -ms-linear-gradient(#ffffff, #dfdfdf);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #dfdfdf));
+background: -webkit-linear-gradient(#ffffff, #dfdfdf);
+background: -o-linear-gradient(#ffffff, #dfdfdf);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dfdfdf');
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dfdfdf')";
+background: linear-gradient(#ffffff, #dfdfdf);
+}
+#image_file {
+width:400px;
+}
+#progress_info {
+font-size:10pt;
+}
+#fileinfo,#error,#error2,#abort,#warnsize {
+color:#aaa;
+display:none;
+font-size:10pt;
+font-style:italic;
+margin-top:10px;
+}
+#progress {
+border:1px solid #ccc;
+display:none;
+float:left;
+height:14px;
+border-radius:10px;
+-moz-border-radius:10px;
+-ms-border-radius:10px;
+-o-border-radius:10px;
+-webkit-border-radius:10px;
+background: -moz-linear-gradient(#66cc00, #4b9500);
+background: -ms-linear-gradient(#66cc00, #4b9500);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #66cc00), color-stop(100%, #4b9500));
+background: -webkit-linear-gradient(#66cc00, #4b9500);
+background: -o-linear-gradient(#66cc00, #4b9500);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66cc00', endColorstr='#4b9500');
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#66cc00', endColorstr='#4b9500')";
+background: linear-gradient(#66cc00, #4b9500);
+}
+#progress_percent {
+float:right;
+}
+#upload_response {
+margin-top: 10px;
+padding: 20px;
+overflow: hidden;
+display: none;
+border: 1px solid #ccc;
+border-radius:10px;
+-moz-border-radius:10px;
+-ms-border-radius:10px;
+-o-border-radius:10px;
+-webkit-border-radius:10px;
+box-shadow: 0 0 5px #ccc;
+background: -moz-linear-gradient(#bbb, #eee);
+background: -ms-linear-gradient(#bbb, #eee);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #bbb), color-stop(100%, #eee));
+background: -webkit-linear-gradient(#bbb, #eee);
+background: -o-linear-gradient(#bbb, #eee);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bbb', endColorstr='#eee');
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#bbb', endColorstr='#eee')";
+background: linear-gradient(#bbb, #eee);
+}
 
-		</form>
+</style -->
+
+<!-- div>
+	<header>
+		<h2>Pure HTML5 file upload</h2>
+		<a href="https://www.script-tutorials.com/pure-html5-file-upload/"
+			class="stuts">Back to original tutorial on <span>Script
+				Tutorials</span></a>
+	</header>
+	<div class="container">
+		<div class="contr">
+			<h2>You can select the file (image) and click Upload button</h2>
+		</div>
+		<div class="upload_form_cont">
+			<form id="upload_form" enctype="multipart/form-data" method="post"
+				action="upload.php">
+				<div>
+					<div>
+						<label for="image_file">Please select image file</label>
+					</div>
+					<div>
+						<input type="file" name="image_file" id="image_file"
+							onchange="fileSelected();" />
+					</div>
+				</div>
+				<div>
+					<input type="button" value="Upload" onclick="startUploading()" />
+				</div>
+				<div id="fileinfo">
+					<div id="filename"></div>
+					<div id="filesize"></div>
+					<div id="filetype"></div>
+					<div id="filedim"></div>
+				</div>
+				<div id="error">You should select valid image files only!</div>
+				<div id="error2">An error occurred while uploading the file</div>
+				<div id="abort">The upload has been canceled by the user or
+					the browser dropped the connection</div>
+				<div id="warnsize">Your file is very big. We can't accept it.
+					Please select more small file</div>
+				<div id="progress_info">
+					<div id="progress"></div>
+					<div id="progress_percent">&nbsp;</div>
+					<div class="clear_both"></div>
+					<div>
+						<div id="speed">&nbsp;</div>
+						<div id="remaining">&nbsp;</div>
+						<div id="b_transfered">&nbsp;</div>
+						<div class="clear_both"></div>
+					</div>
+					<div id="upload_response"></div>
+				</div>
+			</form>
+			<img id="preview" />
+		</div>
 	</div>
+</div -->
