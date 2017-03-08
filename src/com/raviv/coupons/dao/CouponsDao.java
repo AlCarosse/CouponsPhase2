@@ -612,4 +612,60 @@ public class CouponsDao extends InfraDao implements ICouponsDao {
 		return returnObj;
 }
 
+	public Coupon 	getCouponByCompanyIdForImageUpload(long companyId) throws ApplicationException {
+		Connection 			connection 			= null;
+		PreparedStatement 	preparedStatement 	= null;		
+		ResultSet 			resultSet 			= null;
+		Coupon 				coupon;
+
+	// getting the specific entry by the input id
+	// storing it into resultSet
+		try 
+		{
+			// Getting a connection from the connections manager or Transaction manager
+			connection = super.getConnection();
+			
+			String sql = "SELECT * FROM COUPONS WHERE COMPANY_ID = ? AND IMAGE_FILE_NAME = 'FileUpload'";
+			
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setLong(1, companyId);
+			
+			// execute query
+			resultSet = preparedStatement.executeQuery();
+	
+			// Loop through result set
+			// For each company create bean and add it to output list
+			coupon = null;
+			while ( resultSet.next() ) 
+			{
+				coupon = new Coupon();
+				//extract bean from result Set
+				this.copyDataFromResultSetToBean (coupon, resultSet);
+			} 
+						
+			
+		} 
+		catch (SQLException e) 
+		{
+			//e.printStackTrace();
+			throw new ApplicationException(ErrorType.DAO_GET_ERROR, e, "Failed to get coupon by companyId : " + companyId + ". " + e.getMessage());
+		} 
+		finally 
+		{
+			if ( super.isJdbcTransactionManagerInUse() )
+			{
+				// Transaction manager will close the connection later.
+				super.connectionPoolManager.closeResources(preparedStatement, resultSet);
+			}
+			else
+			{
+				// We do not have transaction manager.
+				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
+			}				
+		}
+		
+		return coupon;
+	}
+
+	
 }

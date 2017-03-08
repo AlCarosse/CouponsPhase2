@@ -5,25 +5,26 @@
 	.module('app')
 	.controller( 'CompanyCreateCouponController', CompanyCreateCouponController);
 
-	CompanyCreateCouponController.$inject = ['$http', 'UsersService', '$rootScope', 'LoginService'];
+	CompanyCreateCouponController.$inject = [ 'CompanysService', 'CouponsService', '$rootScope'];
 
-	function CompanyCreateCouponController( $http, UsersService, $rootScope, LoginService) {
+	function CompanyCreateCouponController( CompanysService,CouponsService,   $rootScope) {
 		var vm = this;
 
 		vm.coupon = {
-					"couponTitle"    : "couponTitle"
+				"couponTitle"    : "couponTitle"
 					,"couponStartDate": null
 					,"couponEndDate"  : null //(new Date).add(1,'years')
 					,"couponsInStock": 100
 					,"couponTypeId"  : null
 					,"couponMessage": "couponMessage"  
 						,"couponPrice"  : 10
-						,"imageFileName": "UnlockSubmitButton"	  
+						,"imageFileName": "FileUpload"	  
 		};
 
+
 		vm.user = null;
+
 		vm.createCoupon = createCoupon;
-		vm.uploadFile = uploadFile;
 
 		initController();
 
@@ -50,19 +51,52 @@
 
 		function createCoupon() {
 
+			vm.newCoupon = angular.copy(vm.coupon);
+			
+			var yyyymmdd = vm.coupon.couponStartDate.toISOString().slice(0,10).replace(/-/g,"");
+			vm.newCoupon.couponStartDate = yyyymmdd;
+			
+			var yyyymmdd = vm.coupon.couponEndDate.toISOString().slice(0,10).replace(/-/g,"");
+			vm.newCoupon.couponEndDate = yyyymmdd;
+			
+			
+			CouponsService.CreateCoupon( vm.newCoupon, function (response) 
+			{
+				if (response.data.serviceStatus.success === "true") 
+				{
+					vm.updateCompanyStatus = "success";
+				} 
+				else 
+				{
+					vm.updateCompanyStatus = "fail";
+					vm.errorMesage = response.data.serviceStatus.errorMessage;                    
+					return;
+				}
+			});
+
+
+			vm.selectedFile = document.getElementById('imageFileName').files[0];
+
+
+			var x = CouponsService.UploadImage( vm.selectedFile, function (response) 
+			{
+				if (response.data.serviceStatus.success === "true") 
+				{
+					vm.updateCompanyStatus = "success";
+				} 
+				else 
+				{
+					vm.updateCompanyStatus = "fail";
+					vm.errorMesage = response.data.serviceStatus.errorMessage;                    
+				}
+			});
 
 			vm.selectedFile = document.getElementById('imageFileName').files[0];
 
 			
-			uploadFile(vm.selectedFile);
-			
-			vm.coupon;
-
-			vm.coupon;
-
-
 		}
 
+		/*
 		function uploadFile(file, callback) {
 
 
@@ -76,14 +110,14 @@
 				transformRequest: angular.identity
 			})
 			.then(function (response) {
-                    callback(response);
-                });
+				callback(response);
+			});
 
 			vm.coupon;
 
 
 		}
-
+		 */
 
 
 

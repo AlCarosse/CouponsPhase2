@@ -46,7 +46,6 @@ public class CompanysApi {
 		ServiceOutput serviceOutput = new ServiceOutput();		
 		try 
 		{
-
 			System.out.println(createCompanyInput);
 
 			Integer loginUserId = LoginSession.getLoginUserId(request);
