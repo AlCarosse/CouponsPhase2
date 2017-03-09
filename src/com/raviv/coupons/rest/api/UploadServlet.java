@@ -87,20 +87,20 @@ public class UploadServlet extends HttpServlet
 			// ===================================================
 			// Update the coupon with image file name
 			// ===================================================
-			String imgPath = "WebContent/images/companies/" + fileName;			
+			String imgPath = "WebContent/images/companies/" + company.getCompanyId() + "/"+ fileName;			
 			coupon.setImageFileName(imgPath);
 			couponDao.updateCoupon(coupon);
 
 			
-			request.setAttribute("message", "Upload has been done successfully!");
-			response.setContentType("application/json");
+			//request.setAttribute("message", "Upload has been done successfully!");
+			//response.setContentType("application/json");
 			
 
 			// Assuming your json object is **jsonObject**, perform the following, it will return your json object
 
 			String jsonObject = "{ serviceStatus: { errorCode: \"0\", errorMessage : \"\",  success : \"true\" } }";
-			out.print(jsonObject);
-			out.flush();
+			//out.print(jsonObject);
+			//out.flush();
 		}
 		catch (Throwable t) 
 		{
@@ -114,9 +114,10 @@ public class UploadServlet extends HttpServlet
 
 		
 		// return succsess
-		String jsonObject = "{ serviceStatus: { errorCode: \"0\", errorMessage : \"\",  success : \"true\" } }";
-		out.print(jsonObject);
-		out.flush();
+		//response.setContentType("application/json");
+		//String jsonObject = "{ serviceStatus: { errorCode: \"0\", errorMessage : \"UploadServlet\",  success : \"true\" } }";
+		//out.print(jsonObject);
+		//out.flush();
 
 
 		//getServletContext().getRequestDispatcher("/message.jsp").forward(

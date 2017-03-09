@@ -65,33 +65,34 @@
 				if (response.data.serviceStatus.success === "true") 
 				{
 					vm.updateCompanyStatus = "success";
+
+					vm.selectedFile = document.getElementById('imageFileName').files[0];
+
+					
+					CouponsService.UploadImage( vm.selectedFile, function (response) 
+					{
+						if (response.status === 200 ) 
+						{
+							vm.updateCompanyStatus = "success";
+						} 
+						else 
+						{
+							vm.updateCompanyStatus = "fail";
+							vm.errorMesage = response.data.serviceStatus.errorMessage;                    
+						}
+					});
+
+					
 				} 
 				else 
 				{
 					vm.updateCompanyStatus = "fail";
 					vm.errorMesage = response.data.serviceStatus.errorMessage;                    
-					return;
 				}
+				
 			});
 
 
-			vm.selectedFile = document.getElementById('imageFileName').files[0];
-
-
-			var x = CouponsService.UploadImage( vm.selectedFile, function (response) 
-			{
-				if (response.data.serviceStatus.success === "true") 
-				{
-					vm.updateCompanyStatus = "success";
-				} 
-				else 
-				{
-					vm.updateCompanyStatus = "fail";
-					vm.errorMesage = response.data.serviceStatus.errorMessage;                    
-				}
-			});
-
-			vm.selectedFile = document.getElementById('imageFileName').files[0];
 
 			
 		}
