@@ -75,7 +75,8 @@ public class Coupon extends InfraBean {
 		setCouponsInStock	( couponsInStock			);
 		setCouponTypeId		( couponTypeId				);
 		setCouponPrice		( couponPrice				);
-		setImageFileName	( imageFileName				);		
+		setImageFileName	( imageFileName				);
+		setCouponMessage    ( couponMessage             );
 	}
 
 	/**
@@ -102,6 +103,7 @@ public class Coupon extends InfraBean {
 		setCouponTypeId		( couponTypeId				);
 		setCouponPrice		( couponPrice				);
 		setImageFileName	( imageFileName				);		
+		setCouponMessage	( couponMessage				);
 	}
 
 	
