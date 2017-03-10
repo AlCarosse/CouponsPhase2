@@ -31,11 +31,11 @@ import com.raviv.coupons.rest.api.outputs.ServiceOutput;
 import com.raviv.coupons.utils.LoginSession;
 
 
-@WebServlet("/UploadServlet")
+@WebServlet("/UploadCouponImageFileServlet")
 @MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
 maxFileSize=1024*1024*10,      // 10MB
 maxRequestSize=1024*1024*50)   // 50MB
-public class UploadServlet extends HttpServlet 
+public class UploadCouponImageFileServlet extends HttpServlet 
 {
 	static final long serialVersionUID = 1L;
 
@@ -75,8 +75,6 @@ public class UploadServlet extends HttpServlet
 			if (!fileSaveDir.exists()) {
 				fileSaveDir.mkdir();
 			}
-
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
 			
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
 			Date date = new Date();
