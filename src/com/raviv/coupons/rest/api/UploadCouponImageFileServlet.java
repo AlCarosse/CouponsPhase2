@@ -26,7 +26,6 @@ import com.raviv.coupons.blo.CompanysBlo;
 import com.raviv.coupons.blo.UsersBlo;
 import com.raviv.coupons.dao.CouponsDao;
 import com.raviv.coupons.exceptions.ExceptionHandler;
-import com.raviv.coupons.rest.api.outputs.GetCompanyOutput;
 import com.raviv.coupons.rest.api.outputs.ServiceOutput;
 import com.raviv.coupons.utils.LoginSession;
 
@@ -43,7 +42,9 @@ public class UploadCouponImageFileServlet extends HttpServlet
 	 * Name of the directory where uploaded files will be saved, relative to
 	 * the web application directory.
 	 */
-	private static final String SAVE_DIR = "C:/Users/raviv/.babun/cygwin/home/raviv/workspaces/coupons/CouponsPhase2/WebContent/images/companies/";
+	private static final String ROOT_DIR = "C:/Users/raviv/.babun/cygwin/home/raviv/workspaces/coupons/CouponsPhase2/";
+
+	private static final String SAVE_DIR = "WebContent/images/companies/";
 
 	/**
 	 * handles file upload
@@ -51,10 +52,12 @@ public class UploadCouponImageFileServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServiceOutput serviceOutput = new ServiceOutput();	
-		// Get the printwriter object from response to write the required json object to the output stream      
-		//PrintWriter out = response.getWriter();
 		try 
 		{
+			// ===============================================
+			// Get company ID, we will use it as directory
+			// to save coupon image
+			// ===============================================
 			Integer loginUserId = LoginSession.getLoginUserId(request);
 
 			UsersBlo usersBlo = new UsersBlo();
@@ -62,20 +65,23 @@ public class UploadCouponImageFileServlet extends HttpServlet
 
 			Company company = null;	
 			CompanysBlo companysBlo = new CompanysBlo();
-
-			/**
-			 *  Get company, ADMIN profile
-			 */		
 			company =  companysBlo.getCompany( loggedUser );
+			
+			long companyId = company.getCompanyId();
+			
+			
+			// ===============================================
+			// Create company directory to save coupon image
+			// ===============================================
+			String savePath = ROOT_DIR + SAVE_DIR + File.separator + companyId;
 
-			String savePath = SAVE_DIR + File.separator + company.getCompanyId();
-
-			// creates the save directory if it does not exists
+			// creates the company save directory if not exists
 			File fileSaveDir = new File(savePath);
 			if (!fileSaveDir.exists()) {
 				fileSaveDir.mkdir();
 			}
 			
+			// time stamp for file name, that will insure each coupon image get unique name
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
 			Date date = new Date();
 			String ts = (dateFormat.format(date));
@@ -109,80 +115,50 @@ public class UploadCouponImageFileServlet extends HttpServlet
 			// ===================================================
 			// Update the coupon with image file name
 			// ===================================================
-			String imgPath = "WebContent/images/companies/" + company.getCompanyId() + "/"+ fileName;			
-			coupon.setImageFileName(imgPath);
+			String imgFileName = SAVE_DIR + company.getCompanyId() + "/"+ fileName;			
+			coupon.setImageFileName(imgFileName);
 			couponDao.updateCoupon(coupon);
 
-
-			//request.setAttribute("message", "Upload has been done successfully!");
-			//response.setContentType("application/json");
-
-
-			// Assuming your json object is **jsonObject**, perform the following, it will return your json object
-
-			String jsonObject = "{ serviceStatus: { errorCode: \"0\", errorMessage : \"\",  success : \"true\" } }";
-			//out.print(jsonObject);
-			//out.flush();
 		}
 		catch (Throwable t) 
 		{
 			t.printStackTrace();
 			serviceOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
-			String jsonObject = "{ serviceStatus: { errorCode: \"0\", errorMessage : \"\",  success : \"false\" } }";
-			//out.print(jsonObject);
-			//out.flush();
-			//return;
+
 		}		
-
-
-		// return succsess
-		//response.setContentType("application/json");
-		//String jsonObject = "{ serviceStatus: { errorCode: \"0\", errorMessage : \"UploadServlet\",  success : \"true\" } }";
-		//out.print(jsonObject);
-		//out.flush();
-
-
-		//getServletContext().getRequestDispatcher("/message.jsp").forward(
-		//        request, response);
-
-
+		
+		// ===================================================
+		// Prepare JSON output
+		// ===================================================		
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "nocache");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 
-		JSONObject json = new JSONObject();
+		JSONObject jsonOutput = new JSONObject();
 
-		// put some value pairs into the JSON object as into a Map.
 		try 
 		{
-			json.put("status", 200);
-			json.put("msg", "OK");
+			jsonOutput.put("status", 200);
+			jsonOutput.put("msg", "OK");
 
-			// put a "map" 
-			JSONObject map = new JSONObject();
-			map.put("key1", "val1");
-			map.put("key2", "val2");
-			json.put("map", map);
+			JSONObject serviceStatus = new JSONObject();
+			serviceStatus.put ( "success", "\""   + serviceOutput.getServiceStatus().isSuccess() + "\"" );
+			serviceStatus.put ( "errorCode", "\"" + serviceOutput.getServiceStatus().getErrorCode() + "\"" );
+			serviceStatus.put ( "errorMessage", "\"" + serviceOutput.getServiceStatus().getErrorMessage() + "\"" );
 
-			// put an "array"
-			JSONArray arr = new JSONArray();
-			arr.put(5);
-			arr.put(3);
-			arr.put(1);
-			json.put("arr", arr);
+			jsonOutput.put( "serviceStatus", serviceStatus);
+
 		} 
 		catch (JSONException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// finally output the json string		
-		out.print(json.toString());
+		// finally output the JSON string		
+		out.print(jsonOutput.toString());
 
 	}
-
 
 
 	/**
