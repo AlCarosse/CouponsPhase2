@@ -44,6 +44,15 @@ public class CouponsBlo {
 		// Inject transaction manager to DAO via constructors
 		ICouponsDao		couponsDao	= new CouponsDao ( jdbcTransactionManager );
 
+		// =====================================================
+		// Verify duplicate coupon title
+		// =====================================================
+		if ( couponsDao.isExistsCouponTitle( coupon.getCouponTitle() ) )
+		{
+			throw new ApplicationException(ErrorType.COUPON_TITLE_ALREADY_EXISTS, "Dupliacte coupon title : " + coupon.getCouponTitle() );			
+		}
+		
+		
 		try
 		{				
 			// =====================================================

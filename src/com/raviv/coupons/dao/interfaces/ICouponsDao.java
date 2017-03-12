@@ -13,4 +13,6 @@ public interface ICouponsDao {
 
 	public void 	deleteCoupon(long	couponId) throws ApplicationException;
 	
+	public boolean 	isExistsCouponTitle(String couponTitle) throws ApplicationException; 
+
 }

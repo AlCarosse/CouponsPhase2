@@ -23,7 +23,7 @@ public class ClientErrorMessage {
 		
 		mapErrorMessages.put(ErrorType.COMPANY_NAME_ALREADY_EXISTS.getInternalErrorCode(), "Company name already taken");
 		
-		mapErrorMessages.put(ErrorType.COUPON_NAME_ALREADY_EXISTS.getInternalErrorCode(), "Coupon name already taken");
+		mapErrorMessages.put(ErrorType.COUPON_TITLE_ALREADY_EXISTS.getInternalErrorCode(), "Coupon title already taken");
 
 		mapErrorMessages.put(ErrorType.INVALID_EMAIL.getInternalErrorCode(), "Invalid email");
 

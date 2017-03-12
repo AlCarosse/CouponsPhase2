@@ -667,5 +667,53 @@ public class CouponsDao extends InfraDao implements ICouponsDao {
 		return coupon;
 	}
 
+	@Override
+	public boolean 			isExistsCouponTitle(String couponTitle) throws ApplicationException 
+	{
+		Connection 			connection 			= null;
+		PreparedStatement 	preparedStatement 	= null;		
+		ResultSet 			resultSet 			= null;
+
+		// getting the specific entry by the input id
+		// storing it into resultSet
+		try 
+		{
+			// Getting a connection from the connections manager or Transaction manager
+			connection = super.getConnection();
+			
+			String sql = "SELECT * FROM COUPONS WHERE COUPON_TITLE = ?";
+			
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, couponTitle);
+			
+			// execute query
+			resultSet = preparedStatement.executeQuery();
+	
+			// Not found ...
+			if ( !resultSet.next() ) { return false; } 
+						
+		} 
+		catch (SQLException e) 
+		{
+			//e.printStackTrace();
+			throw new ApplicationException(ErrorType.DAO_GET_ERROR, e, "Failed to get coupon with title : " + couponTitle + " " + e.getMessage());
+		} 
+		finally 
+		{			
+			if ( super.isJdbcTransactionManagerInUse() )
+			{
+				// Transaction manager will close the connection later.
+				super.connectionPoolManager.closeResources(preparedStatement, resultSet);
+			}
+			else
+			{
+				// We do not have transaction manager.
+				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
+			}	
+		}
+		
+		return true;
+	}
+
 	
 }
