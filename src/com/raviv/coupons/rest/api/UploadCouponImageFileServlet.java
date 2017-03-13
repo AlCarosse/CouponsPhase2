@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -104,6 +104,11 @@ public class UploadCouponImageFileServlet extends HttpServlet
 				
 				
 				part.write(savePath + File.separator + fileName);
+				
+				String serverImageDir = getImageDirOnServer(request) + File.separator + companyId;
+				part.write(serverImageDir + File.separator + fileName);
+				
+				
 			}
 
 			// ===================================================
@@ -175,4 +180,26 @@ public class UploadCouponImageFileServlet extends HttpServlet
 		return "";
 	}
 
+	
+	/**
+	 * returns the path of the coupon images folder on server,
+	 * if folder dorsn't exist, creates it
+	 * */
+	private String getImageDirOnServer(HttpServletRequest request) {
+				
+		ServletContext servletContext= request.getServletContext();
+		String dirName = "/" + SAVE_DIR;
+		
+		// gets the real path of the actual folder on the server 
+		String dirPath = servletContext.getRealPath(dirName);
+		dirPath = dirPath.replace('\\', '/');
+		File dir = new File(dirPath);
+		
+		// checks if the folder exists, if doesn't exist creates the folder
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		return dirPath;
+	}
+	
 }

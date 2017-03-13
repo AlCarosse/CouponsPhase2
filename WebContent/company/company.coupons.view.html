@@ -16,6 +16,14 @@ td, th {
 tr:nth-child(even) {
 	background-color: #dddddd;
 }
+
+.center-cropped {
+  object-fit: contain; /* Do not scale the image */
+  object-position: center; /* Center the image within the element */
+  height: 100px;
+  width: 100px;
+}
+
 </style>
 
 <br>
@@ -53,8 +61,8 @@ tr:nth-child(even) {
 		<td ng-if="$even">{{ coupon.couponEndDate | date : 'dd/MM/yyyy' }}</td>
 
 		<!-- Image  -->
-		<td ng-if="$odd" style="background-color: white"><img ng-src="{{coupon.imageFileName}}"></td>
-		<td ng-if="$even"><img ng-src="{{coupon.imageFileName}}"></td>
+		<td ng-if="$odd" style="background-color: white"><img class="center-cropped" ng-src="{{coupon.imageFileName}}" alt="Image"></td>
+		<td ng-if="$even"><img class="center-cropped" ng-src="{{coupon.imageFileName}}" alt="Image"></td>
 
 
 		<td ng-if="$odd" style="background-color: white">
