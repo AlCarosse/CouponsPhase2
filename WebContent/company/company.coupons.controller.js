@@ -23,7 +23,8 @@
         vm.deleteCompany = deleteCompany;
         vm.updateCompany = updateCompany;
 
-        vm.GetCompanyCoupons = getCompanyCoupons;
+        vm.getCompanyCoupons = getCompanyCoupons;
+        vm.deleteCoupon = deleteCoupon;
         
         initController();
 
@@ -32,6 +33,46 @@
         	getCompanyCoupons();
         }
 
+     
+        function deleteCoupon( couponId , couponTitle ) 
+        {
+        	
+        	bootbox.confirm
+        	({
+        		message: "Remove " + couponTitle + "?",
+        	    buttons: { confirm: { label: 'Yes', className: 'btn-success'}, cancel:  { label: 'No',  className: 'btn-danger' }
+        	    },
+        	    callback: function (result) 
+        	    {
+                	if (result !=  true ){
+                		// User canceled delete
+                		return;
+                	}
+
+                	vm.dataLoading = true;
+                	CouponsService.DeleteCoupon( couponId ,	function (response) 
+                    {
+                        if (response.data.serviceStatus.success === "true") 
+                        {
+                        	bootbox.alert("Successfully removed " +couponTitle);
+                        	getCompanyCoupons();                
+                        } 
+                        else 
+                        {
+                        	bootbox.alert("Action failed : "+response.data.serviceStatus.errorMessage);
+                            vm.dataLoading = false;
+                        }
+                    });
+                  
+                    
+                    
+                    
+                 }
+        	});
+        	        	
+        };
+
+        
         
         function getCompanyCoupons() {
             vm.dataLoading = true;
@@ -139,5 +180,4 @@
         
         
     }
-
 })();

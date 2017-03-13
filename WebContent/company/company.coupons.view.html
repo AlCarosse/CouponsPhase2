@@ -20,8 +20,8 @@ tr:nth-child(even) {
 .center-cropped {
   object-fit: contain; /* Do not scale the image */
   object-position: center; /* Center the image within the element */
-  height: 100px;
-  width: 100px;
+  height: 50px;
+  width: 50px;
 }
 
 </style>
@@ -67,14 +67,14 @@ tr:nth-child(even) {
 
 		<td ng-if="$odd" style="background-color: white">
 			<button
-				ng-click="vm.deleteCompany(company.companyId,company.companyName)"
+				ng-click="vm.deleteCoupon( coupon.couponId , coupon.couponTitle )"
 				type="button" class="btn btn-default btn-sm">
 				<span class="glyphicon glyphicon-trash"></span> Remove
 			</button>
 		</td>
 		<td ng-if="$even">
 			<button
-				ng-click="vm.deleteCompany(company.companyId,company.companyName)"
+				ng-click="vm.deleteCoupon( coupon.couponId , coupon.couponTitle )"
 				type="button" class="btn btn-default btn-sm">
 				<span class="glyphicon glyphicon-trash"></span> Remove
 			</button>

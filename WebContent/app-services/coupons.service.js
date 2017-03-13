@@ -13,10 +13,22 @@
 		service.UploadImage       = UploadImage;
 		service.CreateCoupon      = CreateCoupon;
 		service.GetCompanyCoupons = GetCompanyCoupons;
+		service.DeleteCoupon      = DeleteCoupon;
 		
 
 		return service;		
 
+
+		function DeleteCoupon( couponId , callback) 
+		{
+			$http.delete('/CouponsPhase2/rest/api/coupons/deleteCoupon/couponId/' + couponId
+			)
+			.then(function (response) {
+				callback(response);
+			});
+		}
+
+		
 		
 		function GetCompanyCoupons( callback) 
 		{
@@ -50,10 +62,7 @@
 			});			
 		}
 
-		
-		
-		
-		
+	
 		
 	}
 })();

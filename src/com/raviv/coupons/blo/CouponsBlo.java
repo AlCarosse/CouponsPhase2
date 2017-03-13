@@ -1,6 +1,7 @@
 package com.raviv.coupons.blo;
 
 
+import java.io.File;
 import java.util.List;
 
 import com.raviv.coupons.beans.Company;
@@ -15,6 +16,7 @@ import com.raviv.coupons.dao.interfaces.ICustomerCouponDao;
 import com.raviv.coupons.dao.utils.JdbcTransactionManager;
 import com.raviv.coupons.enums.ErrorType;
 import com.raviv.coupons.exceptions.ApplicationException;
+import com.raviv.coupons.rest.api.UploadCouponImageFileServlet;
 import com.raviv.coupons.utils.PrintUtils;
 
 /**
@@ -25,11 +27,11 @@ import com.raviv.coupons.utils.PrintUtils;
  *
  */
 public class CouponsBlo {
-	
+
 	public CouponsBlo()
 	{
 	}
-	
+
 	public  void 			createCoupon( User loggedUser , Coupon coupon ) throws ApplicationException 
 	{
 		// =====================================================
@@ -51,8 +53,8 @@ public class CouponsBlo {
 		{
 			throw new ApplicationException(ErrorType.COUPON_TITLE_ALREADY_EXISTS, "Dupliacte coupon title : " + coupon.getCouponTitle() );			
 		}
-		
-		
+
+
 		try
 		{				
 			// =====================================================
@@ -61,7 +63,7 @@ public class CouponsBlo {
 			coupon.setCreatedByUserId( loggedUser.getUserId() );
 			coupon.setUpdatedByUserId( loggedUser.getUserId() );
 			couponsDao.createCoupon(coupon);
-			
+
 			// =====================================================
 			// Commit transaction
 			// =====================================================
@@ -89,14 +91,17 @@ public class CouponsBlo {
 		// Verify company profile id
 		// =====================================================
 		ProfileIdVerifier.verifyCompanyProfileId(loggedUser);
-		
+
 		// =====================================================
 		// Start transaction by creating JdbcTransactionManager
 		// =====================================================		
 		JdbcTransactionManager jdbcTransactionManager = new JdbcTransactionManager();
 		// Inject transaction manager to DAO via constructors
 		ICouponsDao couponsDao	= new CouponsDao( jdbcTransactionManager );
-		
+
+		Coupon coupon = couponsDao.getCoupon(couponId);
+		String imageFileName = UploadCouponImageFileServlet.ROOT_DIR +  coupon.getImageFileName();
+
 		try
 		{
 			// =====================================================
@@ -104,14 +109,23 @@ public class CouponsBlo {
 			// CUSTOMER_COUPON has FK to COUPONS using coupon id, with delete Cascade
 			// =====================================================			
 			couponsDao.deleteCoupon(couponId);
-			
+
+			// =====================================================
+			// Delete coupon image file from hard drive
+			// =====================================================			
+			File imageFile = new File(imageFileName);
+			if ( imageFile.exists() )
+			{
+				imageFile.delete();
+			}   
+
 			// =====================================================
 			// Commit transaction
 			// =====================================================
 			jdbcTransactionManager.commit();
 			PrintUtils.printHeader("CouponsBlo : deleteCoupon deleted couponId : " + couponId );
 		}
-		catch (ApplicationException e)
+		catch (Exception e)
 		{
 			// =====================================================
 			// Rollback transaction
@@ -123,7 +137,7 @@ public class CouponsBlo {
 		{
 			jdbcTransactionManager.closeConnection();
 		}	
-				
+
 	}
 
 	public  void 			updateCoupon( User loggedUser , Coupon inputCoupon) throws ApplicationException 
@@ -140,7 +154,7 @@ public class CouponsBlo {
 
 		// Inject transaction manager to DAO via constructors
 		ICouponsDao couponsDao	= new CouponsDao( jdbcTransactionManager );
-		
+
 		try
 		{
 			// =====================================================
@@ -149,7 +163,7 @@ public class CouponsBlo {
 			Coupon coupon;
 			long couponId = inputCoupon.getCouponId();
 			coupon = couponsDao.getCoupon( couponId );
-			
+
 			if ( coupon == null )
 			{
 				throw new ApplicationException(ErrorType.BLO_GET_ERROR, "Failed to get coupon with id : " + couponId + " " + "" );
@@ -158,14 +172,14 @@ public class CouponsBlo {
 			// =====================================================
 			// Set coupon: end date , price
 			// =====================================================
-			
+
 			// Prepare inputs
 			coupon.setUpdatedByUserId( loggedUser.getUserId()    );
-			
+
 			coupon.setCouponEndDate  ( inputCoupon.getCouponEndDate() );
 			coupon.setCouponPrice    ( inputCoupon.getCouponPrice()   );
 
-			
+
 			// =====================================================
 			// Update coupon in data layer
 			// =====================================================			
@@ -176,11 +190,11 @@ public class CouponsBlo {
 			// =====================================================
 
 			jdbcTransactionManager.commit();
-			
-			
+
+
 			PrintUtils.printHeader("updateCoupon updated coupon");
 			System.out.println(coupon);
-			
+
 		}
 		catch (ApplicationException e)
 		{
@@ -189,9 +203,9 @@ public class CouponsBlo {
 			// =====================================================
 
 			jdbcTransactionManager.rollback();
-			
+
 			throw (e); 
-			
+
 		}
 		finally
 		{
@@ -206,20 +220,20 @@ public class CouponsBlo {
 		// Verify company profile id
 		// =====================================================
 		ProfileIdVerifier.verifyCompanyProfileId(loggedUser);
-		
+
 		// =====================================================
 		// Get company by user id
 		// =====================================================		
 		CompanysBlo companysBlo = new CompanysBlo();
 		Company 	company 	= companysBlo.getCompany( loggedUser );
 		long 		companyId 	= company.getCompanyId();
-		
+
 		// =====================================================
 		// Get company coupons from data layer
 		// =====================================================				
 		CouponsDao couponsDao = new CouponsDao();
 		List<Coupon> couponsList 	= couponsDao.getCouponsByCompanyId(companyId);
-		
+
 		for ( Coupon coupon : couponsList )
 		{
 			System.out.println(coupon);
@@ -267,7 +281,7 @@ public class CouponsBlo {
 		//======================================================	
 		CustomersBlo	customersBlo	= new CustomersBlo();
 		Customer		customer 		= customersBlo.getCustomer(loggedUser);
-		
+
 		// =====================================================
 		// Get coupon for sale from data layer
 		// Effective and in stock
@@ -278,20 +292,20 @@ public class CouponsBlo {
 		{
 			throw new ApplicationException(ErrorType.COUPON_IS_NOT_FOR_SALE, null , "Coupon is not for sale couponId : " + couponId);
 		}
-			
+
 		// =====================================================
 		// Check if customer was buying this coupon already.
 		// =====================================================
 		ICustomerCouponDao		customerCouponDao;
 		customerCouponDao	= new CustomerCouponDao ();
-		
+
 		CustomerCoupon	customerCoupon = customerCouponDao.getCustomerCoupon( customer.getCustomerId(), couponId );
 		if ( customerCoupon != null ) 
 		{
 			throw new ApplicationException(ErrorType.DUPLICATE_COUPON_FOR_CUSTOMER, null
 					, "CustomerBlo : buyCoupon Failed. Duplicate coupon for customer, couponId : " + couponId  );
 		}
-		
+
 		// =====================================================
 		// Start transaction by creating JdbcTransactionManager
 		// =====================================================		
@@ -320,12 +334,12 @@ public class CouponsBlo {
 			coupon.setUpdatedByUserId( loggedUser.getUserId() );
 			// data layer action
 			couponsDao.updateCoupon(coupon);
-			
+
 			// =====================================================
 			// Commit transaction
 			// =====================================================
 			jdbcTransactionManager.commit();
-					
+
 			PrintUtils.printHeader("CustomerBlo : buyCoupon success.");
 			//System.out.println(coupon);
 		}
@@ -336,9 +350,9 @@ public class CouponsBlo {
 			// =====================================================
 
 			jdbcTransactionManager.rollback();
-			
+
 			throw (e); 
-			
+
 		}
 		finally
 		{
@@ -394,12 +408,12 @@ public class CouponsBlo {
 		CustomerCouponDao customerCouponDao = new CustomerCouponDao();
 		long customerId 		= customer.getCustomerId();
 		List<CustomerCoupon>	customerCoupons= customerCouponDao.getCustomerCouponsByCustomerIdAndDynamicFilter( customerId , dynamicQueryParameters);
-										
+
 		for ( CustomerCoupon customerCoupon : customerCoupons )
 		{
 			System.out.println(customerCoupon);
 		}
-		
+
 		return customerCoupons;
 	}
 
