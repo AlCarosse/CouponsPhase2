@@ -219,7 +219,7 @@ public class CompanysApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	public GetCompanyOutput getCompanyByLoggedUser( @Context HttpServletRequest request ) throws ApplicationException
 	{
-		GetCompanyOutput serviceOutput = new GetCompanyOutput();		
+		GetCompanyOutput serviceOutput = new GetCompanyOutput();
 		try 
 		{
 			/**

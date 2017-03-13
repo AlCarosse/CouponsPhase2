@@ -42,9 +42,9 @@ public class UploadCouponImageFileServlet extends HttpServlet
 	 * Name of the directory where uploaded files will be saved, relative to
 	 * the web application directory.
 	 */
-	private static final String ROOT_DIR = "C:/Users/raviv/.babun/cygwin/home/raviv/workspaces/coupons/CouponsPhase2/";
+	private static final String ROOT_DIR = "C:/Users/raviv/.babun/cygwin/home/raviv/workspaces/coupons/CouponsPhase2/WebContent/";
 
-	private static final String SAVE_DIR = "WebContent/images/companies/";
+	private static final String SAVE_DIR = "images/companies/";
 
 	/**
 	 * handles file upload
