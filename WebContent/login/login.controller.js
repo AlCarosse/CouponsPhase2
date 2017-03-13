@@ -22,13 +22,7 @@
             vm.dataLoading = true;
             
             LoginService.Login(vm.username, vm.password, function (response) {
-            	
-            	console.log(response.headers('set-cookie'));
-            	
-            	console.log($cookies);
-        
-            	vm.x = $cookies.getAll();
-            	
+            	            	
                 if (response.data.userId !== "0" ) 
                 {                	
                     LoginService.setCurrentUser( response.data );
