@@ -83,7 +83,10 @@
                 if (response.data.serviceStatus.success === "true") 
                 {
                 	vm.coupons = [];
-                	vm.coupons = vm.coupons.concat(response.data.coupons);
+                	if ( response.data.coupons !== undefined )
+                	{
+                		vm.coupons = vm.coupons.concat(response.data.coupons);
+                	}
                 } 
                 else 
                 {
