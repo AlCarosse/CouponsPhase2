@@ -8,9 +8,10 @@
     CompanyCouponsController.$inject = ['CouponsService', '$cookies', '$rootScope', 'LoginService', 'FlashService'];
     
     function CompanyCouponsController( CouponsService, $cookies, $rootScope, LoginService , FlashService ) {
-        var vm = this;
         
+    	var vm = this;
         vm.user = null;
+        
         vm.currentCompany = null;
         vm.currentCompanyNew = null;
         vm.updateCompanyStatus = null;
@@ -18,19 +19,81 @@
         vm.allCompanys = [];
         vm.coupons = [];
 
-        vm.setCurrentCompany = setCurrentCompany;
-        
+        vm.setCurrentCompany = setCurrentCompany;        
         vm.deleteCompany = deleteCompany;
         vm.updateCompany = updateCompany;
 
+        
+        vm.currentCoupon = null;
+        vm.currentCouponNew = null;
+        vm.updateCouponStatus = null;
+
+        
         vm.getCompanyCoupons = getCompanyCoupons;
         vm.deleteCoupon = deleteCoupon;
+        vm.updateCoupon = updateCoupon;
+        
+        vm.setCurrentCoupon = setCurrentCoupon;
+
+        
+		vm.newCoupon = {
+			  	 	"couponId"       :  0
+			    	,"couponEndDate" : "yyyymmdd"
+			    	,"couponPrice"   : 0
+			 };
+
+        
         
         initController();
 
         function initController() {
         	loadCurrentUser();
         	getCompanyCoupons();
+        }
+
+        function updateCoupon() 
+        {		
+
+        	vm.newCoupon.couponId = vm.currentCouponNew.couponId;
+        	vm.newCoupon.couponPrice = vm.currentCouponNew.couponPrice;
+
+        	
+			var yyyymmdd = vm.currentCouponNew.couponEndDate.toISOString().slice(0,10).replace(/-/g,"");
+			vm.newCoupon.couponEndDate = yyyymmdd;
+
+        	
+			CouponsService.UpdateCoupon(vm.newCoupon,	function (response) 
+            {
+                if (response.data.serviceStatus.success === "true") 
+                {
+                	vm.currentCoupon.couponPrice   = vm.currentCouponNew.couponPrice;
+                	vm.currentCoupon.couponEndDate = vm.currentCouponNew.couponEndDate;
+                	vm.updateCouponStatus = "success";
+                } 
+                else 
+                {
+                	vm.updateCouponStatus = "fail";
+                	vm.errorMesage = response.data.serviceStatus.errorMessage;                    
+                }
+            });
+            
+        }
+
+        
+        function setCurrentCoupon(coupon) {
+			vm.currentCoupon = coupon;       	
+			vm.currentCouponNew = angular.copy(coupon);
+			
+			var price = Math.floor (vm.currentCouponNew.couponPrice); 
+			vm.currentCouponNew.couponPrice = price;
+				        	
+			var st = vm.currentCouponNew.couponEndDateYyyyMmDd;
+			var pattern = /(\d{4})(\d{2})(\d{2})/;
+			var date =  new Date(st.replace(pattern, '$1-$2-$3'));
+				   
+			vm.currentCouponNew.couponEndDate = date;
+			
+			vm.updateCouponStatus = null;
         }
 
      

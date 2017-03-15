@@ -11,14 +11,14 @@
 		var vm = this;
 
 		vm.coupon = {
-				"couponTitle"    : "couponTitle"
+					"couponTitle"    : "couponTitle"
 					,"couponStartDate": null
-					,"couponEndDate"  : null //(new Date).add(1,'years')
+					,"couponEndDate"  : null 
 					,"couponsInStock": 100
 					,"couponTypeId"  : null
 					,"couponMessage": "couponMessage"  
-						,"couponPrice"  : 10
-						,"imageFileName": "FileUpload"	  
+					,"couponPrice"  : 10
+					,"imageFileName": "FileUpload"	  
 		};
 
 

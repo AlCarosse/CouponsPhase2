@@ -18,17 +18,16 @@ tr:nth-child(even) {
 }
 
 .center-cropped {
-  object-fit: contain; /* Do not scale the image */
-  object-position: center; /* Center the image within the element */
-  height: 50px;
-  width: 50px;
+	object-fit: contain; /* Do not scale the image */
+	object-position: center; /* Center the image within the element */
+	height: 50px;
+	width: 50px;
 }
-
 </style>
 
 <br>
 <div class="alert alert-info" role="alert">
-  <strong>Company coupons</strong>
+	<strong>Company coupons</strong>
 </div>
 <br>
 
@@ -58,11 +57,14 @@ tr:nth-child(even) {
 		<!-- End date  -->
 		<td ng-if="$odd" style="background-color: white">{{
 			coupon.couponEndDate | date : 'dd/MM/yyyy' }}</td>
-		<td ng-if="$even">{{ coupon.couponEndDate | date : 'dd/MM/yyyy' }}</td>
+		<td ng-if="$even">{{ coupon.couponEndDate | date : 'dd/MM/yyyy'
+			}}</td>
 
 		<!-- Image  -->
-		<td ng-if="$odd" style="background-color: white"><img class="center-cropped" ng-src="{{coupon.imageFileName}}" alt="Image"></td>
-		<td ng-if="$even"><img class="center-cropped" ng-src="{{coupon.imageFileName}}" alt="Image"></td>
+		<td ng-if="$odd" style="background-color: white"><img
+			class="center-cropped" ng-src="{{coupon.imageFileName}}" alt="Image"></td>
+		<td ng-if="$even"><img class="center-cropped"
+			ng-src="{{coupon.imageFileName}}" alt="Image"></td>
 
 
 		<td ng-if="$odd" style="background-color: white">
@@ -80,14 +82,15 @@ tr:nth-child(even) {
 			</button>
 		</td>
 
+
 		<td ng-if="$odd" style="background-color: white">
-			<button ng-click="vm.setCurrentCompany(company)" href="#"
+			<button ng-click="vm.setCurrentCoupon(coupon)" href="#"
 				data-toggle="modal" data-target="#Update-modal">
 				<span class="glyphicon glyphicon-edit"></span> Edit
 			</button>
 		</td>
 		<td ng-if="$even">
-			<button ng-click="vm.setCurrentCompany(company)" href="#"
+			<button ng-click="vm.setCurrentCoupon(coupon)" href="#"
 				data-toggle="modal" data-target="#Update-modal">
 				<span class="glyphicon glyphicon-edit"></span> Edit
 			</button>
@@ -112,7 +115,7 @@ tr:nth-child(even) {
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 				</button>
 				<h4 class="modal-title">
-					<font color="white">Update company</font>
+					<font color="white">Update coupon</font>
 				</h4>
 				<br />
 			</div>
@@ -120,41 +123,58 @@ tr:nth-child(even) {
 			<!-- Begin # DIV Form -->
 			<div id="div-forms">
 
-				<!-- Begin # Login Form -->
-				<form id="login-form" ng-submit="vm.updateCompany()">
+				<!-- Begin # upadte Form -->
+				<form id="update-form" ng-submit="vm.updateCoupon()">
 					<div class="modal-body">
 
 						<!-- Success alert -->
 						<div class="alert alert-success" role="alert"
-							ng-show="vm.updateCompanyStatus=='success'">
+							ng-show="vm.updateCouponStatus=='success'">
 							<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
-							Successfully updated company details.
+							Successfully updated coupon details.
 						</div>
 
 						<!-- Fail alert -->
 						<div class="alert alert-danger" role="alert"
-							ng-show="vm.updateCompanyStatus=='fail'">
+							ng-show="vm.updateCouponStatus=='fail'">
 							<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
-							Update company details failed : {{vm.errorMesage}}
+							Update coupon details failed : {{vm.errorMesage}}
 						</div>
 
-						<b>Company name : </b>{{vm.currentCompanyNew.companyName}} <br />
-						<b>Company email : </b>{{vm.currentCompanyNew.companyEmail}} <br />
+
+						<b>Coupon price : </b> {{vm.currentCouponNew.couponPrice | currency: "₪" : 2 }} 
+						<br /> 
+						<b>Coupon end date : </b> {{vm.currentCouponNew.couponEndDate | date : 'dd/MM/yyyy' }} 
+						<br /> 
+						<br /> 
+						
+						
+						<input id="couponPrice"
+							class="form-control" type="number" placeholder="Decimal"
+							required ng-model="vm.currentCouponNew.couponPrice"> 
+							
+							<input id="couponEndDate"
+							class="form-control" type="date" placeholder="Coupon end date"
+							required ng-model="vm.currentCouponNew.couponEndDate">
 
 
+						<!-- Input  Coupon end date-->
+						<!-- div class="form-group"
+							ng-class="{ 'has-error': form.couponEndDate.$dirty && form.couponEndDate.$error.required }">
+							<label for="couponEndDate">Coupon end date</label> <input
+								type="date" name="couponEndDate" id="couponEndDate"
+								class="form-control" ng-model="vm.currentCouponNew.couponEndDate" required />
+							<span
+								ng-show="form.couponEndDate.$dirty && form.couponEndDate.$error.required"
+								class="help-block">Coupon end date is required</span>
+						</div-->
 
-						<br /> <input id="companyName" class="form-control" type="text"
-							placeholder="Company name" required
-							ng-model="vm.currentCompanyNew.companyName"> <input
-							id="companyEmail" class="form-control" type="email"
-							placeholder="Company email" required
-							ng-model="vm.currentCompanyNew.companyEmail">
 
 					</div>
 					<div class="modal-footer">
 						<div>
 							<button type="submit"
-								ng-disabled="!vm.currentCompanyNew.companyName || !vm.currentCompanyNew.companyEmail"
+								ng-disabled="!vm.currentCouponNew.couponPrice || !vm.currentCouponNew.couponEndDate"
 								class="btn btn-primary btn-lg btn-block">Update</button>
 							<!-- onclick="$('.modal').modal('hide')" -->
 						</div>
@@ -169,119 +189,3 @@ tr:nth-child(even) {
 	</div>
 </div>
 <!-- END # MODAL UPDATE -->
-
-
-
-
-
-
-<!-- BEGIN # MODAL  BACKUP-->
-<div class="modal fade" id="bak-login-modal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true"
-	style="display: none;">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header" align="center">
-				<img class="img-circle" id="img_logo"
-					src="http://bootsnipp.com/img/logo.jpg">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
-					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</button>
-			</div>
-
-			<!-- Begin # DIV Form -->
-			<div id="div-forms">
-
-				<!-- Begin # Login Form -->
-				<form id="login-form">
-					<div class="modal-body">
-						<div id="div-login-msg">
-							<div id="icon-login-msg"
-								class="glyphicon glyphicon-chevron-right"></div>
-							<span id="text-login-msg">Type your username and password.</span>
-						</div>
-						<input id="login_username" class="form-control" type="text"
-							placeholder="Username (type ERROR for error effect)" required>
-						<input id="login_password" class="form-control" type="password"
-							placeholder="Password" required>
-						<div class="checkbox">
-							<label> <input type="checkbox"> Remember me
-							</label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<div>
-							<button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
-						</div>
-						<div>
-							<button id="login_lost_btn" type="button" class="btn btn-link">Lost
-								Password?</button>
-							<button id="login_register_btn" type="button"
-								class="btn btn-link">Register</button>
-						</div>
-					</div>
-				</form>
-				<!-- End # Login Form -->
-
-				<!-- Begin | Lost Password Form -->
-				<form id="lost-form" style="display: none;">
-					<div class="modal-body">
-						<div id="div-lost-msg">
-							<div id="icon-lost-msg" class="glyphicon glyphicon-chevron-right"></div>
-							<span id="text-lost-msg">Type your e-mail.</span>
-						</div>
-						<input id="lost_email" class="form-control" type="text"
-							placeholder="E-Mail (type ERROR for error effect)" required>
-					</div>
-					<div class="modal-footer">
-						<div>
-							<button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
-						</div>
-						<div>
-							<button id="lost_login_btn" type="button" class="btn btn-link">Log
-								In</button>
-							<button id="lost_register_btn" type="button" class="btn btn-link">Register</button>
-						</div>
-					</div>
-				</form>
-				<!-- End | Lost Password Form -->
-
-				<!-- Begin | Register Form -->
-				<form id="register-form" style="display: none;">
-					<div class="modal-body">
-						<div id="div-register-msg">
-							<div id="icon-register-msg"
-								class="glyphicon glyphicon-chevron-right"></div>
-							<span id="text-register-msg">Register an account.</span>
-						</div>
-						<input id="register_username" class="form-control" type="text"
-							placeholder="Username (type ERROR for error effect)" required>
-						<input id="register_email" class="form-control" type="text"
-							placeholder="E-Mail" required> <input
-							id="register_password" class="form-control" type="password"
-							placeholder="Password" required>
-					</div>
-					<div class="modal-footer">
-						<div>
-							<button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
-						</div>
-						<div>
-							<button id="register_login_btn" type="button"
-								class="btn btn-link">Log In</button>
-							<button id="register_lost_btn" type="button" class="btn btn-link">Lost
-								Password?</button>
-						</div>
-					</div>
-				</form>
-				<!-- End | Register Form -->
-
-			</div>
-			<!-- End # DIV Form -->
-
-		</div>
-	</div>
-</div>
-<!-- END # MODAL  BACKUP-->
-
-

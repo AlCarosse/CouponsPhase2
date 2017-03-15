@@ -14,9 +14,19 @@
 		service.CreateCoupon      = CreateCoupon;
 		service.GetCompanyCoupons = GetCompanyCoupons;
 		service.DeleteCoupon      = DeleteCoupon;
+		service.UpdateCoupon      = UpdateCoupon;
 		
 
 		return service;		
+
+		function UpdateCoupon( coupon , callback) 
+		{
+			$http.put('/CouponsPhase2/rest/api/coupons/updateCoupon' ,  { couponId : coupon.couponId , couponEndDate : coupon.couponEndDate , couponPrice : coupon.couponPrice }
+			)
+			.then(function (response) {
+				callback(response);
+			});
+		}
 
 
 		function DeleteCoupon( couponId , callback) 

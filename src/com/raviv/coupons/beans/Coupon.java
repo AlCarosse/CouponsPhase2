@@ -1,6 +1,8 @@
 package com.raviv.coupons.beans;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -34,6 +36,8 @@ public class Coupon extends InfraBean {
 	private Timestamp   				couponStartDateTimeStamp;
 	private Timestamp   				couponEndDateTimeStamp;
 	
+	private String 						couponEndDateYyyyMmDd;
+	
 	
 	/**
 	 * Default constructor
@@ -52,6 +56,7 @@ public class Coupon extends InfraBean {
 		setCouponId			( couponId					);		
 		setCouponEndDate	( couponEndDate.toLong() 	);
 		setCouponPrice		( couponPrice				);
+
 	}
 
 	/**
@@ -77,6 +82,7 @@ public class Coupon extends InfraBean {
 		setCouponPrice		( couponPrice				);
 		setImageFileName	( imageFileName				);
 		setCouponMessage    ( couponMessage             );
+	
 	}
 
 	/**
@@ -104,6 +110,14 @@ public class Coupon extends InfraBean {
 		setCouponPrice		( couponPrice				);
 		setImageFileName	( imageFileName				);		
 		setCouponMessage	( couponMessage				);
+		
+	}
+
+	private void initCouponEndDateYyyyMmDd() {
+		Date date = new Date();
+		date.setTime(couponEndDateTimeStamp.getTime());
+		String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
+		couponEndDateYyyyMmDd = formattedDate;	
 	}
 
 	
@@ -147,6 +161,7 @@ public class Coupon extends InfraBean {
 	public void setCouponEndDate(long couponEndDate) {
 		this.couponEndDate = couponEndDate;
 		this.couponEndDateTimeStamp = new Timestamp(couponEndDate);
+		initCouponEndDateYyyyMmDd();
 	}
 	public int getCouponsInStock() {
 		return couponsInStock;
@@ -178,8 +193,20 @@ public class Coupon extends InfraBean {
 	public void setImageFileName(String imageFileName) {
 		this.imageFileName = imageFileName;
 	}
-	
-	
-	
+
+
+	public String getCouponEndDateYyyyMmDd() {
+		return couponEndDateYyyyMmDd;
+	}
+
+
+	public void setCouponEndDateYyyyMmDd(String couponEndDateYyyyMmDd) {
+		this.couponEndDateYyyyMmDd = couponEndDateYyyyMmDd;
+	}
+
+
+
+
+
 
 }
