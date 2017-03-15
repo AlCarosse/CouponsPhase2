@@ -250,7 +250,7 @@ public class CouponsApi {
 			}
 
 			CouponsBlo couponsBlo = new CouponsBlo();
-			List<Coupon> coupons = couponsBlo.getCompanyCoupons(loggedUser);
+			List<Coupon> coupons = couponsBlo.getCompanyCouponsQuery(loggedUser, dynamicQueryParameters);
 			getCouponsOutput.setCoupons(coupons);
 		}
 		catch (Throwable t) 

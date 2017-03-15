@@ -29,9 +29,10 @@
         vm.updateCouponStatus = null;
 
         
-        vm.getCompanyCoupons = getCompanyCoupons;
-        vm.deleteCoupon = deleteCoupon;
-        vm.updateCoupon = updateCoupon;
+        vm.getCompanyCouponsQuery	= getCompanyCouponsQuery;
+        vm.getCompanyCoupons 		= getCompanyCoupons;
+        vm.deleteCoupon 			= deleteCoupon;
+        vm.updateCoupon 			= updateCoupon;
         
         vm.setCurrentCoupon = setCurrentCoupon;
 
@@ -42,8 +43,15 @@
 			    	,"couponPrice"   : 0
 			 };
 
+		vm.filter = {
+			  	 	"couponTypeId"  :  null
+			  	    ,"fromPrice" 	 :  null
+			  	   	,"toPrice" 	     :  null
+			  	   	,"fromDate" 	 :  null//"20160602"
+			  	   	,"toDate" 	     :  null//"20170601"  
+			  	};
         
-        
+		
         initController();
 
         function initController() {
@@ -51,6 +59,47 @@
         	getCompanyCoupons();
         }
 
+
+        function getCompanyCouponsQuery() 
+        {		
+        	vm.queryParametrs = angular.copy(vm.filter);
+
+        	var yyyymmdd;
+        	if ( vm.filter.fromDate != null )
+        	{
+        		yyyymmdd = vm.filter.fromDate.toISOString().slice(0,10).replace(/-/g,"");
+        		vm.queryParametrs.fromDate = yyyymmdd;
+        	}
+
+        	if ( vm.filter.toDate != null )
+        	{
+        		yyyymmdd = vm.filter.toDate.toISOString().slice(0,10).replace(/-/g,"");
+        		vm.queryParametrs.toDate = yyyymmdd;
+        	}
+			
+        	
+			CouponsService.GetCompanyCouponsQuery(vm.queryParametrs,	function (response) 
+            {
+                if (response.data.serviceStatus.success === "true") 
+                {
+                	vm.coupons = [];
+                	vm.coupons = vm.coupons.concat(response.data.coupons);
+                } 
+                else 
+                {
+                	vm.updateCouponStatus = "fail";
+                	vm.errorMesage = response.data.serviceStatus.errorMessage;                    
+                }
+            });
+            
+        }
+
+        
+        
+        
+        
+        
+        
         function updateCoupon() 
         {		
 

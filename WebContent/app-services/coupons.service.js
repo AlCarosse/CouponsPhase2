@@ -10,15 +10,27 @@
 	{
 		var service = {};
 
-		service.UploadImage       = UploadImage;
-		service.CreateCoupon      = CreateCoupon;
-		service.GetCompanyCoupons = GetCompanyCoupons;
-		service.DeleteCoupon      = DeleteCoupon;
-		service.UpdateCoupon      = UpdateCoupon;
+		service.UploadImage       		= UploadImage;
+		service.CreateCoupon      		= CreateCoupon;
+		service.GetCompanyCoupons 		= GetCompanyCoupons;
+		service.DeleteCoupon           	= DeleteCoupon;
+		service.UpdateCoupon           	= UpdateCoupon;
+		service.GetCompanyCouponsQuery 	= GetCompanyCouponsQuery;
 		
 
 		return service;		
 
+		
+		function GetCompanyCouponsQuery( queryParameters , callback) 
+		{
+			$http.post('/CouponsPhase2/rest/api/coupons/getCompanyCouponsQuery' ,  queryParameters
+			)
+			.then(function (response) {
+				callback(response);
+			});
+		}
+
+		
 		function UpdateCoupon( coupon , callback) 
 		{
 			$http.put('/CouponsPhase2/rest/api/coupons/updateCoupon' ,  { couponId : coupon.couponId , couponEndDate : coupon.couponEndDate , couponPrice : coupon.couponPrice }

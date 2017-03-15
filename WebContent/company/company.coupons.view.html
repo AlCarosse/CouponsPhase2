@@ -25,17 +25,71 @@ tr:nth-child(even) {
 }
 </style>
 
+<!-- Header company coupons -->
 <br>
 <div class="alert alert-info" role="alert">
 	<strong>Company coupons</strong>
 </div>
+
+
+<!-- Filter -->
+<table border: 1px solid white; border="0" style="border-collapse: collapse;border-style:hidden;">
+	<tr>
+
+		<!-- Input : Coupon type -->
+		<td>
+				<b>Coupon type</b><br/> 
+				<select type="number" name="couponTypeId" class="form-control" ng-model="vm.filter.couponTypeId">
+					<option value="1">HOLIDAY</option>
+					<option value="2">RESTAURANT</option>
+					<option value="3">ENTERTAINMENT</option>
+					<option value="4">TRAVELLING</option>
+				</select>
+		</td>
+
+		<!-- From price -->
+		<td>
+			<b>From price</b><br/> 
+			<input id="fromPrice" class="form-control" type="number" placeholder="From price" required ng-model="vm.filter.fromPrice">
+		</td>
+
+		<!-- To price -->
+		<td>
+			<b>To price</b><br/> 
+			<input id="toPrice" class="form-control" type="number" placeholder="To price" required ng-model="vm.filter.toPrice">
+		</td>
+	
+		<!-- From Date -->
+		<td><b>From date</b><br/> <input id="fromDate"
+			class="form-control" type="date" placeholder="From date" required
+			ng-model="vm.filter.fromDate">
+		</td>
+
+		<!-- To Date -->
+		<td>
+			<b>To date</b>
+			<br/> 
+			<input id="toDate" class="form-control" type="date" placeholder="To date" required ng-model="vm.filter.toDate">
+		</td>
+
+		<!-- Search -->
+		<td>
+			<br/>
+			<button type="button" class="btn btn-primary" ng-click="vm.getCompanyCouponsQuery()">Search</button>
+		</td>
+		
+	</tr>
+</table>
+
 <br>
 
 <table>
 
 	<tr>
 		<th>Title</th>
+		<th>Type</th>
 		<th>Price</th>
+		<th>Start date</th>
 		<th>End date</th>
 		<th>Image</th>
 		<th>Remove</th>
@@ -49,10 +103,23 @@ tr:nth-child(even) {
 			coupon.couponTitle }}</td>
 		<td ng-if="$even">{{ coupon.couponTitle }}</td>
 
+		<!-- Type  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.couponTypeId }}</td>
+		<td ng-if="$even">{{ coupon.couponTypeId }}</td>
+
+
 		<!-- Price  -->
 		<td ng-if="$odd" style="background-color: white">{{
 			coupon.couponPrice }}</td>
 		<td ng-if="$even">{{ coupon.couponPrice }}</td>
+
+		<!-- Start date  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.couponStartDate | date : 'dd/MM/yyyy' }}</td>
+		<td ng-if="$even">{{ coupon.couponStartDate | date : 'dd/MM/yyyy'
+			}}</td>
+
 
 		<!-- End date  -->
 		<td ng-if="$odd" style="background-color: white">{{
@@ -141,21 +208,15 @@ tr:nth-child(even) {
 							Update coupon details failed : {{vm.errorMesage}}
 						</div>
 
-
-						<b>Coupon price : </b> {{vm.currentCouponNew.couponPrice | currency: "₪" : 2 }} 
-						<br /> 
-						<b>Coupon end date : </b> {{vm.currentCouponNew.couponEndDate | date : 'dd/MM/yyyy' }} 
-						<br /> 
-						<br /> 
-						
-						
-						<input id="couponPrice"
-							class="form-control" type="number" placeholder="Decimal"
-							required ng-model="vm.currentCouponNew.couponPrice"> 
-							
-							<input id="couponEndDate"
-							class="form-control" type="date" placeholder="Coupon end date"
-							required ng-model="vm.currentCouponNew.couponEndDate">
+						<b>Coupon price : </b> {{vm.currentCouponNew.couponPrice |
+						currency: "$" : 2 }} <br /> <b>Coupon end date : </b>
+						{{vm.currentCouponNew.couponEndDate | date : 'dd/MM/yyyy' }} <br />
+						<br /> <input id="couponPrice" class="form-control" type="number"
+							placeholder="Coupon price" required
+							ng-model="vm.currentCouponNew.couponPrice"> <input
+							id="couponEndDate" class="form-control" type="date"
+							placeholder="Coupon end date" required
+							ng-model="vm.currentCouponNew.couponEndDate">
 
 
 						<!-- Input  Coupon end date-->
