@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.raviv.coupons.enums.CouponTypeDescriptionMapper;
 import com.raviv.coupons.utils.YyyyMmDd;
 
 /**
@@ -31,6 +32,7 @@ public class Coupon extends InfraBean {
 	private	String                   	couponMessage;
 	private	double                   	couponPrice;
 	private	String                   	imageFileName;
+	private	String                      couponTypeDescription;
 	
 	
 	private Timestamp   				couponStartDateTimeStamp;
@@ -174,6 +176,7 @@ public class Coupon extends InfraBean {
 	}
 	public void setCouponTypeId(int couponTypeId) {
 		this.couponTypeId = couponTypeId;
+		this.couponTypeDescription = CouponTypeDescriptionMapper.getInstance().getCouponTypeDescription(couponTypeId);
 	}
 	public String getCouponMessage() {
 		return couponMessage;
@@ -204,9 +207,12 @@ public class Coupon extends InfraBean {
 		this.couponEndDateYyyyMmDd = couponEndDateYyyyMmDd;
 	}
 
+	public String getCouponTypeDescription() {
+		return couponTypeDescription;
+	}
 
-
-
-
+	public void setCouponTypeDescription(String couponTypeDescription) {
+		this.couponTypeDescription = couponTypeDescription;
+	}
 
 }

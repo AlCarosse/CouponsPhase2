@@ -39,7 +39,7 @@ tr:nth-child(even) {
 		<!-- Input : Coupon type -->
 		<td>
 				<b>Coupon type</b><br/> 
-				<select type="number" name="couponTypeId" class="form-control" ng-model="vm.filter.couponTypeId">
+				<select ng-change="vm.getCompanyCouponsQuery()" type="number" name="couponTypeId" class="form-control" ng-model="vm.filter.couponTypeId">
 					<option value="1">HOLIDAY</option>
 					<option value="2">RESTAURANT</option>
 					<option value="3">ENTERTAINMENT</option>
@@ -50,7 +50,7 @@ tr:nth-child(even) {
 		<!-- From price -->
 		<td>
 			<b>From price</b><br/> 
-			<input id="fromPrice" class="form-control" type="number" placeholder="From price" required ng-model="vm.filter.fromPrice">
+			<input id="fromPrice" class="form-control" type="number" placeholder="From price" ng-model="vm.filter.fromPrice">
 		</td>
 
 		<!-- To price -->
@@ -60,16 +60,15 @@ tr:nth-child(even) {
 		</td>
 	
 		<!-- From Date -->
-		<td><b>From date</b><br/> <input id="fromDate"
-			class="form-control" type="date" placeholder="From date" required
-			ng-model="vm.filter.fromDate">
+		<td><b>From date</b><br/> 
+			<input ng-change="vm.getCompanyCouponsQuery()" id="fromDate" class="form-control" type="date" placeholder="From date" required ng-model="vm.filter.fromDate">
 		</td>
 
 		<!-- To Date -->
 		<td>
 			<b>To date</b>
 			<br/> 
-			<input id="toDate" class="form-control" type="date" placeholder="To date" required ng-model="vm.filter.toDate">
+			<input ng-change="vm.getCompanyCouponsQuery()"  id="toDate" class="form-control" type="date" placeholder="To date" required ng-model="vm.filter.toDate">
 		</td>
 
 		<!-- Search -->
@@ -111,8 +110,8 @@ tr:nth-child(even) {
 
 		<!-- Type  -->
 		<td ng-if="$odd" style="background-color: white">{{
-			coupon.couponTypeId }}</td>
-		<td ng-if="$even">{{ coupon.couponTypeId }}</td>
+			coupon.couponTypeDescription }}</td>
+		<td ng-if="$even">{{ coupon.couponTypeDescription }}</td>
 
 
 		<!-- Price  -->
