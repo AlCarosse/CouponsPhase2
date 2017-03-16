@@ -612,7 +612,7 @@ public class CouponsDao extends InfraDao implements ICouponsDao {
 		return returnObj;
 }
 
-	public Coupon 	getCouponByCompanyIdForImageUpload(long companyId) throws ApplicationException {
+	public Coupon 			getCouponByCompanyIdForImageUpload(long companyId) throws ApplicationException {
 		Connection 			connection 			= null;
 		PreparedStatement 	preparedStatement 	= null;		
 		ResultSet 			resultSet 			= null;
@@ -713,6 +713,167 @@ public class CouponsDao extends InfraDao implements ICouponsDao {
 		}
 		
 		return true;
+	}
+
+	public List<Coupon> 	getCouponsForSaleByCustomerIdAndDynamicFilter(long customerId, DynamicQueryParameters dynamicQueryParameters) throws ApplicationException {
+		Connection 			connection 			= null;
+		PreparedStatement 	preparedStatement 	= null;		
+		ResultSet 			resultSet 			= null;
+		List<Coupon>		coupons				= new ArrayList<Coupon>();
+		Coupon 				coupon;
+
+		try 
+		{
+			// Getting a connection from the connections manager or Transaction manager
+			connection = super.getConnection();
+			
+			String sql;
+			
+			sql = "";
+			sql += "\n SELECT      ";
+			sql += "\n  	  C.*  ";
+			sql += "\n FROM ";
+			sql += "\n 		COUPONS			C";
+			sql += "\n 	    LEFT JOIN  ";
+			sql += "\n 		( SELECT COUPON_ID FROM CUSTOMER_COUPON WHERE CUSTOMER_ID = ? )	CC ON CC.COUPON_ID = C.COUPON_ID";
+			sql += "\n WHERE ";
+			sql += "\n 		CC.COUPON_ID IS NULL"; // Customer did not buy coupon
+			sql += "\n 	AND GETDATE() <= C.COUPON_END_DATE "; // Coupon is effective
+			sql += "\n 	AND         1 <= C.COUPONS_IN_STOCK ";// Coupon in stock
+			
+			
+			// Build dynamic where clause
+			for ( Map.Entry<String, String> entry:  dynamicQueryParameters.getQueryParameters().entrySet() )
+			{
+				String paramName  = entry.getKey();
+				String paramValue = entry.getValue();
+				if ( paramName  == null) continue;
+				if ( paramValue == null) continue;
+				System.out.println("parameter name is " + paramName + " Paramter value is " + paramValue );
+				
+				if ( DynamicQueryParameters.COUPON_TYPE_ID.equals(paramName) )
+				{
+					sql += "\n		AND	C.COUPON_TYPE_ID = ? ";
+					continue;
+				}
+				if ( DynamicQueryParameters.FROM_PRICE.equals(paramName) )
+				{
+					sql += "\n		AND	C.COUPON_PRICE >= ? ";
+					continue;
+				}
+				if ( DynamicQueryParameters.TO_PRICE.equals(paramName) )
+				{
+					sql += "\n		AND	C.COUPON_PRICE <= ? ";
+					continue;
+				}
+				if ( DynamicQueryParameters.FROM_DATE.equals(paramName) )
+				{
+					sql += "\n		AND	C.COUPON_END_DATE >= ? ";
+					continue;
+				}
+				if ( DynamicQueryParameters.TO_DATE.equals(paramName) )
+				{
+					sql += "\n		AND	C.COUPON_START_DATE <= ? ";
+					continue;
+				}
+			}
+			
+			//System.out.println(sql);
+			
+			preparedStatement = connection.prepareStatement(sql);
+			int i = 1;
+			preparedStatement.setLong( i , customerId);
+			i++;	
+			// Set dynamic where clause parameters
+			for ( Map.Entry<String, String> entry:  dynamicQueryParameters.getQueryParameters().entrySet() )
+			{
+				String paramName  = entry.getKey();
+				String paramValue = entry.getValue();
+				if ( paramName  == null) continue;
+				if ( paramValue == null) continue;
+				//System.out.println("parameter name is " + paramName + " Paramter value is " + paramValue );
+				
+				if ( DynamicQueryParameters.COUPON_TYPE_ID.equals(paramName) )
+				{
+					Integer couponTypeId = Integer.parseInt(paramValue);
+					preparedStatement.setInt( i , couponTypeId );
+					i++;
+					//sql += " AND    COUPON_TYPE_ID = ? ";
+					continue;
+				}
+				if ( DynamicQueryParameters.FROM_PRICE.equals(paramName) )
+				{
+					Double fromPrice = Double.parseDouble(paramValue);
+					preparedStatement.setDouble( i , fromPrice );
+					i++;
+					//sql += " AND  	COUPON_PRICE >= ? ";
+					continue;
+				}
+				if ( DynamicQueryParameters.TO_PRICE.equals(paramName) )
+				{
+					Double toPrice = Double.parseDouble(paramValue);
+					preparedStatement.setDouble( i , toPrice );
+					i++;
+					//sql += " AND  	COUPON_PRICE <= ? ";
+					continue;
+				}
+				if ( DynamicQueryParameters.FROM_DATE.equals(paramName) )
+				{
+					//Long 		fromDate 			= Long.parseLong(paramValue);
+					//Timestamp	fromDateTimestamp	= new Timestamp(fromDate);
+					Timestamp	fromDateTimestamp	= (new YyyyMmDd(paramValue)).toTimestamp();
+					preparedStatement.setTimestamp( i , fromDateTimestamp );
+					i++;
+					//sql += " AND  	COUPON_END_DATE >= ? ";
+					continue;
+				}
+				if ( DynamicQueryParameters.TO_DATE.equals(paramName) )
+				{
+					//Long 		toDate 			= Long.parseLong(paramValue);
+					//Timestamp	toDateTimestamp	= new Timestamp(toDate);
+					Timestamp	toDateTimestamp	= (new YyyyMmDd(paramValue)).toTimestamp();
+					preparedStatement.setTimestamp( i , toDateTimestamp );
+					i++;
+					//sql += " AND  	COUPON_START_DATE <= ? ";
+					continue;
+				}
+			}
+			
+			// execute query
+			resultSet = preparedStatement.executeQuery();
+	
+			// Loop through result set
+			// For each company create bean and add it to output list
+			while ( resultSet.next() ) 
+			{
+				coupon = new Coupon();
+				//extract bean from result Set
+				this.copyDataFromResultSetToBean (coupon, resultSet);
+				coupons.add(coupon);
+			} 
+						
+			
+		} 
+		catch (SQLException e) 
+		{
+			//e.printStackTrace();
+			throw new ApplicationException(ErrorType.DAO_GET_ERROR, e, "Failed to get coupons for sale by customerId : " + customerId + ". " + e.getMessage());
+		} 
+		finally 
+		{
+			if ( super.isJdbcTransactionManagerInUse() )
+			{
+				// Transaction manager will close the connection later.
+				super.connectionPoolManager.closeResources(preparedStatement, resultSet);
+			}
+			else
+			{
+				// We do not have transaction manager.
+				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
+			}				
+		}
+		
+		return coupons;
 	}
 
 	

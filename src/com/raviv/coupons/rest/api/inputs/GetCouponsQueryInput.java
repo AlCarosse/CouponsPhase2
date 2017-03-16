@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement
-public class GetCompanyCouponsQueryInput  {
+public class GetCouponsQueryInput  {
 
 	/**
 	 * Default constructor. deserealization
 	 */
-	public GetCompanyCouponsQueryInput() {}
+	public GetCouponsQueryInput() {}
 
 	private	String		couponTypeId;
 	private	String		fromPrice;
@@ -24,7 +24,7 @@ public class GetCompanyCouponsQueryInput  {
 	
 	@Override
 	public String toString() {
-		return "GetCompanyCouponsQueryInput [couponTypeId=" + couponTypeId + ", fromPrice=" + fromPrice + ", toPrice="
+		return "GetCouponsQueryInput [couponTypeId=" + couponTypeId + ", fromPrice=" + fromPrice + ", toPrice="
 				+ toPrice + ", fromDate=" + fromDate + ", toDate=" + toDate + "]";
 	}
 	public String getCouponTypeId() {

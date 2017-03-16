@@ -25,7 +25,7 @@ import com.raviv.coupons.enums.ErrorType;
 import com.raviv.coupons.exceptions.ApplicationException;
 import com.raviv.coupons.exceptions.ExceptionHandler;
 import com.raviv.coupons.rest.api.inputs.CreateCouponInput;
-import com.raviv.coupons.rest.api.inputs.GetCompanyCouponsQueryInput;
+import com.raviv.coupons.rest.api.inputs.GetCouponsQueryInput;
 import com.raviv.coupons.rest.api.inputs.GetCustomerCouponsQueryInput;
 import com.raviv.coupons.rest.api.inputs.UpdateCouponInput;
 import com.raviv.coupons.rest.api.outputs.GetCouponsOutput;
@@ -198,13 +198,13 @@ public class CouponsApi {
 	@Path("/getCompanyCouponsQuery")
 	@Consumes(MediaType.APPLICATION_JSON)	
 	@Produces(MediaType.APPLICATION_JSON)
-	public GetCouponsOutput getCompanyCouponsQuery( @Context HttpServletRequest request, GetCompanyCouponsQueryInput getCompanyCouponsQueryInput ) throws ApplicationException
+	public GetCouponsOutput getCompanyCouponsQuery( @Context HttpServletRequest request, GetCouponsQueryInput getCouponsQueryInput ) throws ApplicationException
 	{
 		GetCouponsOutput getCouponsOutput = new GetCouponsOutput();
 		try 
 		{
 
-			System.out.println(getCompanyCouponsQueryInput);
+			System.out.println(getCouponsQueryInput);
 
 			/**
 			 *  Get the logged user
@@ -219,31 +219,31 @@ public class CouponsApi {
 
 			DynamicQueryParameters dynamicQueryParameters = new DynamicQueryParameters();
 
-			String couponTypeId = getCompanyCouponsQueryInput.getCouponTypeId();
+			String couponTypeId = getCouponsQueryInput.getCouponTypeId();
 			if ( couponTypeId != null )
 			{
 				dynamicQueryParameters.add(DynamicQueryParameters.COUPON_TYPE_ID	, couponTypeId );
 			}
 
-			String fromPrice = getCompanyCouponsQueryInput.getFromPrice();
+			String fromPrice = getCouponsQueryInput.getFromPrice();
 			if ( fromPrice != null )
 			{
 				dynamicQueryParameters.add(DynamicQueryParameters.FROM_PRICE	, fromPrice );
 			}
 
-			String toPrice = getCompanyCouponsQueryInput.getToPrice();
+			String toPrice = getCouponsQueryInput.getToPrice();
 			if ( toPrice != null )
 			{
 				dynamicQueryParameters.add(DynamicQueryParameters.TO_PRICE	, toPrice );
 			}
 
-			String fromDate = getCompanyCouponsQueryInput.getFromDate();
+			String fromDate = getCouponsQueryInput.getFromDate();
 			if ( fromDate != null )
 			{
 				dynamicQueryParameters.add(DynamicQueryParameters.FROM_DATE	, fromDate );
 			}
 
-			String toDate = getCompanyCouponsQueryInput.getToDate();
+			String toDate = getCouponsQueryInput.getToDate();
 			if ( toDate != null )
 			{
 				dynamicQueryParameters.add(DynamicQueryParameters.TO_DATE	, toDate );
@@ -355,4 +355,72 @@ public class CouponsApi {
 		return couponsBlo.getCustomerCouponsQuery( loggedUser , dynamicQueryParameters );
 	}
 
+	@POST
+	@Path("/getCouponsForSaleByCustomerId")
+	@Consumes(MediaType.APPLICATION_JSON)	
+	@Produces(MediaType.APPLICATION_JSON)
+	public GetCouponsOutput getCouponsForSaleByCustomerId( @Context HttpServletRequest request, GetCouponsQueryInput getCouponsQueryInput ) throws ApplicationException
+	{
+		GetCouponsOutput getCouponsOutput = new GetCouponsOutput();
+		try 
+		{
+
+			System.out.println(getCouponsQueryInput);
+
+			/**
+			 *  Get the logged user
+			 */		
+			Integer loginUserId = LoginSession.getLoginUserId(request);
+			UsersBlo usersBlo = new UsersBlo();
+			User loggedUser = usersBlo.getUserById( loginUserId);
+
+			/**
+			 * Get customer coupons for sale with dynamicQueryParameters
+			 */		
+
+			DynamicQueryParameters dynamicQueryParameters = new DynamicQueryParameters();
+
+			String couponTypeId = getCouponsQueryInput.getCouponTypeId();
+			if ( couponTypeId != null )
+			{
+				dynamicQueryParameters.add(DynamicQueryParameters.COUPON_TYPE_ID	, couponTypeId );
+			}
+
+			String fromPrice = getCouponsQueryInput.getFromPrice();
+			if ( fromPrice != null )
+			{
+				dynamicQueryParameters.add(DynamicQueryParameters.FROM_PRICE	, fromPrice );
+			}
+
+			String toPrice = getCouponsQueryInput.getToPrice();
+			if ( toPrice != null )
+			{
+				dynamicQueryParameters.add(DynamicQueryParameters.TO_PRICE	, toPrice );
+			}
+
+			String fromDate = getCouponsQueryInput.getFromDate();
+			if ( fromDate != null )
+			{
+				dynamicQueryParameters.add(DynamicQueryParameters.FROM_DATE	, fromDate );
+			}
+
+			String toDate = getCouponsQueryInput.getToDate();
+			if ( toDate != null )
+			{
+				dynamicQueryParameters.add(DynamicQueryParameters.TO_DATE	, toDate );
+			}
+
+			CouponsBlo couponsBlo = new CouponsBlo();
+			List<Coupon> coupons = couponsBlo.getCouponsForSaleByCustomerId(loggedUser, dynamicQueryParameters);
+			getCouponsOutput.setCoupons(coupons);
+		}
+		catch (Throwable t) 
+		{
+			t.printStackTrace();
+			getCouponsOutput.setServiceStatus(ExceptionHandler.createServiceStatus(t));
+		}		
+		return getCouponsOutput;
+	}
+
+	
 }

@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .controller('CompanyCouponsController', CompanyCouponsController);
+        .controller('CustomerBuyCouponController', CustomerBuyCouponController);
 
-    CompanyCouponsController.$inject = ['CouponsService', '$cookies', '$rootScope', 'LoginService', 'FlashService'];
+    CustomerBuyCouponController.$inject = ['CouponsService', '$cookies', '$rootScope', 'LoginService', 'FlashService'];
     
-    function CompanyCouponsController( CouponsService, $cookies, $rootScope, LoginService , FlashService ) {
+    function CustomerBuyCouponController( CouponsService, $cookies, $rootScope, LoginService , FlashService ) {
         
     	var vm = this;
         vm.user = null;
@@ -29,6 +29,9 @@
         vm.updateCouponStatus = null;
 
         
+
+        vm.getCouponsForSaleByCustomerId	= getCouponsForSaleByCustomerId;
+
         vm.getCompanyCouponsQuery	= getCompanyCouponsQuery;
         vm.getCompanyCoupons 		= getCompanyCoupons;
         vm.deleteCoupon 			= deleteCoupon;
@@ -40,7 +43,7 @@
         
 		vm.newCoupon = {
 			  	 	"couponId"       :  0
-			    	,"couponEndDate" : ""
+			    	,"couponEndDate" : "yyyymmdd"
 			    	,"couponPrice"   : 0
 			 };
 
@@ -57,7 +60,7 @@
 
         function initController() {
         	loadCurrentUser();
-        	getCompanyCoupons();
+        	getCouponsForSaleByCustomerId();
         }
 
         function clearFilter() {
@@ -68,9 +71,50 @@
 			  	   	,"fromDate" 	 :  null
 			  	   	,"toDate" 	     :  null  
 			  	};
-        	getCompanyCouponsQuery();
+    		getCouponsForSaleByCustomerId();
         }
 
+        
+        
+        
+        function getCouponsForSaleByCustomerId() 
+        {		
+        	vm.queryParametrs = angular.copy(vm.filter);
+
+        	var yyyymmdd;
+        	if ( vm.filter.fromDate != null )
+        	{
+        		yyyymmdd = moment(vm.filter.fromDate).format('YYYYMMDD');
+        		vm.queryParametrs.fromDate = yyyymmdd;
+        	}
+
+        	if ( vm.filter.toDate != null )
+        	{
+        		yyyymmdd = moment(vm.filter.toDate).format('YYYYMMDD');
+        		vm.queryParametrs.toDate = yyyymmdd;
+        	}
+			
+        	
+			CouponsService.GetCouponsForSaleByCustomerId(vm.queryParametrs,	function (response) 
+            {
+                if (response.data.serviceStatus.success === "true") 
+                {
+                	vm.coupons = [];
+                	if ( response.data.coupons !== undefined )
+                	{
+                		vm.coupons = vm.coupons.concat(response.data.coupons);
+                	}
+                } 
+                else 
+                {
+                	vm.updateCouponStatus = "fail";
+                	vm.errorMesage = response.data.serviceStatus.errorMessage;                    
+                }
+            });
+            
+        }
+
+        
 
         function getCompanyCouponsQuery() 
         {		
@@ -108,10 +152,6 @@
             });
             
         }
-
-        
-        
-        
         
         
         

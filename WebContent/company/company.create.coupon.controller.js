@@ -53,10 +53,12 @@
 
 			vm.newCoupon = angular.copy(vm.coupon);
 			
-			var yyyymmdd = vm.coupon.couponStartDate.toISOString().slice(0,10).replace(/-/g,"");
+			var yyyymmdd;
+			
+    		yyyymmdd = moment(vm.coupon.couponStartDate).format('YYYYMMDD');
 			vm.newCoupon.couponStartDate = yyyymmdd;
 			
-			var yyyymmdd = vm.coupon.couponEndDate.toISOString().slice(0,10).replace(/-/g,"");
+			yyyymmdd = moment(vm.coupon.couponEndDate).format('YYYYMMDD');
 			vm.newCoupon.couponEndDate = yyyymmdd;
 			
 			

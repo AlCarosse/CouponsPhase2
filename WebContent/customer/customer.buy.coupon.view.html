@@ -1,0 +1,257 @@
+<div ng-include="'customer/navbar.html'"></div>
+
+<style>
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #dddddd;
+}
+
+.center-cropped {
+	object-fit: contain; /* Do not scale the image */
+	object-position: center; /* Center the image within the element */
+	height: 50px;
+	width: 50px;
+}
+</style>
+
+<!-- Header company coupons -->
+<br>
+<div class="alert alert-info" role="alert">
+	<strong>Take a look at our great value coupons!!!</strong>
+</div>
+
+
+<!-- Filter -->
+<table border: 1px solid white; border="0" style="border-collapse: collapse;border-style:hidden;">
+	<tr>
+
+		<!-- Input : Coupon type -->
+		<td>
+				<b>Coupon type</b><br/> 
+				<select ng-change="vm.getCouponsForSaleByCustomerId()" type="number" name="couponTypeId" class="form-control" ng-model="vm.filter.couponTypeId">
+					<option value="1">HOLIDAY</option>
+					<option value="2">RESTAURANT</option>
+					<option value="3">ENTERTAINMENT</option>
+					<option value="4">TRAVELLING</option>
+				</select>
+		</td>
+
+		<!-- From price -->
+		<td>
+			<b>From price</b><br/> 
+			<input id="fromPrice" class="form-control" type="number" placeholder="From price" ng-model="vm.filter.fromPrice">
+		</td>
+
+		<!-- To price -->
+		<td>
+			<b>To price</b><br/> 
+			<input id="toPrice" class="form-control" type="number" placeholder="To price" required ng-model="vm.filter.toPrice">
+		</td>
+	
+		<!-- From Date -->
+		<td><b>From date</b><br/> 
+			<input ng-change="vm.getCouponsForSaleByCustomerId()" id="fromDate" class="form-control" type="date" placeholder="From date" required ng-model="vm.filter.fromDate">
+		</td>
+
+		<!-- To Date -->
+		<td>
+			<b>To date</b>
+			<br/> 
+			<input ng-change="vm.getCouponsForSaleByCustomerId()"  id="toDate" class="form-control" type="date" placeholder="To date" required ng-model="vm.filter.toDate">
+		</td>
+
+		<!-- Search -->
+		<td>
+			<br/>
+			<button type="button" class="btn btn-primary" ng-click="vm.getCouponsForSaleByCustomerId()">Search</button>
+		</td>
+
+		<!-- Clear all -->
+		<td>
+			<br/>
+			<button type="button" class="btn btn-primary" ng-click="vm.clearFilter()">Clear all</button>
+		</td>
+		
+	</tr>
+</table>
+
+<br>
+
+<table>
+
+	<tr>
+		<th>Title</th>
+		<th>Type</th>
+		<th>Price</th>
+		<th>Start date</th>
+		<th>End date</th>
+		<th>Image</th>
+		<th>Remove</th>
+		<th>Edit</th>
+	</tr>
+
+	<tr ng-repeat="coupon in vm.coupons">
+
+		<!-- Title  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.couponTitle }}</td>
+		<td ng-if="$even">{{ coupon.couponTitle }}</td>
+
+		<!-- Type  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.couponTypeDescription }}</td>
+		<td ng-if="$even">{{ coupon.couponTypeDescription }}</td>
+
+
+		<!-- Price  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.couponPrice }}</td>
+		<td ng-if="$even">{{ coupon.couponPrice }}</td>
+
+		<!-- Start date  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.couponStartDate | date : 'dd/MM/yyyy' }}</td>
+		<td ng-if="$even">{{ coupon.couponStartDate | date : 'dd/MM/yyyy'
+			}}</td>
+
+
+		<!-- End date  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.couponEndDate | date : 'dd/MM/yyyy' }}</td>
+		<td ng-if="$even">{{ coupon.couponEndDate | date : 'dd/MM/yyyy'
+			}}</td>
+
+		<!-- Image  -->
+		<td ng-if="$odd" style="background-color: white"><img
+			class="center-cropped" ng-src="{{coupon.imageFileName}}" alt="Image"></td>
+		<td ng-if="$even"><img class="center-cropped"
+			ng-src="{{coupon.imageFileName}}" alt="Image"></td>
+
+
+		<td ng-if="$odd" style="background-color: white">
+			<button
+				ng-click="vm.deleteCoupon( coupon.couponId , coupon.couponTitle )"
+				type="button" class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-trash"></span> Remove
+			</button>
+		</td>
+		<td ng-if="$even">
+			<button
+				ng-click="vm.deleteCoupon( coupon.couponId , coupon.couponTitle )"
+				type="button" class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-trash"></span> Remove
+			</button>
+		</td>
+
+
+		<td ng-if="$odd" style="background-color: white">
+			<button ng-click="vm.setCurrentCoupon(coupon)" href="#"
+				data-toggle="modal" data-target="#Update-modal">
+				<span class="glyphicon glyphicon-edit"></span> Edit
+			</button>
+		</td>
+		<td ng-if="$even">
+			<button ng-click="vm.setCurrentCoupon(coupon)" href="#"
+				data-toggle="modal" data-target="#Update-modal">
+				<span class="glyphicon glyphicon-edit"></span> Edit
+			</button>
+		</td>
+
+	</tr>
+</table>
+
+
+
+<!-- BEGIN # MODAL UPDATE -->
+<div class="modal fade" id="Update-modal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true"
+	style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<div class="modal-header modal-header-info" align="center"
+				style="background-color: #0480be">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
+				<h4 class="modal-title">
+					<font color="white">Update coupon</font>
+				</h4>
+				<br />
+			</div>
+
+			<!-- Begin # DIV Form -->
+			<div id="div-forms">
+
+				<!-- Begin # upadte Form -->
+				<form id="update-form" ng-submit="vm.updateCoupon()">
+					<div class="modal-body">
+
+						<!-- Success alert -->
+						<div class="alert alert-success" role="alert"
+							ng-show="vm.updateCouponStatus=='success'">
+							<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
+							Successfully updated coupon details.
+						</div>
+
+						<!-- Fail alert -->
+						<div class="alert alert-danger" role="alert"
+							ng-show="vm.updateCouponStatus=='fail'">
+							<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
+							Update coupon details failed : {{vm.errorMesage}}
+						</div>
+
+						<b>Coupon price : </b> {{vm.currentCouponNew.couponPrice |
+						currency: "$" : 2 }} <br /> <b>Coupon end date : </b>
+						{{vm.currentCouponNew.couponEndDate | date : 'dd/MM/yyyy' }} <br />
+						<br /> <input id="couponPrice" class="form-control" type="number"
+							placeholder="Coupon price" required
+							ng-model="vm.currentCouponNew.couponPrice"> <input
+							id="couponEndDate" class="form-control" type="date"
+							placeholder="Coupon end date" required
+							ng-model="vm.currentCouponNew.couponEndDate">
+
+
+						<!-- Input  Coupon end date-->
+						<!-- div class="form-group"
+							ng-class="{ 'has-error': form.couponEndDate.$dirty && form.couponEndDate.$error.required }">
+							<label for="couponEndDate">Coupon end date</label> <input
+								type="date" name="couponEndDate" id="couponEndDate"
+								class="form-control" ng-model="vm.currentCouponNew.couponEndDate" required />
+							<span
+								ng-show="form.couponEndDate.$dirty && form.couponEndDate.$error.required"
+								class="help-block">Coupon end date is required</span>
+						</div-->
+
+
+					</div>
+					<div class="modal-footer">
+						<div>
+							<button type="submit"
+								ng-disabled="!vm.currentCouponNew.couponPrice || !vm.currentCouponNew.couponEndDate"
+								class="btn btn-primary btn-lg btn-block">Update</button>
+							<!-- onclick="$('.modal').modal('hide')" -->
+						</div>
+					</div>
+				</form>
+				<!-- End # Login Form -->
+
+			</div>
+			<!-- End # DIV Form -->
+
+		</div>
+	</div>
+</div>
+<!-- END # MODAL UPDATE -->

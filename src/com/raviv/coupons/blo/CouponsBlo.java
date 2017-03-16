@@ -417,4 +417,32 @@ public class CouponsBlo {
 		return customerCoupons;
 	}
 
+	public  List<Coupon>	getCouponsForSaleByCustomerId( User loggedUser , DynamicQueryParameters dynamicQueryParameters) throws ApplicationException 
+	{
+		PrintUtils.printHeader ("CouponsBlo: getCouponsForSaleByCustomerId");
+		// =====================================================
+		// Verify company profile id
+		// =====================================================
+		ProfileIdVerifier.verifyCustomerProfileId(loggedUser);
+
+		// =====================================================
+		// Get customer by user id
+		// =====================================================		
+		CustomersBlo customersBlo = new CustomersBlo();
+		Customer 	 customer 	  = customersBlo.getCustomer( loggedUser );
+		long 		 customerId   = customer.getCustomerId();
+
+		// =====================================================
+		// Get customer coupons from data layer
+		// =====================================================				
+		CouponsDao couponsDao = new CouponsDao();
+		List<Coupon> couponsList 	= couponsDao.getCouponsForSaleByCustomerIdAndDynamicFilter( customerId, dynamicQueryParameters);
+		for ( Coupon coupon : couponsList )
+		{
+			System.out.println(coupon);
+		}
+		return couponsList;
+	}
+
+	
 }

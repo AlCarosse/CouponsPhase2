@@ -16,9 +16,19 @@
 		service.DeleteCoupon           	= DeleteCoupon;
 		service.UpdateCoupon           	= UpdateCoupon;
 		service.GetCompanyCouponsQuery 	= GetCompanyCouponsQuery;
+		service.GetCouponsForSaleByCustomerId 	= GetCouponsForSaleByCustomerId;
 		
 
 		return service;		
+
+		function GetCouponsForSaleByCustomerId( queryParameters , callback) 
+		{
+			$http.post('/CouponsPhase2/rest/api/coupons/getCouponsForSaleByCustomerId' ,  queryParameters
+			)
+			.then(function (response) {
+				callback(response);
+			});
+		}
 
 		
 		function GetCompanyCouponsQuery( queryParameters , callback) 
