@@ -94,37 +94,10 @@
 				
 			});
 
-
-
-			
+		
 		}
-
-		/*
-		function uploadFile(file, callback) {
-
-
-			var fd = new FormData();
-
-			fd.append("file", file);
-
-			$http.post("/CouponsPhase2/UploadServlet", fd, {
-				withCredentials: true,
-				headers: {'Content-Type': undefined },
-				transformRequest: angular.identity
-			})
-			.then(function (response) {
-				callback(response);
-			});
-
-			vm.coupon;
-
-
-		}
-		 */
-
 
 
 
 	}
-
 })();
