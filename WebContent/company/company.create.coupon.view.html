@@ -119,9 +119,11 @@
 			</div>
 
 			<!-- Input  Image file name-->
+
 			<div class="form-group"
 				ng-class="{ 'has-error': form.imageFileName.$dirty && form.imageFileName.$error.required }">
-				<label for="imageFileName">Image file</label> <input type="file"
+				<label for="imageFileName" >Image file - Drop to attach</label> <input type="file"
+				    placeholder="Drop file to attach"
 					name="imageFileName" id="imageFileName" class="form-control"
 					ng-simple-upload web-api-url="/api/Upload"
 					ng-model="vm.coupon.imageFileName" required /> <span
@@ -134,7 +136,7 @@
 			<!-- Submit button : Create coupon-->
 			<div class="form-actions">
 				<button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
-					class="btn btn-primary">Create coupon</button>
+					class="btn btn-primary"> Create coupon</button>
 			</div>
 		</div>
 	</form>

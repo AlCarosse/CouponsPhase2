@@ -182,7 +182,7 @@
                         if (response.data.serviceStatus.success === "true") 
                         {
                         	bootbox.alert("Successfully removed " +couponTitle);
-                        	getCompanyCoupons();                
+                        	getCompanyCouponsQuery();                
                         } 
                         else 
                         {
