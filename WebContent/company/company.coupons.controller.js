@@ -35,6 +35,7 @@
         vm.updateCoupon 			= updateCoupon;
         
         vm.setCurrentCoupon = setCurrentCoupon;
+        vm.clearFilter	    = clearFilter;
 
         
 		vm.newCoupon = {
@@ -47,8 +48,8 @@
 			  	 	"couponTypeId"  :  null
 			  	    ,"fromPrice" 	 :  null
 			  	   	,"toPrice" 	     :  null
-			  	   	,"fromDate" 	 :  null//"20160602"
-			  	   	,"toDate" 	     :  null//"20170601"  
+			  	   	,"fromDate" 	 :  null
+			  	   	,"toDate" 	     :  null  
 			  	};
         
 		
@@ -57,6 +58,17 @@
         function initController() {
         	loadCurrentUser();
         	getCompanyCoupons();
+        }
+
+        function clearFilter() {
+    		vm.filter = {
+			  	 	"couponTypeId"  :  null
+			  	    ,"fromPrice" 	 :  null
+			  	   	,"toPrice" 	     :  null
+			  	   	,"fromDate" 	 :  null
+			  	   	,"toDate" 	     :  null  
+			  	};
+        	getCompanyCouponsQuery();
         }
 
 
