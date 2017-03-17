@@ -41,7 +41,7 @@ public class ClientErrorMessage {
 
 		mapErrorMessages.put(ErrorType.COUPON_OUT_OF_STOCK_ERROR.getInternalErrorCode(), "Coupon is out of stock");
 
-		mapErrorMessages.put(ErrorType.DUPLICATE_COUPON_FOR_CUSTOMER.getInternalErrorCode(), "Coupon already exists");
+		mapErrorMessages.put(ErrorType.DUPLICATE_COUPON_FOR_CUSTOMER.getInternalErrorCode(), "You have already purchased this item");
 
 		mapErrorMessages.put(ErrorType.INVALID_USER_PROFILE_ID.getInternalErrorCode(), "Invalid user profile");
 

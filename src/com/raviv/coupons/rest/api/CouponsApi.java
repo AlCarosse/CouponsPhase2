@@ -268,7 +268,7 @@ public class CouponsApi {
 		ServiceOutput serviceOutput = new ServiceOutput();		
 		try 
 		{
-			System.out.println("couponId : " + couponId);
+			System.out.println("buyCoupon : couponId : " + couponId);
 
 			/**
 			 *  Get the logged user

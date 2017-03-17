@@ -36,6 +36,7 @@
         vm.getCompanyCoupons 		= getCompanyCoupons;
         vm.deleteCoupon 			= deleteCoupon;
         vm.updateCoupon 			= updateCoupon;
+        vm.buyCoupon 				= buyCoupon;
         
         vm.setCurrentCoupon = setCurrentCoupon;
         vm.clearFilter	    = clearFilter;
@@ -73,7 +74,24 @@
     		getCouponsForSaleByCustomerId();
         }
 
-        
+
+        function buyCoupon() 
+        {		        	
+			CouponsService.BuyCoupon(vm.currentCoupon.couponId,	function (response) 
+            {
+                if (response.data.serviceStatus.success === "true") 
+                {
+                	vm.updateCouponStatus = "success";
+                	getCouponsForSaleByCustomerId();
+                } 
+                else 
+                {
+                	vm.updateCouponStatus = "fail";
+                	vm.errorMesage = response.data.serviceStatus.errorMessage;                    
+                }
+            });
+        }
+
         
         
         function getCouponsForSaleByCustomerId() 

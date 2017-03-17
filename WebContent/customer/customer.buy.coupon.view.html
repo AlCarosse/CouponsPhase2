@@ -205,14 +205,14 @@ tr:nth-child(even) {
 						<div class="alert alert-success" role="alert"
 							ng-show="vm.updateCouponStatus=='success'">
 							<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
-							Successfully updated coupon details.
+							You have successfully purchased this item.
 						</div>
 
 						<!-- Fail alert -->
 						<div class="alert alert-danger" role="alert"
 							ng-show="vm.updateCouponStatus=='fail'">
 							<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
-							Update coupon details failed : {{vm.errorMesage}}
+							Purchase transaction error : {{vm.errorMesage}}
 						</div>
 
 						<b>Category   : </b> {{ vm.currentCoupon.couponTypeDescription }}

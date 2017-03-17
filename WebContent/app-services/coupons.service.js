@@ -17,10 +17,21 @@
 		service.UpdateCoupon           	= UpdateCoupon;
 		service.GetCompanyCouponsQuery 	= GetCompanyCouponsQuery;
 		service.GetCouponsForSaleByCustomerId 	= GetCouponsForSaleByCustomerId;
+		service.BuyCoupon           	= BuyCoupon;
 		
-
 		return service;		
 
+		
+		function BuyCoupon( couponId , callback) 
+		{
+			$http.get('/CouponsPhase2/rest/api/coupons/buyCoupon/couponId/' + couponId
+			)
+			.then(function (response) {
+				callback(response);
+			});
+		}
+
+		
 		function GetCouponsForSaleByCustomerId( queryParameters , callback) 
 		{
 			$http.post('/CouponsPhase2/rest/api/coupons/getCouponsForSaleByCustomerId' ,  queryParameters
