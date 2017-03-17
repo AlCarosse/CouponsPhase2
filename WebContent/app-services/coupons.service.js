@@ -18,8 +18,19 @@
 		service.GetCompanyCouponsQuery 	= GetCompanyCouponsQuery;
 		service.GetCouponsForSaleByCustomerId 	= GetCouponsForSaleByCustomerId;
 		service.BuyCoupon           	= BuyCoupon;
+		service.GetCustomerCouponsQuery = GetCustomerCouponsQuery;
+
 		
 		return service;		
+
+		function GetCustomerCouponsQuery( queryParameters , callback) 
+		{
+			$http.post('/CouponsPhase2/rest/api/coupons/getCustomerCouponsQuery' ,  queryParameters
+			)
+			.then(function (response) {
+				callback(response);
+			});
+		}
 
 		
 		function BuyCoupon( couponId , callback) 

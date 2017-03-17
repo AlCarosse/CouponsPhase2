@@ -1,0 +1,239 @@
+<div ng-include="'customer/navbar.html'"></div>
+
+<style>
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #dddddd;
+}
+
+.center-cropped {
+	object-fit: contain; /* Do not scale the image */
+	object-position: center; /* Center the image within the element */
+	height: 50px;
+	width: 50px;
+}
+</style>
+
+<!-- Header company coupons -->
+<br>
+<div class="alert alert-info" role="alert">
+	<strong>Purchase history</strong>
+</div>
+
+
+<!-- Filter -->
+<table border: 1px solid white; border="0" style="border-collapse: collapse;border-style:hidden;">
+	<tr>
+
+		<!-- Input : Coupon type -->
+		<td>
+				<b>Coupon type</b><br/> 
+				<select ng-change="vm.getCustomerCouponsQuery()" type="number" name="couponTypeId" class="form-control" ng-model="vm.filter.couponTypeId">
+					<option value="1">HOLIDAY</option>
+					<option value="2">RESTAURANT</option>
+					<option value="3">ENTERTAINMENT</option>
+					<option value="4">TRAVELLING</option>
+				</select>
+		</td>
+
+		<!-- From price -->
+		<td>
+			<b>From price</b><br/> 
+			<input id="fromPrice" class="form-control" type="number" placeholder="From price" ng-model="vm.filter.fromPrice">
+		</td>
+
+		<!-- To price -->
+		<td>
+			<b>To price</b><br/> 
+			<input id="toPrice" class="form-control" type="number" placeholder="To price" required ng-model="vm.filter.toPrice">
+		</td>
+	
+
+		<!-- Search -->
+		<td>
+			<br/>
+			<button type="button" class="btn btn-primary" ng-click="vm.getCustomerCouponsQuery()">Search</button>
+		</td>
+
+		<!-- Clear all -->
+		<td>
+			<br/>
+			<button type="button" class="btn btn-primary" ng-click="vm.clearFilter()">Clear all</button>
+		</td>
+		
+	</tr>
+</table>
+
+<br>
+
+<table>
+
+	<tr>
+
+		<th>Purchase date</th>
+		<th>Title</th>
+		<th>Type</th>
+		<th>Price</th>
+		<th>Start date</th>
+		<th>End date</th>
+		<th>Image</th>
+		<th>Details</th>
+	</tr>
+
+	<tr ng-repeat="coupon in vm.coupons">
+
+		<!-- Purchase date  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.sysCreationDate | date : 'medium' }}</td>
+		<td ng-if="$even">{{ coupon.sysCreationDate | date : 'medium'
+			}}</td>
+
+
+		<!-- Title  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.coupon.couponTitle }}</td>
+		<td ng-if="$even">{{ coupon.coupon.couponTitle }}</td>
+
+		<!-- Type  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.coupon.couponTypeDescription }}</td>
+		<td ng-if="$even">{{ coupon.coupon.couponTypeDescription }}</td>
+
+
+		<!-- Price  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.coupon.couponPrice }}</td>
+		<td ng-if="$even">{{ coupon.coupon.couponPrice }}</td>
+
+		<!-- Start date  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.coupon.couponStartDate | date : 'dd/MM/yyyy' }}</td>
+		<td ng-if="$even">{{ coupon.coupon.couponStartDate | date : 'dd/MM/yyyy'
+			}}</td>
+
+
+		<!-- End date  -->
+		<td ng-if="$odd" style="background-color: white">{{
+			coupon.coupon.couponEndDate | date : 'dd/MM/yyyy' }}</td>
+		<td ng-if="$even">{{ coupon.coupon.couponEndDate | date : 'dd/MM/yyyy'
+			}}</td>
+
+
+		<!-- Image  -->
+		<td ng-if="$odd" style="background-color: white"><img
+			class="center-cropped" ng-src="{{coupon.coupon.imageFileName}}" alt="Image"></td>
+		<td ng-if="$even"><img class="center-cropped"
+			ng-src="{{coupon.coupon.imageFileName}}" alt="Image"></td>
+
+
+
+		<td ng-if="$odd" style="background-color: white">
+			<button
+				ng-click="vm.setCurrentCoupon(coupon.coupon)"
+				data-toggle="modal" data-target="#Info-modal"
+				type="button" class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-info-sign"></span> Details
+			</button>
+		</td>
+		<td ng-if="$even">
+			<button
+				ng-click="vm.setCurrentCoupon(coupon.coupon)"
+				data-toggle="modal" data-target="#Info-modal"
+				type="button" class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-info-sign"></span> Details
+			</button>
+		</td>
+
+	</tr>
+</table>
+
+
+
+<!-- BEGIN # MODAL Info -->
+<div class="modal fade" id="Info-modal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true"
+	style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<div class="modal-header modal-header-info" align="center"
+				style="background-color: #0480be">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
+				<h4 class="modal-title">
+					<font color="white">{{vm.currentCoupon.couponTitle}}</font>
+				</h4>
+				<br />
+			</div>
+
+			<!-- Begin # DIV Form -->
+			<div id="div-forms">
+
+				<!-- Begin # Info Form -->
+				<form id="update-form" ng-submit="vm.buyCoupon()">
+					<div class="modal-body">
+
+						<!-- Success alert -->
+						<div class="alert alert-success" role="alert"
+							ng-show="vm.updateCouponStatus=='success'">
+							<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
+							You have successfully purchased this item.
+						</div>
+
+						<!-- Fail alert -->
+						<div class="alert alert-danger" role="alert"
+							ng-show="vm.updateCouponStatus=='fail'">
+							<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
+							Purchase transaction error : {{vm.errorMesage}}
+						</div>
+
+						<b>Category   : </b> {{ vm.currentCoupon.couponTypeDescription }}
+						<br> 
+						<b>Price      : </b> {{vm.currentCoupon.couponPrice | currency: "$" : 2 }}
+						<br> 
+						<b>Effective          : </b>{{vm.currentCoupon.couponStartDate | date : 'dd/MM/yyyy' }}
+						<br> 
+						<b>Expired            : </b>{{vm.currentCoupon.couponEndDate | date : 'dd/MM/yyyy' }}
+						<br> 
+						<b>Details            : </b>{{vm.currentCoupon.couponMessage }}
+						<br> 
+
+						<img  ng-src="{{vm.currentCoupon.imageFileName}}" alt="Image">
+						<!-- class="center-cropped" -->
+
+
+					</div>
+					<div class="modal-footer">
+						<div>
+
+							<!--  button
+								ng-click="vm.buyCoupon()"
+								type="button" class="btn btn-primary btn-lg btn-block">
+								<span class="glyphicon glyphicon-shopping-cart"></span> Buy
+							</button -->
+												
+						</div>
+					</div>
+				</form>
+				<!-- End # Form -->
+
+			</div>
+			<!-- End # DIV Form -->
+
+		</div>
+	</div>
+</div>
+<!-- END # MODAL UPDATE -->
