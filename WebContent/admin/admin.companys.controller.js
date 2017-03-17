@@ -25,7 +25,8 @@
         
         initController();
 
-        function initController() {
+        function initController() 
+        {
         	console.log($cookies);
         	loadCurrentUser();
             getAllCompanys();
@@ -48,23 +49,22 @@
                 	vm.errorMesage = response.data.serviceStatus.errorMessage;                    
                     vm.dataLoading = false;
                 }
-            });
-            
+            });    
         }
-
         
         function loadCurrentUser() {
         	vm.user = $rootScope.globals.currentUser;
         }
 
-        function setCurrentCompany(company) {
+        function setCurrentCompany(company) 
+        {
         	vm.currentCompany = company;
         	vm.currentCompanyNew = angular.copy(company);
         	vm.updateCompanyStatus = null;
         }
-
       
-        function getAllCompanys() {
+        function getAllCompanys() 
+        {
             vm.dataLoading = true;
             CompanysService.GetAllCompanys(	 
             							function (response) 
@@ -81,10 +81,8 @@
             });
         };
 
-
         function deleteCompany(companyId, companyName) 
-        {
-        	
+        {        	
         	bootbox.confirm
         	({
         		message: "Remove "+companyName+"?",
@@ -97,25 +95,23 @@
                 		return;
                 	}
 
-                	vm.dataLoading = true;
                     CompanysService.DeleteCompany(companyId,	function (response) 
                     {
                         if (response.data.serviceStatus.success === "true") 
                         {
                         	bootbox.alert("Successfully removed "+companyName);
-                        	getAllCompanys();                } 
+                        	getAllCompanys();
+                        } 
                         else 
                         {
                         	bootbox.alert("Action failed : "+response.data.serviceStatus.errorMessage);
-                            vm.dataLoading = false;
                         }
-                    });        	    }
-        	});
-        	        	
+                    });        	    
+        	    }
+        	});	        	
         };
 
         
         
     }
-
 })();
