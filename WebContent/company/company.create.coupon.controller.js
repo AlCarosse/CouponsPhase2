@@ -11,14 +11,14 @@
 		var vm = this;
 
 		vm.coupon = {
-					"couponTitle"    : "couponTitle"
-					,"couponStartDate": null
-					,"couponEndDate"  : null 
-					,"couponsInStock": 100
-					,"couponTypeId"  : null
-					,"couponMessage": "couponMessage"  
-					,"couponPrice"  : 10
-					,"imageFileName": "FileUpload"	  
+					"couponTitle"      : "couponTitle"
+					,"couponStartDate" : null
+					,"couponEndDate"   : null 
+					,"couponsInStock"  : 100
+					,"couponTypeId"    : null
+					,"couponMessage"   : "This greate value coupon ... bla bla bla ..."  
+					,"couponPrice"     : 10
+					,"imageFileName"   : "FileUpload"	  
 		};
 
 
@@ -47,10 +47,8 @@
 			vm.user = $rootScope.globals.currentUser;
 		}
 
-
-
-		function createCoupon() {
-
+		function createCoupon() 
+		{
 			vm.newCoupon = angular.copy(vm.coupon);
 			
 			var yyyymmdd;
@@ -92,9 +90,7 @@
 					vm.errorMesage = response.data.serviceStatus.errorMessage;                    
 				}
 				
-			});
-
-		
+			});		
 		}
 
 
