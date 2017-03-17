@@ -18,13 +18,6 @@
         	loadCurrentUser();
         }
 
-        function loadCurrentUserOld() {
-        	UsersService.GetByUsername($rootScope.globals.currentUser.username)
-                .then(function (user) {
-                    vm.user = user;
-                });
-        }
-
         function loadCurrentUser() {
         	vm.user = $rootScope.globals.currentUser;
         }
