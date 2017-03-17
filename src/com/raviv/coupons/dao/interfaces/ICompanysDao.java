@@ -15,4 +15,5 @@ public interface ICompanysDao {
 
 	public boolean isDuplicateCompanyNameExists(long companyId, String companyName) throws ApplicationException;
 
+	public boolean 			isCompanyNameExists( String companyName) throws ApplicationException;
 }

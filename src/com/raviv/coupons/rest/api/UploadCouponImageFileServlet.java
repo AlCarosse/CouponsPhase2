@@ -105,7 +105,7 @@ public class UploadCouponImageFileServlet extends HttpServlet
 				
 				part.write(savePath + File.separator + fileName);
 				
-				String serverImageDir = getImageDirOnServer(request) + File.separator + companyId;
+				String serverImageDir = getImageDirOnServer(request, companyId) + File.separator + companyId;
 				part.write(serverImageDir + File.separator + fileName);
 				
 				
@@ -185,13 +185,13 @@ public class UploadCouponImageFileServlet extends HttpServlet
 	 * returns the path of the coupon images folder on server,
 	 * if folder dorsn't exist, creates it
 	 * */
-	private String getImageDirOnServer(HttpServletRequest request) {
+	private String getImageDirOnServer(HttpServletRequest request, long companyId) {
 				
 		ServletContext servletContext= request.getServletContext();
 		String dirName = "/" + SAVE_DIR;
 		
 		// gets the real path of the actual folder on the server 
-		String dirPath = servletContext.getRealPath(dirName);
+		String dirPath = servletContext.getRealPath(dirName) + File.separator + companyId ;
 		dirPath = dirPath.replace('\\', '/');
 		File dir = new File(dirPath);
 		
@@ -199,6 +199,11 @@ public class UploadCouponImageFileServlet extends HttpServlet
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
+
+		dirPath = servletContext.getRealPath(dirName) ;
+		dirPath = dirPath.replace('\\', '/');
+
+		
 		return dirPath;
 	}
 	

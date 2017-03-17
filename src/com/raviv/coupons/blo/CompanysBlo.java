@@ -56,6 +56,7 @@ public class CompanysBlo  {
 			throw new ApplicationException(ErrorType.USER_LOGIN_NAME_ALREADY_EXISTS,  "USER LOGIN NAME ALREADY EXISTS : " + newUser.getLoginName() );
 		}
 
+
 		// =====================================================
 		// Start transaction by creating JdbcTransactionManager
 		// =====================================================		
@@ -64,6 +65,14 @@ public class CompanysBlo  {
 		IUsersDao 		usersDao 	= new UsersDao   ( jdbcTransactionManager );
 		ICompanysDao	companysDao	= new CompanysDao( jdbcTransactionManager );
 
+		// =====================================================
+		// Verify company name is not taken
+		// =====================================================
+		if ( companysDao.isCompanyNameExists( company.getCompanyName() ) )
+		{
+			throw new ApplicationException(ErrorType.COMPANY_NAME_ALREADY_EXISTS,  "COMPANY NAME ALREADY EXISTS : " + company.getCompanyName() );
+		}
+		
 		try
 		{
 			// =====================================================

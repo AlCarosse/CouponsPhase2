@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.raviv.coupons.beans.Coupon;
 import com.raviv.coupons.beans.CustomerCoupon;
 
 /**
