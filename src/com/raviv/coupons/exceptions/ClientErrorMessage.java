@@ -17,7 +17,7 @@ public class ClientErrorMessage {
 	{
 		this.mapErrorMessages = new HashMap<Integer,String>();
 
-		mapErrorMessages.put(ErrorType.CUSTOMER_NAME_ALREADY_EXISTS.getInternalErrorCode(), "CUSTOMER NAME ALREADY EXISTS");
+		mapErrorMessages.put(ErrorType.CUSTOMER_NAME_ALREADY_EXISTS.getInternalErrorCode(), "Customer name already taken");
 
 		mapErrorMessages.put(ErrorType.USER_LOGIN_NAME_ALREADY_EXISTS.getInternalErrorCode(), "User already taken");
 		

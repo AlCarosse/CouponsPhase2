@@ -54,6 +54,14 @@ public class CustomersBlo {
 		IUsersDao  		usersDao 		= new UsersDao   	( jdbcTransactionManager );
 		ICustomersDao	customersDao	= new CustomersDao	( jdbcTransactionManager );
 
+		// =====================================================
+		// Verify customer name is not taken
+		// =====================================================
+		if ( customersDao.isCustomerNameExists( customer.getCustomerName() ) )
+		{
+			throw new ApplicationException(ErrorType.CUSTOMER_NAME_ALREADY_EXISTS,  "CUSTOMER NAME ALREADY EXISTS : " + customer.getCustomerName() );
+		}
+
 		try
 		{
 			// =====================================================
@@ -162,6 +170,7 @@ public class CustomersBlo {
 
 	public  void 			updateCustomer( User loggedUser , Customer inputCustomer) throws ApplicationException 
 	{
+		System.out.println("updateCustomer : " + inputCustomer );
 		// =====================================================
 		// Verify admin profile id
 		// =====================================================
@@ -178,9 +187,18 @@ public class CustomersBlo {
 		// =====================================================
 		// Get customer details from DB
 		// =====================================================
-		Customer customer;		
+		Customer customer;
 		customer = customersDao.getCustomer( inputCustomer.getCustomerId() );
 		
+		// =====================================================
+		// Verify customer name is not taken
+		// =====================================================
+		long customerId = customer.getCustomerId();
+		if ( customersDao.isDuplicateCustomerNameExists( customerId , inputCustomer.getCustomerName() ) )
+		{
+			throw new ApplicationException(ErrorType.CUSTOMER_NAME_ALREADY_EXISTS,  "CUSTOMER NAME ALREADY EXISTS : " + customer.getCustomerName() );
+		}
+
 		try
 		{			
 			// =====================================================

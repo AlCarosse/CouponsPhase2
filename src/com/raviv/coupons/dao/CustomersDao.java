@@ -21,14 +21,14 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 	{
 		super();
 	}
-	
+
 	public CustomersDao(JdbcTransactionManager jdbcTransactionManager) {
 		super(jdbcTransactionManager);
 	}
 
 	@Override
 	public void 			createCustomer(Customer customer) throws ApplicationException {
-	
+
 		PreparedStatement 	preparedStatement	= null;
 		Connection 			connection 			= null;
 		ResultSet 			generatedKeys		= null;
@@ -40,7 +40,7 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 
 			// Creating a statement object which holds the SQL we're about to execute
 			String sql;
-			
+
 			sql = "INSERT INTO CUSTOMERS (";
 			sql += "	 CREATED_BY_USER_ID";
 			sql += "	,UPDATED_BY_USER_ID";
@@ -48,7 +48,7 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 			sql += "	,CUSTOMER_NAME";
 			sql += ")";
 			sql += "VALUES (?, ?, ?, ?)";
-			
+
 			preparedStatement = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
 			// Replacing question marks with the values inside  the bean.
@@ -63,13 +63,13 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 
 			// Handle generated keys...
 			generatedKeys = preparedStatement.getGeneratedKeys();
-	        if ( generatedKeys.next() ) 
-	        {
-	        	int customerId = generatedKeys.getInt("GENERATED_KEYS");
-	        	
-	        	customer.setCustomerId( customerId );
-	        }
-	        
+			if ( generatedKeys.next() ) 
+			{
+				int customerId = generatedKeys.getInt("GENERATED_KEYS");
+
+				customer.setCustomerId( customerId );
+			}
+
 		} 
 		catch (SQLException e) 
 		{
@@ -89,9 +89,9 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 				super.connectionPoolManager.closeResources(connection, preparedStatement, generatedKeys);
 			}	
 		}
-		
+
 	}
-	
+
 	@Override
 	public Customer			getCustomer(long customerId) throws ApplicationException 
 	{
@@ -106,18 +106,18 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 		{
 			// Getting a connection from the connections manager or Transaction manager
 			connection = super.getConnection();
-			
+
 			String sql = "SELECT * FROM CUSTOMERS WHERE CUSTOMER_ID = ?";
-			
+
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setLong(1, customerId);
-			
+
 			// execute query
 			resultSet = preparedStatement.executeQuery();
-	
+
 			// Not found ...
 			if ( !resultSet.next() ) { return null; } 
-			
+
 			//extract bean from result Set
 			this.copyDataFromResultSetToBean (returnObj, resultSet);
 
@@ -140,9 +140,9 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
 			}	
 		}
-		
+
 		return returnObj;
-}
+	}
 
 	public Customer 		getCustomerByUserId(long userId) throws ApplicationException {
 		Connection 			connection 			= null;
@@ -150,27 +150,27 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 		ResultSet 			resultSet 			= null;
 		Customer 			returnObj 			= new Customer();
 
-	// getting the specific entry by the input id
-	// storing it into resultSet
+		// getting the specific entry by the input id
+		// storing it into resultSet
 		try 
 		{
 			// Getting a connection from the connections manager or Transaction manager
 			connection = super.getConnection();
-			
+
 			String sql = "SELECT * FROM CUSTOMERS WHERE USER_ID = ?";
-			
+
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setLong(1, userId);
-			
+
 			// execute query
 			resultSet = preparedStatement.executeQuery();
-	
+
 			// Not found ...
 			if ( !resultSet.next() ) { return null; } 
-						
+
 			//extract bean from result Set
 			this.copyDataFromResultSetToBean (returnObj, resultSet);
-			
+
 		} 
 		catch (SQLException e) 
 		{
@@ -190,7 +190,7 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
 			}				
 		}
-		
+
 		return returnObj;
 	}
 
@@ -207,7 +207,7 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 
 			// Creating a statement object which holds the SQL we're about to execute
 			String sql;
-			
+
 			sql = "UPDATE CUSTOMERS SET ";
 			sql += "	 SYS_UPDATE_DATE           = ?";
 			sql += "	,UPDATED_BY_USER_ID        = ? ";
@@ -215,7 +215,7 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 			sql += "	,CUSTOMER_NAME             = ? ";
 			sql += "WHERE";
 			sql += "      	CUSTOMER_ID = ? ";
-			
+
 			preparedStatement = connection.prepareStatement(sql);
 
 			// Replacing question marks with the beans values.
@@ -248,7 +248,7 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 			}
 		}
 	}// updateCustomer
-	
+
 	@Override
 	public void 			deleteCustomer(long customerId) throws ApplicationException {
 		PreparedStatement 	preparedStatement	= null;
@@ -261,16 +261,16 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 
 			// Creating a statement object which holds the SQL we're about to execute
 			String sql;
-			
+
 			// =====================================================
 			// Delete customer and related customer coupons
 			// CUSTOMER_COUPON has FK to CUSTOMERS using customer id, with delete Cascade
 			// =====================================================	
-			
+
 			sql = " DELETE FROM CUSTOMERS ";
 			sql += "WHERE";
 			sql += "      	CUSTOMER_ID = ? ";
-			
+
 			preparedStatement = connection.prepareStatement(sql);
 
 			// Replacing question marks with the beans values.
@@ -298,7 +298,7 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 				super.connectionPoolManager.closeResources(connection, preparedStatement);
 			}
 		}
-		
+
 	}
 
 	public List<Customer> 	getAllCustomers() throws ApplicationException {
@@ -308,20 +308,20 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 		List<Customer>		allCustomers			= new ArrayList<Customer>();
 		Customer 			customer;
 
-	// getting the specific entry by the input id
-	// storing it into resultSet
+		// getting the specific entry by the input id
+		// storing it into resultSet
 		try 
 		{
 			// Getting a connection from the connections manager or Transaction manager
 			connection = super.getConnection();
-			
+
 			String sql = "SELECT * FROM CUSTOMERS";
-			
+
 			preparedStatement = connection.prepareStatement(sql);
-			
+
 			// execute query
 			resultSet = preparedStatement.executeQuery();
-	
+
 			// Loop through result set
 			// For each company create bean and add it to output list
 			while ( resultSet.next() ) 
@@ -331,8 +331,8 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 				this.copyDataFromResultSetToBean (customer, resultSet);
 				allCustomers.add(customer);
 			} 
-						
-			
+
+
 		} 
 		catch (SQLException e) 
 		{
@@ -352,10 +352,10 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
 			}				
 		}
-		
+
 		return allCustomers;
 	}
-	
+
 	private void 			copyDataFromResultSetToBean (Customer customer, ResultSet resultSet) throws SQLException
 	{
 		customer.setCustomerId     	( resultSet.getLong      ( "CUSTOMER_ID" ) );
@@ -365,6 +365,111 @@ public class CustomersDao extends InfraDao implements ICustomersDao {
 		customer.setUpdatedByUserId	( resultSet.getInt       ( "UPDATED_BY_USER_ID" ) );
 		customer.setUserId         	( resultSet.getInt       ( "USER_ID" ) );
 		customer.setCustomerName   	( resultSet.getString    ( "CUSTOMER_NAME" ) );			
+	}
+
+	@Override
+	public boolean			isDuplicateCustomerNameExists(long customerId, String customerName) throws ApplicationException 
+	{
+		Connection 			connection 			= null;
+		PreparedStatement 	preparedStatement 	= null;		
+		ResultSet 			resultSet 			= null;
+		Customer 			returnObj 			= new Customer();
+
+		// getting the specific entry by the input id
+		// storing it into resultSet
+		try 
+		{
+			// Getting a connection from the connections manager or Transaction manager
+			connection = super.getConnection();
+
+			String sql = "SELECT * FROM CUSTOMERS WHERE CUSTOMER_ID != ? AND CUSTOMER_NAME = ?";
+
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setLong  (1, customerId);
+			preparedStatement.setString(2, customerName);
+
+			// execute query
+			resultSet = preparedStatement.executeQuery();
+
+			// Not found ...
+			if ( !resultSet.next() ) { return false; } 
+
+			//extract bean from result Set
+			this.copyDataFromResultSetToBean (returnObj, resultSet);
+
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			throw new ApplicationException(ErrorType.DAO_GET_ERROR, e, "Failed to get customer with id : " + customerId + " " + e.getMessage());
+		} 
+		finally 
+		{
+			if ( super.isJdbcTransactionManagerInUse() )
+			{
+				// Transaction manager will close the connection later.
+				super.connectionPoolManager.closeResources(preparedStatement, resultSet);
+			}
+			else
+			{
+				// We do not have transaction manager.
+				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
+			}	
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean			isCustomerNameExists(String customerName) throws ApplicationException 
+	{
+		Connection 			connection 			= null;
+		PreparedStatement 	preparedStatement 	= null;		
+		ResultSet 			resultSet 			= null;
+		Customer 			returnObj 			= new Customer();
+
+		// getting the specific entry by the input id
+		// storing it into resultSet
+		try 
+		{
+			// Getting a connection from the connections manager or Transaction manager
+			connection = super.getConnection();
+
+			String sql = "SELECT * FROM CUSTOMERS WHERE CUSTOMER_NAME = ?";
+
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, customerName);
+
+			// execute query
+			resultSet = preparedStatement.executeQuery();
+
+			// Not found ...
+			if ( !resultSet.next() ) { return false; } 
+
+			//extract bean from result Set
+			this.copyDataFromResultSetToBean (returnObj, resultSet);
+
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			throw new ApplicationException(ErrorType.DAO_GET_ERROR, e, "Failed to get customer with name : " + customerName + " " + e.getMessage());
+		} 
+		finally 
+		{
+			if ( super.isJdbcTransactionManagerInUse() )
+			{
+				// Transaction manager will close the connection later.
+				super.connectionPoolManager.closeResources(preparedStatement, resultSet);
+			}
+			else
+			{
+				// We do not have transaction manager.
+				super.connectionPoolManager.closeResources(connection, preparedStatement, resultSet);
+			}	
+		}
+
+		return true;
 	}
 
 }

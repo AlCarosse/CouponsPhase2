@@ -12,5 +12,9 @@ public interface ICustomersDao {
 	public void 		updateCustomer(Customer 	customer	) throws ApplicationException;
 
 	public void 		deleteCustomer(long			customerId	) throws ApplicationException;
-	
+
+	public boolean		isDuplicateCustomerNameExists(long customerId, String customerName) throws ApplicationException;
+
+	public boolean		isCustomerNameExists(String customerName) throws ApplicationException;
+
 }
