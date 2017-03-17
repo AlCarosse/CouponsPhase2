@@ -39,7 +39,6 @@
         
         vm.setCurrentCoupon = setCurrentCoupon;
         vm.clearFilter	    = clearFilter;
-
         
 		vm.newCoupon = {
 			  	 	"couponId"       :  0
@@ -185,17 +184,18 @@
 
         
         function setCurrentCoupon(coupon) {
-			vm.currentCoupon = coupon;       	
-			vm.currentCouponNew = angular.copy(coupon);
+			vm.currentCoupon = coupon;
+			vm.currentCouponNew = null;
+			//vm.currentCouponNew = angular.copy(coupon);
 			
-			var price = Math.floor (vm.currentCouponNew.couponPrice); 
-			vm.currentCouponNew.couponPrice = price;
+			//var price = Math.floor (vm.currentCouponNew.couponPrice); 
+			//vm.currentCouponNew.couponPrice = price;
 				        	
-			var st = vm.currentCouponNew.couponEndDateYyyyMmDd;
-			var pattern = /(\d{4})(\d{2})(\d{2})/;
-			var date =  new Date(st.replace(pattern, '$1-$2-$3'));
+			//var st = vm.currentCouponNew.couponEndDateYyyyMmDd;
+			//var pattern = /(\d{4})(\d{2})(\d{2})/;
+			//var date =  new Date(st.replace(pattern, '$1-$2-$3'));
 				   
-			vm.currentCouponNew.couponEndDate = date;
+			//vm.currentCouponNew.couponEndDate = date;
 			
 			vm.updateCouponStatus = null;
         }

@@ -97,8 +97,8 @@ tr:nth-child(even) {
 		<th>Start date</th>
 		<th>End date</th>
 		<th>Image</th>
-		<th>Remove</th>
-		<th>Edit</th>
+		<th>Details</th>
+		<th>Buy</th>
 	</tr>
 
 	<tr ng-repeat="coupon in vm.coupons">
@@ -141,30 +141,32 @@ tr:nth-child(even) {
 
 		<td ng-if="$odd" style="background-color: white">
 			<button
-				ng-click="vm.deleteCoupon( coupon.couponId , coupon.couponTitle )"
+				ng-click="vm.setCurrentCoupon(coupon)"
+				data-toggle="modal" data-target="#Info-modal"
 				type="button" class="btn btn-default btn-sm">
-				<span class="glyphicon glyphicon-trash"></span> Remove
+				<span class="glyphicon glyphicon-info-sign"></span> Details
 			</button>
 		</td>
 		<td ng-if="$even">
 			<button
-				ng-click="vm.deleteCoupon( coupon.couponId , coupon.couponTitle )"
+				ng-click="vm.setCurrentCoupon(coupon)"
+				data-toggle="modal" data-target="#Info-modal"
 				type="button" class="btn btn-default btn-sm">
-				<span class="glyphicon glyphicon-trash"></span> Remove
+				<span class="glyphicon glyphicon-info-sign"></span> Details
 			</button>
 		</td>
 
 
 		<td ng-if="$odd" style="background-color: white">
 			<button ng-click="vm.setCurrentCoupon(coupon)" href="#"
-				data-toggle="modal" data-target="#Update-modal">
-				<span class="glyphicon glyphicon-edit"></span> Edit
+				data-toggle="modal" data-target="#Info-modal">
+				<span class="glyphicon glyphicon-shopping-cart"></span> Buy
 			</button>
 		</td>
 		<td ng-if="$even">
 			<button ng-click="vm.setCurrentCoupon(coupon)" href="#"
-				data-toggle="modal" data-target="#Update-modal">
-				<span class="glyphicon glyphicon-edit"></span> Edit
+				data-toggle="modal" data-target="#Info-modal">
+				<span class="glyphicon glyphicon-shopping-cart"></span> Buy
 			</button>
 		</td>
 
@@ -173,8 +175,8 @@ tr:nth-child(even) {
 
 
 
-<!-- BEGIN # MODAL UPDATE -->
-<div class="modal fade" id="Update-modal" tabindex="-1" role="dialog"
+<!-- BEGIN # MODAL Info -->
+<div class="modal fade" id="Info-modal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true"
 	style="display: none;">
 	<div class="modal-dialog">
@@ -187,7 +189,7 @@ tr:nth-child(even) {
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 				</button>
 				<h4 class="modal-title">
-					<font color="white">Update coupon</font>
+					<font color="white">{{vm.currentCoupon.couponTitle}}</font>
 				</h4>
 				<br />
 			</div>
@@ -195,8 +197,8 @@ tr:nth-child(even) {
 			<!-- Begin # DIV Form -->
 			<div id="div-forms">
 
-				<!-- Begin # upadte Form -->
-				<form id="update-form" ng-submit="vm.updateCoupon()">
+				<!-- Begin # Info Form -->
+				<form id="update-form" ng-submit="vm.buyCoupon()">
 					<div class="modal-body">
 
 						<!-- Success alert -->
@@ -213,40 +215,44 @@ tr:nth-child(even) {
 							Update coupon details failed : {{vm.errorMesage}}
 						</div>
 
-						<b>Coupon price : </b> {{vm.currentCouponNew.couponPrice |
-						currency: "$" : 2 }} <br /> <b>Coupon end date : </b>
-						{{vm.currentCouponNew.couponEndDate | date : 'dd/MM/yyyy' }} <br />
-						<br /> <input id="couponPrice" class="form-control" type="number"
-							placeholder="Coupon price" required
-							ng-model="vm.currentCouponNew.couponPrice"> <input
-							id="couponEndDate" class="form-control" type="date"
-							placeholder="Coupon end date" required
-							ng-model="vm.currentCouponNew.couponEndDate">
+						<b>Category   : </b> {{ vm.currentCoupon.couponTypeDescription }}
+						<br> 
+						<b>Price      : </b> {{vm.currentCoupon.couponPrice | currency: "$" : 2 }}
+						<br> 
+						<b>Effective          : </b>{{vm.currentCoupon.couponStartDate | date : 'dd/MM/yyyy' }}
+						<br> 
+						<b>Expired            : </b>{{vm.currentCoupon.couponEndDate | date : 'dd/MM/yyyy' }}
+						<br> 
+						<b>Details            : </b>{{vm.currentCoupon.couponMessage }}
+						<br> 
+						<b>Available for sale : </b>{{vm.currentCoupon.couponsInStock }}
+						<br> 
 
-
-						<!-- Input  Coupon end date-->
-						<!-- div class="form-group"
-							ng-class="{ 'has-error': form.couponEndDate.$dirty && form.couponEndDate.$error.required }">
-							<label for="couponEndDate">Coupon end date</label> <input
-								type="date" name="couponEndDate" id="couponEndDate"
-								class="form-control" ng-model="vm.currentCouponNew.couponEndDate" required />
-							<span
-								ng-show="form.couponEndDate.$dirty && form.couponEndDate.$error.required"
-								class="help-block">Coupon end date is required</span>
-						</div-->
+						<img  ng-src="{{vm.currentCoupon.imageFileName}}" alt="Image">
+						<!-- class="center-cropped" -->
 
 
 					</div>
 					<div class="modal-footer">
 						<div>
-							<button type="submit"
-								ng-disabled="!vm.currentCouponNew.couponPrice || !vm.currentCouponNew.couponEndDate"
-								class="btn btn-primary btn-lg btn-block">Update</button>
-							<!-- onclick="$('.modal').modal('hide')" -->
+
+							<button
+								ng-click="vm.buyCoupon()"
+								type="button" class="btn btn-primary btn-lg btn-block">
+								<span class="glyphicon glyphicon-shopping-cart"></span> Buy
+							</button>
+						
+						
+							<!-- button type="submit"
+								ng-disabled="!vm.currentCoupon.couponPrice || !vm.currentCoupon.couponEndDate"
+								class="btn btn-primary btn-lg btn-block"
+								class="glyphicon glyphicon-shopping-cart"
+								>Buy</button -->
+							<!-- onclick="$('.modal').modal('hide')" class="btn btn-primary btn-lg btn-block" -->
 						</div>
 					</div>
 				</form>
-				<!-- End # Login Form -->
+				<!-- End # Form -->
 
 			</div>
 			<!-- End # DIV Form -->
